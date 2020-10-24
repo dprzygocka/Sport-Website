@@ -30,6 +30,8 @@ public class User {
     @JoinColumn(name="user_type_id")
     private UserType userType;
 
+
+
     public User(String name, String surname, String email, String gender, Team team, UserType userType){
         this.name = name;
         this.surname = surname;
