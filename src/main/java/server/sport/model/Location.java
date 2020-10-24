@@ -26,4 +26,55 @@ public class Location {
     fetch = FetchType.EAGER,
     cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
+
+    public Location() {
+    }
+
+    public Location(String googleMapUrl, String courtName, List<Reservation> reservations) {
+        this.googleMapUrl = googleMapUrl;
+        this.courtName = courtName;
+        this.reservations = reservations;
+    }
+
+    public long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(long locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getGoogleMapUrl() {
+        return googleMapUrl;
+    }
+
+    public void setGoogleMapUrl(String googleMapUrl) {
+        this.googleMapUrl = googleMapUrl;
+    }
+
+    public String getCourtName() {
+        return courtName;
+    }
+
+    public void setCourtName(String courtName) {
+        this.courtName = courtName;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId=" + locationId +
+                ", googleMapUrl='" + googleMapUrl + '\'' +
+                ", courtName='" + courtName + '\'' +
+                ", reservations=" + reservations +
+                '}';
+    }
 }

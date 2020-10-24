@@ -48,4 +48,107 @@ public class Activity {
 
     @Column(name = "is_cancelled", nullable = false)
     private boolean isCancelled;
+
+    public long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(long activityId) {
+        this.activityId = activityId;
+    }
+
+    public long getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(long capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Responsibility> getResponsibilities() {
+        return responsibilities;
+    }
+
+    public void setResponsibilities(List<Responsibility> responsibilities) {
+        this.responsibilities = responsibilities;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public ActivityType getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
+    public Activity() {
+    }
+
+    public Activity(long capacity, String description, User creator, List<User> users,
+                    List<Responsibility> responsibilities, Reservation reservation, ActivityType activityType,
+                    boolean isCancelled) {
+        this.capacity = capacity;
+        this.description = description;
+        this.creator = creator;
+        this.users = users;
+        this.responsibilities = responsibilities;
+        this.reservation = reservation;
+        this.activityType = activityType;
+        this.isCancelled = isCancelled;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "activityId=" + activityId +
+                ", capacity=" + capacity +
+                ", description='" + description + '\'' +
+                ", creator=" + creator +
+                ", users=" + users +
+                ", responsibilities=" + responsibilities +
+                ", reservation=" + reservation +
+                ", activityType=" + activityType +
+                ", isCancelled=" + isCancelled +
+                '}';
+    }
 }
