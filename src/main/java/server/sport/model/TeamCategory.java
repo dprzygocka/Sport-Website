@@ -33,6 +33,9 @@ public class TeamCategory {
         this.sport = sport;
     }
 
+    public TeamCategory() {
+    }
+
     public int getTeamCategoryId() {
         return teamCategoryId;
     }

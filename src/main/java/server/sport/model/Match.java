@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "match")
+@Table(name = "activity_match")
 public class Match {
 
     @Id
@@ -17,12 +17,12 @@ public class Match {
     @Column(name = "score", nullable = false)
     private int score;
 
-    @OneToOne(fetch = "user")
+    @ManyToOne
     @JoinColumn(name = "player_of_the_match")
     private User playerOfTheMatch;
 
-    @OneToOne(fetch = "activity")
-    @JoinColumn(name = "activity_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
 
     public Match() {

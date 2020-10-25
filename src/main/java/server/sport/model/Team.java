@@ -30,6 +30,9 @@ public class Team {
         this.teamCategory = teamCategory;
     }
 
+    public Team() {
+    }
+
     public int getTeamId() {
         return teamId;
     }

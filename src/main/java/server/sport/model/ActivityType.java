@@ -19,7 +19,7 @@ public class ActivityType {
     @Column(name = "activity_type_name", nullable = false)
     private String activityTypeName;
 
-    @OneToMany(mappedBy = "activity",
+    @OneToMany(mappedBy = "activityType",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private List<Activity> activities = new ArrayList<>();

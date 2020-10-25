@@ -3,8 +3,9 @@ package server.sport.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "activities")
@@ -16,38 +17,46 @@ public class Activity {
     @Column(name ="activity_id")
     private long activityId;
 
+    @Column(name = "activity_name", nullable = false)
+    private String activityName;
+
     @Column(name = "capacity", nullable = false)
     private long capacity;
 
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToOne(fetch = "user")
+    @ManyToOne
     @JoinColumn(name = "creator")
     private User creator;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name="activity_status",
-        joinColumns = {@JoinColumn(name = "activity_id")},
-        inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<User> users = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name="user_responsibilities",
-            joinColumns = {@JoinColumn(name = "activity_id")},
-            inverseJoinColumns = {@JoinColumn(name = "responsibility_id")})
-    private List<Responsibility> responsibilities = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "activity_type_id")
     private ActivityType activityType;
 
     @Column(name = "is_cancelled", nullable = false)
     private boolean isCancelled;
+
+    @OneToOne(mappedBy = "activity")
+    private Match match;
+
+    @JoinTable(name = "user_responsibilities",
+            joinColumns = @JoinColumn(name = "activity_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @MapKeyJoinColumn(name = "responsibility_id")
+    @ElementCollection
+    private Map<Responsibility, User> userResponsibility = new HashMap<>();
+
+    @JoinTable(name = "activity_status",
+            joinColumns = @JoinColumn(name = "activity_id"),
+            inverseJoinColumns = @JoinColumn(name = "status_id"))
+    @MapKeyJoinColumn(name = "user_id")
+    @ElementCollection
+    private Map<User, Status> userStatus = new HashMap<>();
 
     public long getActivityId() {
         return activityId;
@@ -81,22 +90,6 @@ public class Activity {
         this.creator = creator;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Responsibility> getResponsibilities() {
-        return responsibilities;
-    }
-
-    public void setResponsibilities(List<Responsibility> responsibilities) {
-        this.responsibilities = responsibilities;
-    }
-
     public Reservation getReservation() {
         return reservation;
     }
@@ -124,31 +117,67 @@ public class Activity {
     public Activity() {
     }
 
-    public Activity(long capacity, String description, User creator, List<User> users,
-                    List<Responsibility> responsibilities, Reservation reservation, ActivityType activityType,
-                    boolean isCancelled) {
+    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
+                    ActivityType activityType, boolean isCancelled, Match match,
+                    Map<Responsibility, User> userResponsibility, Map<User, Status> userStatus) {
+        this.activityName = activityName;
         this.capacity = capacity;
         this.description = description;
         this.creator = creator;
-        this.users = users;
-        this.responsibilities = responsibilities;
         this.reservation = reservation;
         this.activityType = activityType;
         this.isCancelled = isCancelled;
+        this.match = match;
+        this.userResponsibility = userResponsibility;
+        this.userStatus = userStatus;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public Map<Responsibility, User> getUserResponsibility() {
+        return userResponsibility;
+    }
+
+    public void setUserResponsibility(Map<Responsibility, User> userResponsibility) {
+        this.userResponsibility = userResponsibility;
+    }
+
+    public Map<User, Status> getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Map<User, Status> userStatus) {
+        this.userStatus = userStatus;
     }
 
     @Override
     public String toString() {
         return "Activity{" +
                 "activityId=" + activityId +
+                ", activityName='" + activityName + '\'' +
                 ", capacity=" + capacity +
                 ", description='" + description + '\'' +
                 ", creator=" + creator +
-                ", users=" + users +
-                ", responsibilities=" + responsibilities +
                 ", reservation=" + reservation +
                 ", activityType=" + activityType +
                 ", isCancelled=" + isCancelled +
+                ", match=" + match +
+                ", userResponsibility=" + userResponsibility +
+                ", userStatus=" + userStatus +
                 '}';
     }
 }

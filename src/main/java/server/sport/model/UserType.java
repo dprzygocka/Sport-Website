@@ -20,6 +20,9 @@ public class UserType {
               cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
 
+    public UserType() {
+    }
+
     public UserType(String userName){
         this.userName = userName;
     }

@@ -25,6 +25,9 @@ public class Sport {
         this.sportName =sportName;
     }
 
+    public Sport() {
+    }
+
     public int getSportId() {
         return sportId;
     }
