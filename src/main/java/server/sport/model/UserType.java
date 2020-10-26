@@ -9,10 +9,10 @@ import java.util.List;
 public class UserType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_type_id")
+    @Column(name="user_type_id", nullable = false)
     private int userTypeId;
 
-    @Column(name="user_name")
+    @Column(name="user_name", nullable = false)
     private String userName;
 
     @OneToMany(mappedBy= "userType",
@@ -56,7 +56,7 @@ public class UserType {
         return "UserType{" +
                 "userTypeId=" + userTypeId +
                 ", userName='" + userName + '\'' +
-                ", users=" + users.toString() +
+                ", users=" + users +
                 '}';
     }
 }

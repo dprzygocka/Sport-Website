@@ -10,10 +10,10 @@ public class Sport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="sport_id")
+    @Column(name="sport_id", nullable = false)
     private int sportId;
 
-    @Column(name="sport_name")
+    @Column(name="sport_name", nullable = false)
     private String sportName;
 
     @OneToMany(mappedBy = "sport",
@@ -57,7 +57,7 @@ public class Sport {
         return "Sport{" +
                 "sportId=" + sportId +
                 ", sportName='" + sportName + '\'' +
-                ", teamCategories=" + teamCategories.toString() +
+                ", teamCategories=" + teamCategories +
                 '}';
     }
 }

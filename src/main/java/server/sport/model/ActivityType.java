@@ -13,7 +13,7 @@ public class ActivityType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    @Column(name = "activity_type_id")
+    @Column(name = "activity_type_id", nullable = false)
     private long activityTypeId;
 
     @Column(name = "activity_type_name", nullable = false)
@@ -27,9 +27,8 @@ public class ActivityType {
     public ActivityType() {
     }
 
-    public ActivityType(String activityTypeName, List<Activity> activities) {
+    public ActivityType(String activityTypeName) {
         this.activityTypeName = activityTypeName;
-        this.activities = activities;
     }
 
     public long getActivityTypeId() {

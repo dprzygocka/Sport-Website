@@ -26,10 +26,8 @@ public class Status {
     @ElementCollection
     private Map<User, Activity> userActivity = new HashMap<>();
 
-    public Status(long statusId, String statusName, Map<User, Activity> userActivity) {
-        this.statusId = statusId;
+    public Status(String statusName) {
         this.statusName = statusName;
-        this.userActivity = userActivity;
     }
 
     public Status() {

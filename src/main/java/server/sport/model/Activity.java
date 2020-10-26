@@ -30,7 +30,7 @@ public class Activity {
     @JoinColumn(name = "creator")
     private User creator;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
@@ -57,6 +57,21 @@ public class Activity {
     @MapKeyJoinColumn(name = "user_id")
     @ElementCollection
     private Map<User, Status> userStatus = new HashMap<>();
+
+    public Activity() {
+    }
+
+    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
+                    ActivityType activityType, boolean isCancelled, Match match) {
+        this.activityName = activityName;
+        this.capacity = capacity;
+        this.description = description;
+        this.creator = creator;
+        this.reservation = reservation;
+        this.activityType = activityType;
+        this.isCancelled = isCancelled;
+        this.match = match;
+    }
 
     public long getActivityId() {
         return activityId;
@@ -112,24 +127,6 @@ public class Activity {
 
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
-    }
-
-    public Activity() {
-    }
-
-    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
-                    ActivityType activityType, boolean isCancelled, Match match,
-                    Map<Responsibility, User> userResponsibility, Map<User, Status> userStatus) {
-        this.activityName = activityName;
-        this.capacity = capacity;
-        this.description = description;
-        this.creator = creator;
-        this.reservation = reservation;
-        this.activityType = activityType;
-        this.isCancelled = isCancelled;
-        this.match = match;
-        this.userResponsibility = userResponsibility;
-        this.userStatus = userStatus;
     }
 
     public String getActivityName() {

@@ -13,7 +13,7 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
-    @Column(name ="location_id")
+    @Column(name ="location_id", nullable = false)
     private long locationId;
 
     @Column(name = "google_map_url", nullable = false)
@@ -30,10 +30,9 @@ public class Location {
     public Location() {
     }
 
-    public Location(String googleMapUrl, String courtName, List<Reservation> reservations) {
+    public Location(String googleMapUrl, String courtName) {
         this.googleMapUrl = googleMapUrl;
         this.courtName = courtName;
-        this.reservations = reservations;
     }
 
     public long getLocationId() {

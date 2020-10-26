@@ -9,13 +9,13 @@ import java.util.List;
 public class TeamCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="team_category_id")
+    @Column(name="team_category_id", nullable = false)
     private int teamCategoryId;
 
-    @Column(name="gender")
+    @Column(name="gender", nullable = false)
     private String gender;
 
-    @Column(name="age")
+    @Column(name="age", nullable = false)
     private int age;
 
     @ManyToOne
@@ -82,8 +82,8 @@ public class TeamCategory {
                 "teamCategoryId=" + teamCategoryId +
                 ", gender='" + gender + '\'' +
                 ", age=" + age +
-                ", sport=" + sport.toString() +
-                ", teams=" + teams.toString() +
+                ", sport=" + sport +
+                ", teams=" + teams +
                 '}';
     }
 }

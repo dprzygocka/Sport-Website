@@ -10,10 +10,10 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="team_id")
+    @Column(name="team_id", nullable = false)
     private int teamId;
 
-    @Column(name = "team_name")
+    @Column(name = "team_name", nullable = false)
     private String teamName;
 
     @ManyToOne
@@ -70,8 +70,8 @@ public class Team {
         return "Team{" +
                 "teamId=" + teamId +
                 ", teamName='" + teamName + '\'' +
-                ", teamCategory=" + teamCategory.toString() +
-                ", users=" + users.toString() +
+                ", teamCategory=" + teamCategory +
+                ", users=" + users+
                 '}';
     }
 }
