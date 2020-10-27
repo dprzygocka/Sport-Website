@@ -10,24 +10,24 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="team_id")
+    @Column(name="team_id", nullable = false)
     private int teamId;
 
-    @Column(name = "team_name")
+    @Column(name = "team_name", nullable = false)
     private String teamName;
 
     @ManyToOne
-    @JoinColumn(name="team_category_id")
-    private TeamCategory teamCategory;
+    @JoinColumn(name="sports_id")
+    private Sport sport;
 
     @OneToMany(mappedBy = "team",
                fetch = FetchType.EAGER,
                cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
 
-    public Team(String teamName, TeamCategory teamCategory){
+    public Team(String teamName, Sport sport){
         this.teamName = teamName;
-        this.teamCategory = teamCategory;
+        this.sport = sport;
     }
 
     public Team() {
@@ -49,12 +49,12 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public TeamCategory getTeamCategory() {
-        return teamCategory;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setTeamCategory(TeamCategory teamCategory) {
-        this.teamCategory = teamCategory;
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     public List<User> getUsers() {
@@ -70,8 +70,8 @@ public class Team {
         return "Team{" +
                 "teamId=" + teamId +
                 ", teamName='" + teamName + '\'' +
-                ", teamCategory=" + teamCategory.toString() +
-                ", users=" + users.toString() +
+                ", teamCategory=" + sport +
+                ", users=" + users+
                 '}';
     }
 }

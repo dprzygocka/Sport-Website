@@ -11,22 +11,22 @@ import java.util.Map;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private int user_id;
+    @Column(name="user_id", nullable = false)
+    private int userId;
 
-    @Column(name="first_name")
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @Column(name="last_name")
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
-    @Column(name="age")
+    @Column(name="age", nullable = false)
     private int age;
 
-    @Column(name="email")
+    @Column(name="email", nullable = false)
     private String email;
 
-    @Column(name="gender")
+    @Column(name="gender", nullable = false) //delete?
     private String gender;
 
     @ManyToOne
@@ -42,7 +42,7 @@ public class User {
     private List<Activity> createdActivities = new ArrayList<>();
 
     @OneToMany(mappedBy = "playerOfTheMatch",
-            cascade = CascadeType.ALL)
+    cascade = CascadeType.ALL)
     private List<Match> playerOfTheMatch = new ArrayList<>();
 
     @JoinTable(name = "user_responsibilities",
@@ -62,9 +62,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, int age, String email, String gender, Team team, UserType userType,
-                List<Activity> createdActivities, List<Match> playerOfTheMatch,
-                Map<Activity, Responsibility> responsibilityActivity, Map<Activity, Status> activityStatus) {
+    public User(String firstName, String lastName, int age, String email, String gender, Team team, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -72,18 +70,14 @@ public class User {
         this.gender = gender;
         this.team = team;
         this.userType = userType;
-        this.createdActivities = createdActivities;
-        this.playerOfTheMatch = playerOfTheMatch;
-        this.responsibilityActivity = responsibilityActivity;
-        this.activityStatus = activityStatus;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -177,7 +171,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "user_id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +

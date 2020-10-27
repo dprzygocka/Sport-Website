@@ -11,10 +11,9 @@ import java.util.Map;
 public class Status {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="status_id")
-    private long statusId;
+    private int statusId;
 
     @Column(name = "status_name", nullable = false)
     private String statusName;
@@ -26,10 +25,8 @@ public class Status {
     @ElementCollection
     private Map<User, Activity> userActivity = new HashMap<>();
 
-    public Status(long statusId, String statusName, Map<User, Activity> userActivity) {
-        this.statusId = statusId;
+    public Status(String statusName) {
         this.statusName = statusName;
-        this.userActivity = userActivity;
     }
 
     public Status() {
@@ -39,7 +36,7 @@ public class Status {
         return statusId;
     }
 
-    public void setStatusId(long statusId) {
+    public void setStatusId(int statusId) {
         this.statusId = statusId;
     }
 

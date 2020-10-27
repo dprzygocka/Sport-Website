@@ -10,16 +10,16 @@ public class Sport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="sport_id")
+    @Column(name="sport_id", nullable = false)
     private int sportId;
 
-    @Column(name="sport_name")
+    @Column(name="sport_name", nullable = false)
     private String sportName;
 
     @OneToMany(mappedBy = "sport",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private List<TeamCategory> teamCategories = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
 
     public Sport(String sportName){
         this.sportName =sportName;
@@ -44,12 +44,12 @@ public class Sport {
         this.sportName = sportName;
     }
 
-    public List<TeamCategory> getTeamCategories() {
-        return teamCategories;
+    public List<Team> getTeams() {
+        return teams;
     }
 
-    public void setTeamCategories(List<TeamCategory> teamCategories) {
-        this.teamCategories = teamCategories;
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Sport {
         return "Sport{" +
                 "sportId=" + sportId +
                 ", sportName='" + sportName + '\'' +
-                ", teamCategories=" + teamCategories.toString() +
+                ", teams=" + teams +
                 '}';
     }
 }

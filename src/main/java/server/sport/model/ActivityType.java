@@ -11,10 +11,9 @@ import java.util.List;
 public class ActivityType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
-    @Column(name = "activity_type_id")
-    private long activityTypeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "activity_type_id", nullable = false)
+    private int activityTypeId;
 
     @Column(name = "activity_type_name", nullable = false)
     private String activityTypeName;
@@ -27,16 +26,15 @@ public class ActivityType {
     public ActivityType() {
     }
 
-    public ActivityType(String activityTypeName, List<Activity> activities) {
+    public ActivityType(String activityTypeName) {
         this.activityTypeName = activityTypeName;
-        this.activities = activities;
     }
 
     public long getActivityTypeId() {
         return activityTypeId;
     }
 
-    public void setActivityTypeId(long activityTypeId) {
+    public void setActivityTypeId(int activityTypeId) {
         this.activityTypeId = activityTypeId;
     }
 

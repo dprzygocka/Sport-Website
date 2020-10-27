@@ -12,10 +12,9 @@ import java.util.Map;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="activity_id")
-    private long activityId;
+    private int activityId;
 
     @Column(name = "activity_name", nullable = false)
     private String activityName;
@@ -30,7 +29,7 @@ public class Activity {
     @JoinColumn(name = "creator")
     private User creator;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
@@ -58,11 +57,26 @@ public class Activity {
     @ElementCollection
     private Map<User, Status> userStatus = new HashMap<>();
 
+    public Activity() {
+    }
+
+    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
+                    ActivityType activityType, boolean isCancelled, Match match) {
+        this.activityName = activityName;
+        this.capacity = capacity;
+        this.description = description;
+        this.creator = creator;
+        this.reservation = reservation;
+        this.activityType = activityType;
+        this.isCancelled = isCancelled;
+        this.match = match;
+    }
+
     public long getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(long activityId) {
+    public void setActivityId(int activityId) {
         this.activityId = activityId;
     }
 
@@ -112,24 +126,6 @@ public class Activity {
 
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
-    }
-
-    public Activity() {
-    }
-
-    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
-                    ActivityType activityType, boolean isCancelled, Match match,
-                    Map<Responsibility, User> userResponsibility, Map<User, Status> userStatus) {
-        this.activityName = activityName;
-        this.capacity = capacity;
-        this.description = description;
-        this.creator = creator;
-        this.reservation = reservation;
-        this.activityType = activityType;
-        this.isCancelled = isCancelled;
-        this.match = match;
-        this.userResponsibility = userResponsibility;
-        this.userStatus = userStatus;
     }
 
     public String getActivityName() {
