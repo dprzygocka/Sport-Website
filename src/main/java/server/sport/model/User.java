@@ -26,6 +26,9 @@ public class User {
     @Column(name="email", nullable = false)
     private String email;
 
+    @Column(name="phone", nullable = false)
+    private String phone;
+
     @Column(name="gender", nullable = false) //delete?
     private String gender;
 
@@ -62,11 +65,12 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, int age, String email, String gender, Team team, UserType userType) {
+    public User(String firstName, String lastName, int age, String email,String phone, String gender, Team team, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
+        this.phone = phone;
         this.gender = gender;
         this.team = team;
         this.userType = userType;
