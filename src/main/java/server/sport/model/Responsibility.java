@@ -1,7 +1,5 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +16,10 @@ public class Responsibility {
     @Column(name = "responsibility_name", nullable = false)
     private String responsibilityName;
 
+    @ManyToOne
+    @JoinColumn(name="sport_id")
+    private Sport sport;
+
     @JoinTable(name = "user_responsibilities",
             joinColumns = @JoinColumn(name = "responsibility_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -28,9 +30,17 @@ public class Responsibility {
     public Responsibility() {
     }
 
-    public Responsibility(String responsibilityName, Map<Activity, User> userActivity) {
+    public Responsibility(String responsibilityName, Sport sport) {
         this.responsibilityName = responsibilityName;
-        this.userActivity = userActivity;
+        this.sport = sport;
+    }
+
+    public Sport getSport() {
+        return sport;
+    }
+
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     public Map<Activity, User> getUserActivity() {
@@ -62,6 +72,7 @@ public class Responsibility {
         return "Responsibility{" +
                 "responsibilityId=" + responsibilityId +
                 ", responsibilityName='" + responsibilityName + '\'' +
+                ", sport='" + sport + '\'' +
                 '}';
     }
 }

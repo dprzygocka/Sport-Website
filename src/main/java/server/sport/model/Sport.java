@@ -16,6 +16,10 @@ public class Sport {
     @Column(name="sport_name", nullable = false)
     private String sportName;
 
+    @OneToMany
+    @JoinColumn(name="sport", nullable = false)
+    private List<Responsibility> responsibilities = new ArrayList<>();
+
     @OneToMany(mappedBy = "sport",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
@@ -26,6 +30,14 @@ public class Sport {
     }
 
     public Sport() {
+    }
+
+    public List<Responsibility> getResponsibilities() {
+        return responsibilities;
+    }
+
+    public void setResponsibilities(List<Responsibility> responsibilities) {
+        this.responsibilities = responsibilities;
     }
 
     public int getSportId() {
