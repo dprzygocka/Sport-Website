@@ -11,13 +11,9 @@ import java.util.List;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="location_id", nullable = false)
-    private long locationId;
-
-    @Column(name = "google_map_url", nullable = false)
-    private String googleMapUrl;
+    private int locationId;
 
     @Column(name = "court_name", nullable = false)
     private String courtName;
@@ -30,8 +26,7 @@ public class Location {
     public Location() {
     }
 
-    public Location(String googleMapUrl, String courtName) {
-        this.googleMapUrl = googleMapUrl;
+    public Location(String courtName) {
         this.courtName = courtName;
     }
 
@@ -39,16 +34,8 @@ public class Location {
         return locationId;
     }
 
-    public void setLocationId(long locationId) {
+    public void setLocationId(int locationId) {
         this.locationId = locationId;
-    }
-
-    public String getGoogleMapUrl() {
-        return googleMapUrl;
-    }
-
-    public void setGoogleMapUrl(String googleMapUrl) {
-        this.googleMapUrl = googleMapUrl;
     }
 
     public String getCourtName() {
@@ -71,7 +58,6 @@ public class Location {
     public String toString() {
         return "Location{" +
                 "locationId=" + locationId +
-                ", googleMapUrl='" + googleMapUrl + '\'' +
                 ", courtName='" + courtName + '\'' +
                 ", reservations=" + reservations +
                 '}';

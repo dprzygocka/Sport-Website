@@ -9,10 +9,9 @@ import javax.persistence.*;
 public class Match {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="match_id")
-    private long matchId;
+    private int matchId;
 
     @Column(name = "score", nullable = false)
     private int score;
@@ -38,7 +37,7 @@ public class Match {
         return matchId;
     }
 
-    public void setMatchId(long matchId) {
+    public void setMatchId(int matchId) {
         this.matchId = matchId;
     }
 

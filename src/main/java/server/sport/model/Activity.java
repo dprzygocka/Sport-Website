@@ -12,10 +12,9 @@ import java.util.Map;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="activity_id")
-    private long activityId;
+    private int activityId;
 
     @Column(name = "activity_name", nullable = false)
     private String activityName;
@@ -77,7 +76,7 @@ public class Activity {
         return activityId;
     }
 
-    public void setActivityId(long activityId) {
+    public void setActivityId(int activityId) {
         this.activityId = activityId;
     }
 

@@ -11,10 +11,9 @@ import java.util.Map;
 public class Responsibility {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="responsibility_id", nullable = false)
-    private long responsibilityId;
+    private int responsibilityId;
 
     @Column(name = "responsibility_name", nullable = false)
     private String responsibilityName;
@@ -46,7 +45,7 @@ public class Responsibility {
         return responsibilityId;
     }
 
-    public void setResponsibilityId(long responsibilityId) {
+    public void setResponsibilityId(int responsibilityId) {
         this.responsibilityId = responsibilityId;
     }
 

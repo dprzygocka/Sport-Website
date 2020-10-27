@@ -11,10 +11,9 @@ import java.util.List;
 public class ActivityType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activity_type_id", nullable = false)
-    private long activityTypeId;
+    private int activityTypeId;
 
     @Column(name = "activity_type_name", nullable = false)
     private String activityTypeName;
@@ -35,7 +34,7 @@ public class ActivityType {
         return activityTypeId;
     }
 
-    public void setActivityTypeId(long activityTypeId) {
+    public void setActivityTypeId(int activityTypeId) {
         this.activityTypeId = activityTypeId;
     }
 

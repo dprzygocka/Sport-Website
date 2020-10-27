@@ -19,7 +19,7 @@ public class Sport {
     @OneToMany(mappedBy = "sport",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private List<TeamCategory> teamCategories = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
 
     public Sport(String sportName){
         this.sportName =sportName;
@@ -44,12 +44,12 @@ public class Sport {
         this.sportName = sportName;
     }
 
-    public List<TeamCategory> getTeamCategories() {
-        return teamCategories;
+    public List<Team> getTeams() {
+        return teams;
     }
 
-    public void setTeamCategories(List<TeamCategory> teamCategories) {
-        this.teamCategories = teamCategories;
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Sport {
         return "Sport{" +
                 "sportId=" + sportId +
                 ", sportName='" + sportName + '\'' +
-                ", teamCategories=" + teamCategories +
+                ", teams=" + teams +
                 '}';
     }
 }

@@ -10,17 +10,16 @@ import java.util.Date;
 public class Reservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name="native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="reservation_id", nullable = false)
-    private long reservationId;
+    private int reservationId;
 
     @Column(name = "date_time", nullable = false)
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL) 
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Activity activity;
 
     @ManyToOne
@@ -39,7 +38,7 @@ public class Reservation {
         return reservationId;
     }
 
-    public void setReservationId(long reservationId) {
+    public void setReservationId(int reservationId) {
         this.reservationId = reservationId;
     }
 
