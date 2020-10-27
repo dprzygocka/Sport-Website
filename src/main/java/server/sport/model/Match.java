@@ -17,7 +17,7 @@ public class Match {
     @Column(name = "score", nullable = false)
     private int score;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "player_of_the_match")
     private User playerOfTheMatch;
 

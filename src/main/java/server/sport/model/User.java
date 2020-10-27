@@ -41,9 +41,9 @@ public class User {
             cascade = CascadeType.ALL)
     private List<Activity> createdActivities = new ArrayList<>();
 
-    @OneToOne(mappedBy = "playerOfTheMatch",
+    @OneToMany(mappedBy = "playerOfTheMatch",
     cascade = CascadeType.ALL)
-    private Match playerOfTheMatch;
+    private List<Match> playerOfTheMatch = new ArrayList<>();
 
     @JoinTable(name = "user_responsibilities",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -136,11 +136,11 @@ public class User {
         this.createdActivities = createdActivities;
     }
 
-    public Match getPlayerOfTheMatch() {
+    public List<Match> getPlayerOfTheMatch() {
         return playerOfTheMatch;
     }
 
-    public void setPlayerOfTheMatch(Match playerOfTheMatch) {
+    public void setPlayerOfTheMatch(List<Match> playerOfTheMatch) {
         this.playerOfTheMatch = playerOfTheMatch;
     }
 

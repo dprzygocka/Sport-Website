@@ -20,7 +20,7 @@ public class Reservation {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL) //added
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL) 
     private Activity activity;
 
     @ManyToOne
