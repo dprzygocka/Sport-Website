@@ -26,9 +26,10 @@ public class Reservation {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public Reservation(Date dateTime, Location location) {
+    public Reservation(Date dateTime, Location location, Activity activity) {
         this.dateTime = dateTime;
         this.location = location;
+        this.activity = activity;
     }
 
     public Reservation() {

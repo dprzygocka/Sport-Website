@@ -21,7 +21,7 @@ public class SportController {
     //At this stage it is simply making sport name, and is not concerned with the teams that correspond with the sport
     @PostMapping ("/sport")
     public ResponseEntity <Sport> createSport (@RequestBody Sport sport) {
-        Sport newSportEntry = sportRepository.save(sport);
+        Sport newSportEntry = sportRepository.save(sport); //newSportEntry has the new id which was not existing when passing sport
         return new ResponseEntity<>(newSportEntry, HttpStatus.CREATED);
     }
 
