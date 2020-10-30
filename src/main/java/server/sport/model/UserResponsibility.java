@@ -53,7 +53,7 @@ public class UserResponsibility {
     }
 
     @ManyToOne
-    @JoinColumn(name = "responsibility_id", referencedColumnName = "responsility_id", nullable = false)
+    @JoinColumn(name = "responsibility_id", referencedColumnName = "responsibility_id", nullable = false)
     public Responsibility getResponsibility() {
         return responsibility;
     }
