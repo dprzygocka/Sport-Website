@@ -3,12 +3,12 @@ package server.sport.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "matches", schema = "mydb", catalog = "")
+@Table(name = "matches")
 public class Match {
     private int matchesId;
     private Integer score;
-    private User usersByPlayerOfTheMatches;
-    private Activity activitiesByActivityId;
+    private User playerOfTheMatch;
+    private Activity activity;
 
     @Id
     @Column(name = "matches_id", nullable = false)
@@ -51,22 +51,41 @@ public class Match {
     }
 
     @ManyToOne
-    @JoinColumn(name = "player_of_the_matches", referencedColumnName = "user_id")
-    public User getUsersByPlayerOfTheMatches() {
-        return usersByPlayerOfTheMatches;
+    @JoinColumn(name = "player_of_the_match", referencedColumnName = "user_id")
+    public User getPlayerOfTheMatch() {
+        return playerOfTheMatch;
     }
 
-    public void setUsersByPlayerOfTheMatches(User usersByPlayerOfTheMatches) {
-        this.usersByPlayerOfTheMatches = usersByPlayerOfTheMatches;
+    public void setPlayerOfTheMatch(User playerOfTheMatch) {
+        this.playerOfTheMatch = playerOfTheMatch;
     }
 
     @ManyToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
-    public Activity getActivitiesByActivityId() {
-        return activitiesByActivityId;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setActivitiesByActivityId(Activity activitiesByActivityId) {
-        this.activitiesByActivityId = activitiesByActivityId;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public Match() {
+    }
+
+    public Match(Integer score, User playerOfTheMatch, Activity activity) {
+        this.score = score;
+        this.playerOfTheMatch = playerOfTheMatch;
+        this.activity = activity;
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "matchesId=" + matchesId +
+                ", score=" + score +
+                ", playerOfTheMatch=" + playerOfTheMatch +
+                ", activity=" + activity +
+                '}';
     }
 }
