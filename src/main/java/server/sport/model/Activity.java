@@ -145,7 +145,7 @@ public class Activity {
         this.match = match;
     }
 
-    @OneToMany(mappedBy = "activities")
+    @OneToMany(mappedBy = "activity")
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
     }

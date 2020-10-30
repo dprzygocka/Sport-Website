@@ -63,7 +63,7 @@ public class Responsibility {
         this.sport = sport;
     }
 
-    @OneToMany(mappedBy = "responsibilities")
+    @OneToMany(mappedBy = "responsibility")
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
     }

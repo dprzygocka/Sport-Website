@@ -17,8 +17,8 @@ public class User {
     private Collection<ActivityStatus> activityStatuses;
     private Collection<Match> bestPlayedMatches;
     private Collection<UserResponsibility> userResponsibilities;
-    private UserType userTypeByUserTypeId;
-    private Team teamsByTeamId;
+    private UserType userType;
+    private Team team;
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -158,25 +158,25 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "user_type_id", referencedColumnName = "user_type_id", nullable = false)
-    public UserType getUserTypeByUserTypeId() {
-        return userTypeByUserTypeId;
+    public UserType getUserType() {
+        return userType;
     }
 
-    public void setUserTypeByUserTypeId(UserType userTypeByUserTypeId) {
-        this.userTypeByUserTypeId = userTypeByUserTypeId;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
-    public Team getTeamsByTeamId() {
-        return teamsByTeamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamsByTeamId(Team teamsByTeamId) {
-        this.teamsByTeamId = teamsByTeamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public User(String firstName, String lastName, String email, Integer age, String gender, String phone, Collection<Activity> createdActivities, Collection<ActivityStatus> activityStatuses, Collection<Match> bestPlayedMatches, Collection<UserResponsibility> userResponsibilities, UserType userTypeByUserTypeId, Team teamsByTeamId) {
+    public User(String firstName, String lastName, String email, Integer age, String gender, String phone, Collection<Activity> createdActivities, Collection<ActivityStatus> activityStatuses, Collection<Match> bestPlayedMatches, Collection<UserResponsibility> userResponsibilities, UserType userType, Team team) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -187,8 +187,8 @@ public class User {
         this.activityStatuses = activityStatuses;
         this.bestPlayedMatches = bestPlayedMatches;
         this.userResponsibilities = userResponsibilities;
-        this.userTypeByUserTypeId = userTypeByUserTypeId;
-        this.teamsByTeamId = teamsByTeamId;
+        this.userType = userType;
+        this.team = team;
     }
 
     public User() {
@@ -208,8 +208,8 @@ public class User {
                 ", activityStatuses=" + activityStatuses +
                 ", bestPlayedMatches=" + bestPlayedMatches +
                 ", userResponsibilities=" + userResponsibilities +
-                ", userTypeByUserTypeId=" + userTypeByUserTypeId +
-                ", teamsByTeamId=" + teamsByTeamId +
+                ", userType=" + userType +
+                ", team=" + team +
                 '}';
     }
 }

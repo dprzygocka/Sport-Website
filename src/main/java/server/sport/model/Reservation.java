@@ -52,7 +52,7 @@ public class Reservation {
         return result;
     }
 
-    @OneToMany(mappedBy = "reservationsByReservationId")
+    @OneToMany(mappedBy = "reservation")
     public Collection<Activity> getActivities() {
         return activities;
     }

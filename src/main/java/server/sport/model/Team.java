@@ -62,7 +62,7 @@ public class Team {
         this.sport = sport;
     }
 
-    @OneToMany(mappedBy = "teams")
+    @OneToMany(mappedBy = "team")
     public Collection<User> getUsers() {
         return users;
     }

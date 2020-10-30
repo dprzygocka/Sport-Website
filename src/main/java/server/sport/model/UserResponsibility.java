@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class UserResponsibility {
     private int responsibilityId;
     private int activityId;
-    private Responsibility responsibilities;
+    private Responsibility responsibility;
     private User user;
     private Activity activity;
 
@@ -54,12 +54,12 @@ public class UserResponsibility {
 
     @ManyToOne
     @JoinColumn(name = "responsibility_id", referencedColumnName = "responsility_id", nullable = false)
-    public Responsibility getResponsibilities() {
-        return responsibilities;
+    public Responsibility getResponsibility() {
+        return responsibility;
     }
 
-    public void setResponsibilities(Responsibility responsibilities) {
-        this.responsibilities = responsibilities;
+    public void setResponsibility(Responsibility responsibility) {
+        this.responsibility = responsibility;
     }
 
     @ManyToOne
@@ -82,9 +82,9 @@ public class UserResponsibility {
         this.activity = activity;
     }
 
-    public UserResponsibility(int activityId, Responsibility responsibilities, User user, Activity activity) {
+    public UserResponsibility(int activityId, Responsibility responsibility, User user, Activity activity) {
         this.activityId = activityId;
-        this.responsibilities = responsibilities;
+        this.responsibility = responsibility;
         this.user = user;
         this.activity = activity;
     }
@@ -98,7 +98,7 @@ public class UserResponsibility {
         return "UserResponsibility{" +
                 "responsibilityId=" + responsibilityId +
                 ", activityId=" + activityId +
-                ", responsibilities=" + responsibilities +
+                ", responsibility=" + responsibility +
                 ", user=" + user +
                 ", activity=" + activity +
                 '}';
