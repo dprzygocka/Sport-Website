@@ -30,7 +30,7 @@ public class Location {
         this.courtName = courtName;
     }
 
-    public long getLocationId() {
+    public int getLocationId() {
         return locationId;
     }
 

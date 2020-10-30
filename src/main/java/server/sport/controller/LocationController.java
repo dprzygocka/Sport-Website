@@ -23,11 +23,15 @@ public class LocationController {
     @Autowired
     LocationRepository locationRepository;
 
-
     @GetMapping("/locations")
     public ResponseEntity<List<Location>> getAllLocations (@RequestParam(required = false) String dateTime) throws ParseException { //how to handle exception???
-        Date _date = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").parse(dateTime); //"31-Dec-1998 23:37:50";  or Thu, Dec 31 1998 23:37:50 but format(E, MMM dd yyyy HH:mm:ss)
-        List<Location> locations = locationRepository.findAllByDateAndTime(_date);
+        if (dateTime.isEmpty()){ //what if the date is not going to be past?
+            List<Location> locations = locationRepository.findAll();
+            return new ResponseEntity<>(locations, HttpStatus.OK);
+        }
+        Date _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime); //data type is not right, I don;t now why it return: [Wed Nov 15 15:30:14 CET 2017] instead of 2017-11-15 15:30:14.332
+        System.out.println(_date.toString());
+        List<Location> locations = locationRepository.findAllByReservationsDateTime(_date);
         if(locations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -43,21 +47,21 @@ public class LocationController {
         return Sort.Direction.DESC;
     }
 
-    @GetMapping("/locations") //??????????????????????????????????????????????????????????????????
+    @GetMapping("/sortedLocations")
     public ResponseEntity<Map<String, Object>> getPageOfLocations (
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size,
-            @RequestParam(defaultValue = "id,desc") String[] sort) {
+            @RequestParam(defaultValue = "courtName,desc") String[] sort) {
 
-        List<Location> locations = new ArrayList<>();
+        List<Sort.Order> locations = new ArrayList<>();
         if (sort[0].contains(",")) {
             for (String sortOrder : sort) {
                 String[] _sort = sortOrder.split(",");
-                locations.add(new Location (getSortDirection(_sort[1]), _sort[0]));
+                locations.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
             }
         } else {
             //sort=[field,direction]
-            locations.add(new Location(getSortDirection(sort[1]), sort[0]));
+            locations.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
         }
 
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(locations));
@@ -86,10 +90,12 @@ public class LocationController {
     }
 
     @PutMapping("/locations/{location_id}")
-    public ResponseEntity<Location> updateLocation(@PathVariable("location_id") int locationId){ //why I can't return just HttpStatus???
-        Location location = locationRepository.findById(locationId).orElseThrow(
+    public ResponseEntity<Location> updateLocation(@PathVariable("location_id") int locationId,
+                                                   @RequestBody Location location){
+        Location _location = locationRepository.findById(locationId).orElseThrow(
                 () -> new ResourceNotFoundException("Not found tutorial with id = " + locationId));
-        return new ResponseEntity<>(locationRepository.save(location),HttpStatus.OK);
+        _location.setCourtName(location.getCourtName());
+        return new ResponseEntity<>(locationRepository.save(_location),HttpStatus.OK);
     }
 
     @DeleteMapping("/locations/{location_id}")
@@ -97,5 +103,6 @@ public class LocationController {
         locationRepository.deleteById(locationId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
 }
