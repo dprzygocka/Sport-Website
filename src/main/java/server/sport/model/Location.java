@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "locations", schema = "mydb", catalog = "")
+@Table(name = "locations")
 public class Location {
     private int locationId;
     private String courtName;
-    private Collection<Reservation> reservationsByLocationId;
+    private Collection<Reservation> reservations;
 
     @Id
     @Column(name = "location_id", nullable = false)
@@ -50,12 +50,30 @@ public class Location {
         return result;
     }
 
-    @OneToMany(mappedBy = "locationsByLocationId")
-    public Collection<Reservation> getReservationsByLocationId() {
-        return reservationsByLocationId;
+    @OneToMany(mappedBy = "location")
+    public Collection<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setReservationsByLocationId(Collection<Reservation> reservationsByLocationId) {
-        this.reservationsByLocationId = reservationsByLocationId;
+    public void setReservations(Collection<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public Location(int locationId, String courtName, Collection<Reservation> reservations) {
+        this.locationId = locationId;
+        this.courtName = courtName;
+        this.reservations = reservations;
+    }
+
+    public Location() {
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId=" + locationId +
+                ", courtName='" + courtName + '\'' +
+                ", reservations=" + reservations +
+                '}';
     }
 }
