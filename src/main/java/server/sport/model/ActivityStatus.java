@@ -3,15 +3,15 @@ package server.sport.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "activity_status", schema = "mydb", catalog = "")
+@Table(name = "activity_status")
 @IdClass(ActivityStatusPK.class)
 public class ActivityStatus {
     private int statusId;
     private int userId;
     private int activityId;
-    private Status statusByStatusId;
-    private User usersByUserId;
-    private Activity activitiesByActivityId;
+    private Status status;
+    private User user;
+    private Activity activity;
 
     @Id
     @Column(name = "status_id", nullable = false)
@@ -68,30 +68,47 @@ public class ActivityStatus {
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "status_id", nullable = false)
     public Status getStatusByStatusId() {
-        return statusByStatusId;
+        return status;
     }
 
     public void setStatusByStatusId(Status statusByStatusId) {
-        this.statusByStatusId = statusByStatusId;
+        this.status = statusByStatusId;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUsersByUserId() {
-        return usersByUserId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsersByUserId(User usersByUserId) {
-        this.usersByUserId = usersByUserId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @ManyToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
-    public Activity getActivitiesByActivityId() {
-        return activitiesByActivityId;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setActivitiesByActivityId(Activity activitiesByActivityId) {
-        this.activitiesByActivityId = activitiesByActivityId;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
+
+
+    public ActivityStatus() {
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityStatus{" +
+                "statusId=" + statusId +
+                ", userId=" + userId +
+                ", activityId=" + activityId +
+                ", status=" + status +
+                ", user=" + user +
+                ", activity=" + activity +
+                '}';
+    }
+
 }
