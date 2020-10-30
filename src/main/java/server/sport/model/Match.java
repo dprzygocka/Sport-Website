@@ -60,7 +60,7 @@ public class Match {
         this.playerOfTheMatch = playerOfTheMatch;
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
     public Activity getActivity() {
         return activity;
