@@ -59,8 +59,7 @@ public class Location {
         this.reservations = reservations;
     }
 
-    public Location(int locationId, String courtName, Collection<Reservation> reservations) {
-        this.locationId = locationId;
+    public Location(String courtName, Collection<Reservation> reservations) {
         this.courtName = courtName;
         this.reservations = reservations;
     }

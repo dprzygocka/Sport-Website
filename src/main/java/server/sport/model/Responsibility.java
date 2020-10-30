@@ -72,8 +72,7 @@ public class Responsibility {
         this.userResponsibilities = userResponsibilities;
     }
 
-    public Responsibility(int responsibilityId, String responsibilityName, Sport sport, Collection<UserResponsibility> userResponsibilities) {
-        this.responsibilityId = responsibilityId;
+    public Responsibility(String responsibilityName, Sport sport, Collection<UserResponsibility> userResponsibilities) {
         this.responsibilityName = responsibilityName;
         this.sport = sport;
         this.userResponsibilities = userResponsibilities;

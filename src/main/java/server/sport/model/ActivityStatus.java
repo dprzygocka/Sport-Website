@@ -99,6 +99,14 @@ public class ActivityStatus {
     public ActivityStatus() {
     }
 
+    public ActivityStatus(int userId, int activityId, UserStatus userStatus, User user, Activity activity) {
+        this.userId = userId;
+        this.activityId = activityId;
+        this.userStatus = userStatus;
+        this.user = user;
+        this.activity = activity;
+    }
+
     @Override
     public String toString() {
         return "ActivityStatus{" +

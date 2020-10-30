@@ -71,8 +71,7 @@ public class Team {
         this.users = users;
     }
 
-    public Team(int teamId, String teamName, Sport sport, Collection<User> users) {
-        this.teamId = teamId;
+    public Team(String teamName, Sport sport, Collection<User> users) {
         this.teamName = teamName;
         this.sport = sport;
         this.users = users;
