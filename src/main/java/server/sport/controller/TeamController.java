@@ -4,16 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.sport.model.Sport;
 import server.sport.model.Team;
-import server.sport.model.User;
-import server.sport.repository.SportRepository;
 import server.sport.repository.TeamRepository;
-import server.sport.repository.UserRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/teams")
@@ -32,4 +27,13 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/{team_id}")//teams information
+    public ResponseEntity<Team> getTeam(@PathVariable("team_id") int teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new NoSuchElementException("Not found team with id = " + teamId));
+        return new ResponseEntity<>(team, HttpStatus.OK);
+    }
+
+
 }
+
