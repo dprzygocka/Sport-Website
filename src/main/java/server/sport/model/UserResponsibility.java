@@ -3,14 +3,14 @@ package server.sport.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_responsibilities", schema = "mydb", catalog = "")
+@Table(name = "user_responsibilities")
 @IdClass(UserResponsibilityPK.class)
 public class UserResponsibility {
     private int responsibilityId;
     private int activityId;
-    private Responsibility responsibilitiesByResponsibilityId;
-    private User usersByUserId;
-    private Activity activitiesByActivityId;
+    private Responsibility responsibilities;
+    private User user;
+    private Activity activity;
 
     @Id
     @Column(name = "responsibility_id", nullable = false)
@@ -54,31 +54,53 @@ public class UserResponsibility {
 
     @ManyToOne
     @JoinColumn(name = "responsibility_id", referencedColumnName = "responsility_id", nullable = false)
-    public Responsibility getResponsibilitiesByResponsibilityId() {
-        return responsibilitiesByResponsibilityId;
+    public Responsibility getResponsibilities() {
+        return responsibilities;
     }
 
-    public void setResponsibilitiesByResponsibilityId(Responsibility responsibilitiesByResponsibilityId) {
-        this.responsibilitiesByResponsibilityId = responsibilitiesByResponsibilityId;
+    public void setResponsibilities(Responsibility responsibilities) {
+        this.responsibilities = responsibilities;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    public User getUsersByUserId() {
-        return usersByUserId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsersByUserId(User usersByUserId) {
-        this.usersByUserId = usersByUserId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @ManyToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
-    public Activity getActivitiesByActivityId() {
-        return activitiesByActivityId;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setActivitiesByActivityId(Activity activitiesByActivityId) {
-        this.activitiesByActivityId = activitiesByActivityId;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public UserResponsibility(int activityId, Responsibility responsibilities, User user, Activity activity) {
+        this.activityId = activityId;
+        this.responsibilities = responsibilities;
+        this.user = user;
+        this.activity = activity;
+    }
+
+    public UserResponsibility() {
+    }
+
+    //deal with Collection later
+    @Override
+    public String toString() {
+        return "UserResponsibility{" +
+                "responsibilityId=" + responsibilityId +
+                ", activityId=" + activityId +
+                ", responsibilities=" + responsibilities +
+                ", user=" + user +
+                ", activity=" + activity +
+                '}';
     }
 }
