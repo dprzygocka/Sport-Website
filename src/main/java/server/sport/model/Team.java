@@ -2,14 +2,15 @@ package server.sport.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Table(name = "teams", schema = "mydb", catalog = "")
+@Table(name = "teams")
 public class Team {
     private int teamId;
     private String teamName;
-    private Sport sportsBySportsId;
-    private Collection<User> usersByTeamId;
+    private Sport sport;
+    private Collection<User> users;
 
     @Id
     @Column(name = "team_id", nullable = false)
@@ -39,7 +40,7 @@ public class Team {
         Team team = (Team) o;
 
         if (teamId != team.teamId) return false;
-        if (teamName != null ? !teamName.equals(team.teamName) : team.teamName != null) return false;
+        if (!Objects.equals(teamName, team.teamName)) return false;
 
         return true;
     }
@@ -53,20 +54,40 @@ public class Team {
 
     @ManyToOne
     @JoinColumn(name = "sports_id", referencedColumnName = "sports_id", nullable = false)
-    public Sport getSportsBySportsId() {
-        return sportsBySportsId;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setSportsBySportsId(Sport sportsBySportsId) {
-        this.sportsBySportsId = sportsBySportsId;
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
-    @OneToMany(mappedBy = "teamsByTeamId")
-    public Collection<User> getUsersByTeamId() {
-        return usersByTeamId;
+    @OneToMany(mappedBy = "teams")
+    public Collection<User> getUsers() {
+        return users;
     }
 
-    public void setUsersByTeamId(Collection<User> usersByTeamId) {
-        this.usersByTeamId = usersByTeamId;
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }
+
+    public Team(int teamId, String teamName, Sport sport, Collection<User> users) {
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.sport = sport;
+        this.users = users;
+    }
+
+    public Team() {
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamId=" + teamId +
+                ", teamName='" + teamName + '\'' +
+                ", sport=" + sport +
+                ", users=" + users +
+                '}';
     }
 }

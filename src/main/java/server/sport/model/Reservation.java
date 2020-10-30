@@ -5,12 +5,12 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Entity
-@Table(name = "reservations", schema = "mydb", catalog = "")
+@Table(name = "reservations")
 public class Reservation {
     private int reservationId;
     private Timestamp dateTime;
-    private Collection<Activity> activitiesByReservationId;
-    private Location locationsByLocationId;
+    private Collection<Activity> activities;
+    private Location location;
 
     @Id
     @Column(name = "reservation_id", nullable = false)
@@ -53,21 +53,41 @@ public class Reservation {
     }
 
     @OneToMany(mappedBy = "reservationsByReservationId")
-    public Collection<Activity> getActivitiesByReservationId() {
-        return activitiesByReservationId;
+    public Collection<Activity> getActivities() {
+        return activities;
     }
 
-    public void setActivitiesByReservationId(Collection<Activity> activitiesByReservationId) {
-        this.activitiesByReservationId = activitiesByReservationId;
+    public void setActivities(Collection<Activity> activities) {
+        this.activities = activities;
     }
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
-    public Location getLocationsByLocationId() {
-        return locationsByLocationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationsByLocationId(Location locationsByLocationId) {
-        this.locationsByLocationId = locationsByLocationId;
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Reservation(Timestamp dateTime, Collection<Activity> activities, Location location) {
+        this.dateTime = dateTime;
+        this.activities = activities;
+        this.location = location;
+    }
+
+    public Reservation() {
+    }
+
+    //deal with collection later
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationId=" + reservationId +
+                ", dateTime=" + dateTime +
+                ", activities=" + activities +
+                ", location=" + location +
+                '}';
     }
 }
