@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Status {
+@Table(name = "user_statuses")
+public class UserStatus {
     private int statusId;
     private String statusName;
     private Collection<ActivityStatus> activityStatus;
@@ -34,7 +35,7 @@ public class Status {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Status status = (Status) o;
+        UserStatus status = (UserStatus) o;
 
         if (statusId != status.statusId) return false;
         if (statusName != null ? !statusName.equals(status.statusName) : status.statusName != null) return false;
@@ -58,12 +59,12 @@ public class Status {
         this.activityStatus = activityStatus;
     }
 
-    public Status(String statusName, Collection<ActivityStatus> activityStatus) {
+    public UserStatus(String statusName, Collection<ActivityStatus> activityStatus) {
         this.statusName = statusName;
         this.activityStatus = activityStatus;
     }
 
-    public Status() {
+    public UserStatus() {
     }
 
     //deal with Collection later

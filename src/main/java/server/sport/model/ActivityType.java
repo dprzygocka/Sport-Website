@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "activity_type")
+@Table(name = "activity_types")
 public class ActivityType {
     private int activityTypeId;
     private String activityTypeName;

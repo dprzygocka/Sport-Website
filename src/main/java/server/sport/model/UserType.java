@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "user_type")
+@Table(name = "user_types")
 public class UserType {
     private int userTypeId;
     private String userName;

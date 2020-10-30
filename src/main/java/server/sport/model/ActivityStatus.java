@@ -3,13 +3,13 @@ package server.sport.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "activity_status")
+@Table(name = "activity_statuses")
 @IdClass(ActivityStatusPK.class)
 public class ActivityStatus {
     private int statusId;
     private int userId;
     private int activityId;
-    private Status status;
+    private UserStatus userStatus;
     private User user;
     private Activity activity;
 
@@ -67,12 +67,12 @@ public class ActivityStatus {
 
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "status_id", nullable = false)
-    public Status getStatusByStatusId() {
-        return status;
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
-    public void setStatusByStatusId(Status statusByStatusId) {
-        this.status = statusByStatusId;
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     @ManyToOne
@@ -105,7 +105,7 @@ public class ActivityStatus {
                 "statusId=" + statusId +
                 ", userId=" + userId +
                 ", activityId=" + activityId +
-                ", status=" + status +
+                ", status=" + userStatus +
                 ", user=" + user +
                 ", activity=" + activity +
                 '}';
