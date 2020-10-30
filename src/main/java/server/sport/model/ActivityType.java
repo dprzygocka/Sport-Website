@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "activity_type", schema = "mydb", catalog = "")
+@Table(name = "activity_type")
 public class ActivityType {
     private int activityTypeId;
     private String activityTypeName;
-    private Collection<Activity> activitiesByActivityTypeId;
+    private Collection<Activity> activities;
 
     @Id
     @Column(name = "activity_type_id", nullable = false)
@@ -51,12 +51,29 @@ public class ActivityType {
         return result;
     }
 
-    @OneToMany(mappedBy = "activityTypeByActivityTypeId")
-    public Collection<Activity> getActivitiesByActivityTypeId() {
-        return activitiesByActivityTypeId;
+    @OneToMany(mappedBy = "activityType")
+    public Collection<Activity> getActivities() {
+        return activities;
     }
 
-    public void setActivitiesByActivityTypeId(Collection<Activity> activitiesByActivityTypeId) {
-        this.activitiesByActivityTypeId = activitiesByActivityTypeId;
+    public void setActivities(Collection<Activity> activities) {
+        this.activities = activities;
+    }
+
+    public ActivityType(String activityTypeName, Collection<Activity> activities) {
+        this.activityTypeName = activityTypeName;
+        this.activities = activities;
+    }
+
+    public ActivityType() {}
+
+    //We will look into Collection of activities later
+    @Override
+    public String toString() {
+        return "ActivityType{" +
+                "activityTypeId=" + activityTypeId +
+                ", activityTypeName='" + activityTypeName + '\'' +
+                ", activitiesByActivityTypeId=" + activities +
+                '}';
     }
 }

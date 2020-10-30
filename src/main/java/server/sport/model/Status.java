@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Status {
     private int statusId;
     private String statusName;
-    private Collection<ActivityStatus> activityStatusesByStatusId;
+    private Collection<ActivityStatus> activityStatus;
 
     @Id
     @Column(name = "status_id", nullable = false)
@@ -50,11 +50,29 @@ public class Status {
     }
 
     @OneToMany(mappedBy = "statusByStatusId")
-    public Collection<ActivityStatus> getActivityStatusesByStatusId() {
-        return activityStatusesByStatusId;
+    public Collection<ActivityStatus> getActivityStatus() {
+        return activityStatus;
     }
 
-    public void setActivityStatusesByStatusId(Collection<ActivityStatus> activityStatusesByStatusId) {
-        this.activityStatusesByStatusId = activityStatusesByStatusId;
+    public void setActivityStatus(Collection<ActivityStatus> activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+
+    public Status(String statusName, Collection<ActivityStatus> activityStatus) {
+        this.statusName = statusName;
+        this.activityStatus = activityStatus;
+    }
+
+    public Status() {
+    }
+
+    //deal with Collection later
+    @Override
+    public String toString() {
+        return "Status{" +
+                "statusId=" + statusId +
+                ", statusName='" + statusName + '\'' +
+                ", activityStatus=" + activityStatus +
+                '}';
     }
 }

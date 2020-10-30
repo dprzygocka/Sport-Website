@@ -12,12 +12,12 @@ public class Activity {
     private Integer capacity;
     private String description;
     private boolean isCancelled;
-    private User usersByCreatorId;
-    private ActivityType activityTypeByActivityTypeId;
-    private Reservation reservationsByReservationId;
-    private Collection<ActivityStatus> activityStatusesByActivityId;
-    private Collection<Match> matchesByActivityId;
-    private Collection<UserResponsibility> userResponsibilitiesByActivityId;
+    private User creator;
+    private ActivityType activityType;
+    private Reservation reservation;
+    private Collection<ActivityStatus> activityStatuses;
+    private Match match;
+    private Collection<UserResponsibility> userResponsibilities;
 
     @Id
     @Column(name = "activity_id", nullable = false)
@@ -82,7 +82,7 @@ public class Activity {
         if (capacity != null ? !capacity.equals(activity.capacity) : activity.capacity != null) return false;
         if (description != null ? !description.equals(activity.description) : activity.description != null)
             return false;
-        if (!Arrays.equals(isCancelled, activity.isCancelled)) return false;
+        if (isCancelled!=activity.isCancelled) return false;
 
         return true;
     }
@@ -93,83 +93,83 @@ public class Activity {
         result = 31 * result + (activityName != null ? activityName.hashCode() : 0);
         result = 31 * result + (capacity != null ? capacity.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(isCancelled);
+        result = 31 * result + Boolean.hashCode(isCancelled);
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
-    public User getUsersByCreatorId() {
-        return usersByCreatorId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUsersByCreatorId(User usersByCreatorId) {
-        this.usersByCreatorId = usersByCreatorId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     @ManyToOne
     @JoinColumn(name = "activity_type_id", referencedColumnName = "activity_type_id", nullable = false)
-    public ActivityType getActivityTypeByActivityTypeId() {
-        return activityTypeByActivityTypeId;
+    public ActivityType getActivityType() {
+        return activityType;
     }
 
-    public void setActivityTypeByActivityTypeId(ActivityType activityTypeByActivityTypeId) {
-        this.activityTypeByActivityTypeId = activityTypeByActivityTypeId;
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
     }
 
     @ManyToOne
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id", nullable = false)
-    public Reservation getReservationsByReservationId() {
-        return reservationsByReservationId;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReservationsByReservationId(Reservation reservationsByReservationId) {
-        this.reservationsByReservationId = reservationsByReservationId;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
-    @OneToMany(mappedBy = "activitiesByActivityId")
-    public Collection<ActivityStatus> getActivityStatusesByActivityId() {
-        return activityStatusesByActivityId;
+    @OneToMany(mappedBy = "activity")
+    public Collection<ActivityStatus> getActivityStatuses() {
+        return activityStatuses;
     }
 
-    public void setActivityStatusesByActivityId(Collection<ActivityStatus> activityStatusesByActivityId) {
-        this.activityStatusesByActivityId = activityStatusesByActivityId;
+    public void setActivityStatuses(Collection<ActivityStatus> activityStatuses) {
+        this.activityStatuses = activityStatuses;
     }
 
-    @OneToMany(mappedBy = "activitiesByActivityId")
-    public Collection<Match> getMatchesByActivityId() {
-        return matchesByActivityId;
+    @OneToOne(mappedBy = "activity")
+    public Match getMatch() {
+        return match;
     }
 
-    public void setMatchesByActivityId(Collection<Match> matchesByActivityId) {
-        this.matchesByActivityId = matchesByActivityId;
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
-    @OneToMany(mappedBy = "activitiesByActivityId")
-    public Collection<UserResponsibility> getUserResponsibilitiesByActivityId() {
-        return userResponsibilitiesByActivityId;
+    @OneToMany(mappedBy = "activities")
+    public Collection<UserResponsibility> getUserResponsibilities() {
+        return userResponsibilities;
     }
 
-    public void setUserResponsibilitiesByActivityId(Collection<UserResponsibility> userResponsibilitiesByActivityId) {
-        this.userResponsibilitiesByActivityId = userResponsibilitiesByActivityId;
+    public void setUserResponsibilities(Collection<UserResponsibility> userResponsibilities) {
+        this.userResponsibilities = userResponsibilities;
     }
 
-    public Activity(String activityName, Integer capacity, String description, boolean isCancelled, User usersByCreatorId, ActivityType activityTypeByActivityTypeId, Reservation reservationsByReservationId, Collection<ActivityStatus> activityStatusesByActivityId, Collection<Match> matchesByActivityId, Collection<UserResponsibility> userResponsibilitiesByActivityId) {
+    public Activity(String activityName, Integer capacity, String description, boolean isCancelled, User creator, ActivityType activityType, Reservation reservation, Collection<ActivityStatus> activityStatuses, Match match, Collection<UserResponsibility> userResponsibilities) {
         this.activityName = activityName;
         this.capacity = capacity;
         this.description = description;
         this.isCancelled = isCancelled;
-        this.usersByCreatorId = usersByCreatorId;
-        this.activityTypeByActivityTypeId = activityTypeByActivityTypeId;
-        this.reservationsByReservationId = reservationsByReservationId;
-        this.activityStatusesByActivityId = activityStatusesByActivityId;
-        this.matchesByActivityId = matchesByActivityId;
-        this.userResponsibilitiesByActivityId = userResponsibilitiesByActivityId;
+        this.creator = creator;
+        this.activityType = activityType;
+        this.reservation = reservation;
+        this.activityStatuses = activityStatuses;
+        this.match = match;
+        this.userResponsibilities = userResponsibilities;
     }
 
     public Activity() {}
 
-    //We can fix the toString later
+    //We will look into Collection of activities later
     @Override
     public String toString() {
         return "Activity{" +
@@ -178,12 +178,12 @@ public class Activity {
                 ", capacity=" + capacity +
                 ", description='" + description + '\'' +
                 ", isCancelled=" + isCancelled +
-                ", usersByCreatorId=" + usersByCreatorId +
-                ", activityTypeByActivityTypeId=" + activityTypeByActivityTypeId +
-                ", reservationsByReservationId=" + reservationsByReservationId +
-                ", activityStatusesByActivityId=" + activityStatusesByActivityId +
-                ", matchesByActivityId=" + matchesByActivityId +
-                ", userResponsibilitiesByActivityId=" + userResponsibilitiesByActivityId +
+                ", creator=" + creator +
+                ", activityType=" + activityType +
+                ", reservation=" + reservation +
+                ", activityStatuses=" + activityStatuses +
+                ", match=" + match +
+                ", userResponsibilities=" + userResponsibilities +
                 '}';
     }
 }
