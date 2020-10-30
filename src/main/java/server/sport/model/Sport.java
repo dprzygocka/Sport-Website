@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "sports", schema = "mydb", catalog = "")
+@Table(name = "sports")
 public class Sport {
     private int sportsId;
     private String sportsName;
-    private Collection<Responsibility> responsibilitiesBySportsId;
-    private Collection<Team> teamsBySportsId;
+    private Collection<Responsibility> responsibilities;
+    private Collection<Team> teams;
 
     @Id
     @Column(name = "sports_id", nullable = false)
@@ -51,21 +51,42 @@ public class Sport {
         return result;
     }
 
-    @OneToMany(mappedBy = "sportsBySportId")
-    public Collection<Responsibility> getResponsibilitiesBySportsId() {
-        return responsibilitiesBySportsId;
+    @OneToMany(mappedBy = "sport")
+    public Collection<Responsibility> getResponsibilities() {
+        return responsibilities;
     }
 
-    public void setResponsibilitiesBySportsId(Collection<Responsibility> responsibilitiesBySportsId) {
-        this.responsibilitiesBySportsId = responsibilitiesBySportsId;
+    public void setResponsibilities(Collection<Responsibility> responsibilities) {
+        this.responsibilities = responsibilities;
     }
 
-    @OneToMany(mappedBy = "sportsBySportsId")
-    public Collection<Team> getTeamsBySportsId() {
-        return teamsBySportsId;
+    @OneToMany(mappedBy = "sport")
+    public Collection<Team> getTeams() {
+        return teams;
     }
 
-    public void setTeamsBySportsId(Collection<Team> teamsBySportsId) {
-        this.teamsBySportsId = teamsBySportsId;
+    public void setTeams(Collection<Team> teams) {
+        this.teams = teams;
+    }
+
+    public Sport() {
+    }
+
+    @Override
+    public String toString() {
+        return "Sport{" +
+                "sportsId=" + sportsId +
+                ", sportsName='" + sportsName + '\'' +
+                ", responsibilities=" + responsibilities +
+                ", teams=" + teams +
+                '}';
+    }
+
+    public Sport(String sportsName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
+        this.sportsName = sportsName;
+        this.responsibilities = responsibilities;
+        this.teams = teams;
+
+
     }
 }
