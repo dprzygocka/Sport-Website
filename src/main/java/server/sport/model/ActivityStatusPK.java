@@ -9,7 +9,7 @@ public class ActivityStatusPK implements Serializable {
     private int userId;
     private int activityId;
 
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status_id", nullable = false, insertable = false, updatable = false)
     @Id
     public int getStatusId() {
         return statusId;
@@ -19,7 +19,7 @@ public class ActivityStatusPK implements Serializable {
         this.statusId = statusId;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     @Id
     public int getUserId() {
         return userId;
@@ -29,7 +29,7 @@ public class ActivityStatusPK implements Serializable {
         this.userId = userId;
     }
 
-    @Column(name = "activity_id", nullable = false)
+    @Column(name = "activity_id", nullable = false, insertable = false, updatable = false)
     @Id
     public int getActivityId() {
         return activityId;

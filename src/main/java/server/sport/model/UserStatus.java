@@ -50,7 +50,7 @@ public class UserStatus {
         return result;
     }
 
-    @OneToMany(mappedBy = "statusByStatusId")
+    @OneToMany(mappedBy = "userStatus")
     public Collection<ActivityStatus> getActivityStatus() {
         return activityStatus;
     }

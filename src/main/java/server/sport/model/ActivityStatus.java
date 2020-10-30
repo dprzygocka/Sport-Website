@@ -14,7 +14,7 @@ public class ActivityStatus {
     private Activity activity;
 
     @Id
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status_id", nullable = false, insertable = false, updatable = false)
     public int getStatusId() {
         return statusId;
     }
@@ -24,7 +24,7 @@ public class ActivityStatus {
     }
 
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     public int getUserId() {
         return userId;
     }
@@ -34,7 +34,7 @@ public class ActivityStatus {
     }
 
     @Id
-    @Column(name = "activity_id", nullable = false)
+    @Column(name = "activity_id", nullable = false, insertable = false, updatable = false)
     public int getActivityId() {
         return activityId;
     }

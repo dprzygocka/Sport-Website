@@ -8,7 +8,7 @@ public class UserResponsibilityPK implements Serializable {
     private int responsibilityId;
     private int activityId;
 
-    @Column(name = "responsibility_id", nullable = false)
+    @Column(name = "responsibility_id", nullable = false, insertable = false, updatable = false)
     @Id
     public int getResponsibilityId() {
         return responsibilityId;
@@ -18,7 +18,7 @@ public class UserResponsibilityPK implements Serializable {
         this.responsibilityId = responsibilityId;
     }
 
-    @Column(name = "activity_id", nullable = false)
+    @Column(name = "activity_id", nullable = false, insertable = false, updatable = false)
     @Id
     public int getActivityId() {
         return activityId;

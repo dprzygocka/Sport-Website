@@ -13,7 +13,7 @@ public class UserResponsibility {
     private Activity activity;
 
     @Id
-    @Column(name = "responsibility_id", nullable = false)
+    @Column(name = "responsibility_id", nullable = false, insertable = false, updatable = false)
     public int getResponsibilityId() {
         return responsibilityId;
     }
@@ -23,7 +23,7 @@ public class UserResponsibility {
     }
 
     @Id
-    @Column(name = "activity_id", nullable = false)
+    @Column(name = "activity_id", nullable = false, insertable = false, updatable = false)
     public int getActivityId() {
         return activityId;
     }
