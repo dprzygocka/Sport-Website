@@ -1,36 +1,18 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name = "activity_type")
+@Table(name = "activity_type", schema = "mydb", catalog = "")
 public class ActivityType {
+    private int activityTypeId;
+    private String activityTypeName;
+    private Collection<Activity> activitiesByActivityTypeId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activity_type_id", nullable = false)
-    private int activityTypeId;
-
-    @Column(name = "activity_type_name", nullable = false)
-    private String activityTypeName;
-
-    @OneToMany(mappedBy = "activityType",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private List<Activity> activities = new ArrayList<>();
-
-    public ActivityType() {
-    }
-
-    public ActivityType(String activityTypeName) {
-        this.activityTypeName = activityTypeName;
-    }
-
-    public long getActivityTypeId() {
+    public int getActivityTypeId() {
         return activityTypeId;
     }
 
@@ -38,6 +20,8 @@ public class ActivityType {
         this.activityTypeId = activityTypeId;
     }
 
+    @Basic
+    @Column(name = "activity_type_name", nullable = false, length = 45)
     public String getActivityTypeName() {
         return activityTypeName;
     }
@@ -46,20 +30,33 @@ public class ActivityType {
         this.activityTypeName = activityTypeName;
     }
 
-    public List<Activity> getActivities() {
-        return activities;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
+        ActivityType that = (ActivityType) o;
+
+        if (activityTypeId != that.activityTypeId) return false;
+        if (activityTypeName != null ? !activityTypeName.equals(that.activityTypeName) : that.activityTypeName != null)
+            return false;
+
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "ActivityType{" +
-                "activityTypeId=" + activityTypeId +
-                ", activityTypeName='" + activityTypeName + '\'' +
-                ", activities=" + activities +
-                '}';
+    public int hashCode() {
+        int result = activityTypeId;
+        result = 31 * result + (activityTypeName != null ? activityTypeName.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "activityTypeByActivityTypeId")
+    public Collection<Activity> getActivitiesByActivityTypeId() {
+        return activitiesByActivityTypeId;
+    }
+
+    public void setActivitiesByActivityTypeId(Collection<Activity> activitiesByActivityTypeId) {
+        this.activitiesByActivityTypeId = activitiesByActivityTypeId;
     }
 }

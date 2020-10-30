@@ -1,32 +1,17 @@
 package server.sport.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name="user_type")
+@Table(name = "user_type", schema = "mydb", catalog = "")
 public class UserType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_type_id", nullable = false)
     private int userTypeId;
-
-    @Column(name="user_name", nullable = false)
     private String userName;
+    private Collection<User> usersByUserTypeId;
 
-    @OneToMany(mappedBy= "userType",
-              fetch = FetchType.EAGER,
-              cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<>();
-
-    public UserType() {
-    }
-
-    public UserType(String userName){
-        this.userName = userName;
-    }
-
+    @Id
+    @Column(name = "user_type_id", nullable = false)
     public int getUserTypeId() {
         return userTypeId;
     }
@@ -35,6 +20,8 @@ public class UserType {
         this.userTypeId = userTypeId;
     }
 
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 45)
     public String getUserName() {
         return userName;
     }
@@ -43,20 +30,32 @@ public class UserType {
         this.userName = userName;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+        UserType userType = (UserType) o;
+
+        if (userTypeId != userType.userTypeId) return false;
+        if (userName != null ? !userName.equals(userType.userName) : userType.userName != null) return false;
+
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "UserType{" +
-                "userTypeId=" + userTypeId +
-                ", userName='" + userName + '\'' +
-                ", users=" + users +
-                '}';
+    public int hashCode() {
+        int result = userTypeId;
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "userTypeByUserTypeId")
+    public Collection<User> getUsersByUserTypeId() {
+        return usersByUserTypeId;
+    }
+
+    public void setUsersByUserTypeId(Collection<User> usersByUserTypeId) {
+        this.usersByUserTypeId = usersByUserTypeId;
     }
 }

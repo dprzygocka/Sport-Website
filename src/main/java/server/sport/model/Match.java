@@ -1,77 +1,72 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "activity_match")
+@Table(name = "matches", schema = "mydb", catalog = "")
 public class Match {
+    private int matchesId;
+    private Integer score;
+    private User usersByPlayerOfTheMatches;
+    private Activity activitiesByActivityId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="match_id")
-    private int matchId;
-
-    @Column(name = "score", nullable = false)
-    private int score;
-
-    @ManyToOne
-    @JoinColumn(name = "player_of_the_match")
-    private User playerOfTheMatch;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "activity_id", nullable = false)
-    private Activity activity;
-
-    public Match() {
+    @Column(name = "matches_id", nullable = false)
+    public int getMatchesId() {
+        return matchesId;
     }
 
-    public Match(int score, User playerOfTheMatch, Activity activity) {
-        this.score = score;
-        this.playerOfTheMatch = playerOfTheMatch;
-        this.activity = activity;
+    public void setMatchesId(int matchesId) {
+        this.matchesId = matchesId;
     }
 
-    public long getMatchId() {
-        return matchId;
-    }
-
-    public void setMatchId(int matchId) {
-        this.matchId = matchId;
-    }
-
-    public int getScore() {
+    @Basic
+    @Column(name = "score", nullable = true)
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
-    public User getPlayerOfTheMatch() {
-        return playerOfTheMatch;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setPlayerOfTheMatch(User playerOfTheMatch) {
-        this.playerOfTheMatch = playerOfTheMatch;
-    }
+        Match match = (Match) o;
 
-    public Activity getActivity() {
-        return activity;
-    }
+        if (matchesId != match.matchesId) return false;
+        if (score != null ? !score.equals(match.score) : match.score != null) return false;
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "Match{" +
-                "matchId=" + matchId +
-                ", score=" + score +
-                ", playerOfTheMatch=" + playerOfTheMatch +
-                ", activity=" + activity +
-                '}';
+    public int hashCode() {
+        int result = matchesId;
+        result = 31 * result + (score != null ? score.hashCode() : 0);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "player_of_the_matches", referencedColumnName = "user_id")
+    public User getUsersByPlayerOfTheMatches() {
+        return usersByPlayerOfTheMatches;
+    }
+
+    public void setUsersByPlayerOfTheMatches(User usersByPlayerOfTheMatches) {
+        this.usersByPlayerOfTheMatches = usersByPlayerOfTheMatches;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
+    public Activity getActivitiesByActivityId() {
+        return activitiesByActivityId;
+    }
+
+    public void setActivitiesByActivityId(Activity activitiesByActivityId) {
+        this.activitiesByActivityId = activitiesByActivityId;
     }
 }

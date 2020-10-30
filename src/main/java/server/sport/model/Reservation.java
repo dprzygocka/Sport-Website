@@ -1,40 +1,20 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
-@Table(name = "reservation")
+@Table(name = "reservations", schema = "mydb", catalog = "")
 public class Reservation {
+    private int reservationId;
+    private Timestamp dateTime;
+    private Collection<Activity> activitiesByReservationId;
+    private Location locationsByLocationId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="reservation_id", nullable = false)
-    private int reservationId;
-
-    @Column(name = "date_time", nullable = false)
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
-
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private Activity activity;
-
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
-
-    public Reservation(Date dateTime, Location location) {
-        this.dateTime = dateTime;
-        this.location = location;
-    }
-
-    public Reservation() {
-    }
-
-    public long getReservationId() {
+    @Column(name = "reservation_id", nullable = false)
+    public int getReservationId() {
         return reservationId;
     }
 
@@ -42,28 +22,52 @@ public class Reservation {
         this.reservationId = reservationId;
     }
 
-    public Date getDateTime() {
+    @Basic
+    @Column(name = "date_time", nullable = false)
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
 
-    public Location getLocation() {
-        return location;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setLocation(Location location) {
-        this.location = location;
+        Reservation that = (Reservation) o;
+
+        if (reservationId != that.reservationId) return false;
+        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
+
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "Reservation{" +
-                "reservationId=" + reservationId +
-                ", dateTime=" + dateTime +
-                ", location=" + location +
-                '}';
+    public int hashCode() {
+        int result = reservationId;
+        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "reservationsByReservationId")
+    public Collection<Activity> getActivitiesByReservationId() {
+        return activitiesByReservationId;
+    }
+
+    public void setActivitiesByReservationId(Collection<Activity> activitiesByReservationId) {
+        this.activitiesByReservationId = activitiesByReservationId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "location_id", referencedColumnName = "location_id")
+    public Location getLocationsByLocationId() {
+        return locationsByLocationId;
+    }
+
+    public void setLocationsByLocationId(Location locationsByLocationId) {
+        this.locationsByLocationId = locationsByLocationId;
     }
 }

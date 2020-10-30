@@ -1,38 +1,17 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
 @Entity
-@Table(name="status")
 public class Status {
+    private int statusId;
+    private String statusName;
+    private Collection<ActivityStatus> activityStatusesByStatusId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="status_id")
-    private int statusId;
-
-    @Column(name = "status_name", nullable = false)
-    private String statusName;
-
-    @JoinTable(name = "activity_status",
-            joinColumns = @JoinColumn(name = "status_id"),
-            inverseJoinColumns = @JoinColumn(name = "activity_id"))
-    @MapKeyJoinColumn(name = "user_id")
-    @ElementCollection
-    private Map<User, Activity> userActivity = new HashMap<>();
-
-    public Status(String statusName) {
-        this.statusName = statusName;
-    }
-
-    public Status() {
-    }
-
-    public long getStatusId() {
+    @Column(name = "status_id", nullable = false)
+    public int getStatusId() {
         return statusId;
     }
 
@@ -40,6 +19,8 @@ public class Status {
         this.statusId = statusId;
     }
 
+    @Basic
+    @Column(name = "status_name", nullable = false, length = 45)
     public String getStatusName() {
         return statusName;
     }
@@ -48,20 +29,32 @@ public class Status {
         this.statusName = statusName;
     }
 
-    public Map<User, Activity> getUserActivity() {
-        return userActivity;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setUserActivity(Map<User, Activity> userActivity) {
-        this.userActivity = userActivity;
+        Status status = (Status) o;
+
+        if (statusId != status.statusId) return false;
+        if (statusName != null ? !statusName.equals(status.statusName) : status.statusName != null) return false;
+
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "Status{" +
-                "statusId=" + statusId +
-                ", statusName='" + statusName + '\'' +
-                ", userActivity=" + userActivity +
-                '}';
+    public int hashCode() {
+        int result = statusId;
+        result = 31 * result + (statusName != null ? statusName.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "statusByStatusId")
+    public Collection<ActivityStatus> getActivityStatusesByStatusId() {
+        return activityStatusesByStatusId;
+    }
+
+    public void setActivityStatusesByStatusId(Collection<ActivityStatus> activityStatusesByStatusId) {
+        this.activityStatusesByStatusId = activityStatusesByStatusId;
     }
 }

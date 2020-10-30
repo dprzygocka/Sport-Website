@@ -1,78 +1,27 @@
 package server.sport.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 @Table(name = "activities")
 public class Activity {
+    private int activityId;
+    private String activityName;
+    private Integer capacity;
+    private String description;
+    private boolean isCancelled;
+    private User usersByCreatorId;
+    private ActivityType activityTypeByActivityTypeId;
+    private Reservation reservationsByReservationId;
+    private Collection<ActivityStatus> activityStatusesByActivityId;
+    private Collection<Match> matchesByActivityId;
+    private Collection<UserResponsibility> userResponsibilitiesByActivityId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="activity_id")
-    private int activityId;
-
-    @Column(name = "activity_name", nullable = false)
-    private String activityName;
-
-    @Column(name = "capacity", nullable = false)
-    private long capacity;
-
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "creator")
-    private User creator;
-
-    @OneToOne
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
-
-    @ManyToOne
-    @JoinColumn(name = "activity_type_id")
-    private ActivityType activityType;
-
-    @Column(name = "is_cancelled", nullable = false)
-    private boolean isCancelled;
-
-    @OneToOne(mappedBy = "activity")
-    private Match match;
-
-    @JoinTable(name = "user_responsibilities",
-            joinColumns = @JoinColumn(name = "activity_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @MapKeyJoinColumn(name = "responsibility_id")
-    @ElementCollection
-    private Map<Responsibility, User> userResponsibility = new HashMap<>();
-
-    @JoinTable(name = "activity_status",
-            joinColumns = @JoinColumn(name = "activity_id"),
-            inverseJoinColumns = @JoinColumn(name = "status_id"))
-    @MapKeyJoinColumn(name = "user_id")
-    @ElementCollection
-    private Map<User, Status> userStatus = new HashMap<>();
-
-    public Activity() {
-    }
-
-    public Activity(String activityName, long capacity, String description, User creator, Reservation reservation,
-                    ActivityType activityType, boolean isCancelled, Match match) {
-        this.activityName = activityName;
-        this.capacity = capacity;
-        this.description = description;
-        this.creator = creator;
-        this.reservation = reservation;
-        this.activityType = activityType;
-        this.isCancelled = isCancelled;
-        this.match = match;
-    }
-
-    public long getActivityId() {
+    @Column(name = "activity_id", nullable = false)
+    public int getActivityId() {
         return activityId;
     }
 
@@ -80,54 +29,8 @@ public class Activity {
         this.activityId = activityId;
     }
 
-    public long getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(long capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public ActivityType getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(ActivityType activityType) {
-        this.activityType = activityType;
-    }
-
-    public boolean isCancelled() {
-        return isCancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
-    }
-
+    @Basic
+    @Column(name = "activity_name", nullable = false, length = 45)
     public String getActivityName() {
         return activityName;
     }
@@ -136,30 +39,137 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public Match getMatch() {
-        return match;
+    @Basic
+    @Column(name = "capacity", nullable = true)
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public Map<Responsibility, User> getUserResponsibility() {
-        return userResponsibility;
+    @Basic
+    @Column(name = "description", nullable = true, length = 450)
+    public String getDescription() {
+        return description;
     }
 
-    public void setUserResponsibility(Map<Responsibility, User> userResponsibility) {
-        this.userResponsibility = userResponsibility;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Map<User, Status> getUserStatus() {
-        return userStatus;
+    @Basic
+    @Column(name = "is_cancelled", nullable = false)
+    public boolean getIsCancelled() {
+        return isCancelled;
     }
 
-    public void setUserStatus(Map<User, Status> userStatus) {
-        this.userStatus = userStatus;
+    public void setIsCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Activity activity = (Activity) o;
+
+        if (activityId != activity.activityId) return false;
+        if (activityName != null ? !activityName.equals(activity.activityName) : activity.activityName != null)
+            return false;
+        if (capacity != null ? !capacity.equals(activity.capacity) : activity.capacity != null) return false;
+        if (description != null ? !description.equals(activity.description) : activity.description != null)
+            return false;
+        if (!Arrays.equals(isCancelled, activity.isCancelled)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = activityId;
+        result = 31 * result + (activityName != null ? activityName.hashCode() : 0);
+        result = 31 * result + (capacity != null ? capacity.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(isCancelled);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
+    public User getUsersByCreatorId() {
+        return usersByCreatorId;
+    }
+
+    public void setUsersByCreatorId(User usersByCreatorId) {
+        this.usersByCreatorId = usersByCreatorId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "activity_type_id", referencedColumnName = "activity_type_id", nullable = false)
+    public ActivityType getActivityTypeByActivityTypeId() {
+        return activityTypeByActivityTypeId;
+    }
+
+    public void setActivityTypeByActivityTypeId(ActivityType activityTypeByActivityTypeId) {
+        this.activityTypeByActivityTypeId = activityTypeByActivityTypeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id", nullable = false)
+    public Reservation getReservationsByReservationId() {
+        return reservationsByReservationId;
+    }
+
+    public void setReservationsByReservationId(Reservation reservationsByReservationId) {
+        this.reservationsByReservationId = reservationsByReservationId;
+    }
+
+    @OneToMany(mappedBy = "activitiesByActivityId")
+    public Collection<ActivityStatus> getActivityStatusesByActivityId() {
+        return activityStatusesByActivityId;
+    }
+
+    public void setActivityStatusesByActivityId(Collection<ActivityStatus> activityStatusesByActivityId) {
+        this.activityStatusesByActivityId = activityStatusesByActivityId;
+    }
+
+    @OneToMany(mappedBy = "activitiesByActivityId")
+    public Collection<Match> getMatchesByActivityId() {
+        return matchesByActivityId;
+    }
+
+    public void setMatchesByActivityId(Collection<Match> matchesByActivityId) {
+        this.matchesByActivityId = matchesByActivityId;
+    }
+
+    @OneToMany(mappedBy = "activitiesByActivityId")
+    public Collection<UserResponsibility> getUserResponsibilitiesByActivityId() {
+        return userResponsibilitiesByActivityId;
+    }
+
+    public void setUserResponsibilitiesByActivityId(Collection<UserResponsibility> userResponsibilitiesByActivityId) {
+        this.userResponsibilitiesByActivityId = userResponsibilitiesByActivityId;
+    }
+
+    public Activity(String activityName, Integer capacity, String description, boolean isCancelled, User usersByCreatorId, ActivityType activityTypeByActivityTypeId, Reservation reservationsByReservationId, Collection<ActivityStatus> activityStatusesByActivityId, Collection<Match> matchesByActivityId, Collection<UserResponsibility> userResponsibilitiesByActivityId) {
+        this.activityName = activityName;
+        this.capacity = capacity;
+        this.description = description;
+        this.isCancelled = isCancelled;
+        this.usersByCreatorId = usersByCreatorId;
+        this.activityTypeByActivityTypeId = activityTypeByActivityTypeId;
+        this.reservationsByReservationId = reservationsByReservationId;
+        this.activityStatusesByActivityId = activityStatusesByActivityId;
+        this.matchesByActivityId = matchesByActivityId;
+        this.userResponsibilitiesByActivityId = userResponsibilitiesByActivityId;
+    }
+
+    public Activity() {}
+
+    //We can fix the toString later
     @Override
     public String toString() {
         return "Activity{" +
@@ -167,13 +177,13 @@ public class Activity {
                 ", activityName='" + activityName + '\'' +
                 ", capacity=" + capacity +
                 ", description='" + description + '\'' +
-                ", creator=" + creator +
-                ", reservation=" + reservation +
-                ", activityType=" + activityType +
                 ", isCancelled=" + isCancelled +
-                ", match=" + match +
-                ", userResponsibility=" + userResponsibility +
-                ", userStatus=" + userStatus +
+                ", usersByCreatorId=" + usersByCreatorId +
+                ", activityTypeByActivityTypeId=" + activityTypeByActivityTypeId +
+                ", reservationsByReservationId=" + reservationsByReservationId +
+                ", activityStatusesByActivityId=" + activityStatusesByActivityId +
+                ", matchesByActivityId=" + matchesByActivityId +
+                ", userResponsibilitiesByActivityId=" + userResponsibilitiesByActivityId +
                 '}';
     }
 }

@@ -1,38 +1,18 @@
 package server.sport.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name ="teams")
+@Table(name = "teams", schema = "mydb", catalog = "")
 public class Team {
+    private int teamId;
+    private String teamName;
+    private Sport sportsBySportsId;
+    private Collection<User> usersByTeamId;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="team_id", nullable = false)
-    private int teamId;
-
-    @Column(name = "team_name", nullable = false)
-    private String teamName;
-
-    @ManyToOne
-    @JoinColumn(name="sports_id")
-    private Sport sport;
-
-    @OneToMany(mappedBy = "team",
-               fetch = FetchType.EAGER,
-               cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<>();
-
-    public Team(String teamName, Sport sport){
-        this.teamName = teamName;
-        this.sport = sport;
-    }
-
-    public Team() {
-    }
-
+    @Column(name = "team_id", nullable = false)
     public int getTeamId() {
         return teamId;
     }
@@ -41,6 +21,8 @@ public class Team {
         this.teamId = teamId;
     }
 
+    @Basic
+    @Column(name = "team_name", nullable = false, length = 45)
     public String getTeamName() {
         return teamName;
     }
@@ -49,29 +31,42 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public Sport getSport() {
-        return sport;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setSport(Sport sport) {
-        this.sport = sport;
-    }
+        Team team = (Team) o;
 
-    public List<User> getUsers() {
-        return users;
-    }
+        if (teamId != team.teamId) return false;
+        if (teamName != null ? !teamName.equals(team.teamName) : team.teamName != null) return false;
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "Team{" +
-                "teamId=" + teamId +
-                ", teamName='" + teamName + '\'' +
-                ", teamCategory=" + sport +
-                ", users=" + users+
-                '}';
+    public int hashCode() {
+        int result = teamId;
+        result = 31 * result + (teamName != null ? teamName.hashCode() : 0);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "sports_id", referencedColumnName = "sports_id", nullable = false)
+    public Sport getSportsBySportsId() {
+        return sportsBySportsId;
+    }
+
+    public void setSportsBySportsId(Sport sportsBySportsId) {
+        this.sportsBySportsId = sportsBySportsId;
+    }
+
+    @OneToMany(mappedBy = "teamsByTeamId")
+    public Collection<User> getUsersByTeamId() {
+        return usersByTeamId;
+    }
+
+    public void setUsersByTeamId(Collection<User> usersByTeamId) {
+        this.usersByTeamId = usersByTeamId;
     }
 }

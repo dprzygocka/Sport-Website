@@ -1,75 +1,71 @@
 package server.sport.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name ="sports")
+@Table(name = "sports", schema = "mydb", catalog = "")
 public class Sport {
+    private int sportsId;
+    private String sportsName;
+    private Collection<Responsibility> responsibilitiesBySportsId;
+    private Collection<Team> teamsBySportsId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="sport_id", nullable = false)
-    private int sportId;
-
-    @Column(name="sport_name", nullable = false)
-    private String sportName;
-
-    @OneToMany
-    @JoinColumn(name="sport", nullable = false)
-    private List<Responsibility> responsibilities = new ArrayList<>();
-
-    @OneToMany(mappedBy = "sport",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private List<Team> teams = new ArrayList<>();
-
-    public Sport(String sportName){
-        this.sportName =sportName;
+    @Column(name = "sports_id", nullable = false)
+    public int getSportsId() {
+        return sportsId;
     }
 
-    public Sport() {
+    public void setSportsId(int sportsId) {
+        this.sportsId = sportsId;
     }
 
-    public List<Responsibility> getResponsibilities() {
-        return responsibilities;
+    @Basic
+    @Column(name = "sports_name", nullable = false, length = 45)
+    public String getSportsName() {
+        return sportsName;
     }
 
-    public void setResponsibilities(List<Responsibility> responsibilities) {
-        this.responsibilities = responsibilities;
-    }
-
-    public int getSportId() {
-        return sportId;
-    }
-
-    public void setSportId(int sportId) {
-        this.sportId = sportId;
-    }
-
-    public String getSportName() {
-        return sportName;
-    }
-
-    public void setSportName(String sportName) {
-        this.sportName = sportName;
-    }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    public void setSportsName(String sportsName) {
+        this.sportsName = sportsName;
     }
 
     @Override
-    public String toString() {
-        return "Sport{" +
-                "sportId=" + sportId +
-                ", sportName='" + sportName + '\'' +
-                ", teams=" + teams +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sport sport = (Sport) o;
+
+        if (sportsId != sport.sportsId) return false;
+        if (sportsName != null ? !sportsName.equals(sport.sportsName) : sport.sportsName != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sportsId;
+        result = 31 * result + (sportsName != null ? sportsName.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "sportsBySportId")
+    public Collection<Responsibility> getResponsibilitiesBySportsId() {
+        return responsibilitiesBySportsId;
+    }
+
+    public void setResponsibilitiesBySportsId(Collection<Responsibility> responsibilitiesBySportsId) {
+        this.responsibilitiesBySportsId = responsibilitiesBySportsId;
+    }
+
+    @OneToMany(mappedBy = "sportsBySportsId")
+    public Collection<Team> getTeamsBySportsId() {
+        return teamsBySportsId;
+    }
+
+    public void setTeamsBySportsId(Collection<Team> teamsBySportsId) {
+        this.teamsBySportsId = teamsBySportsId;
     }
 }
