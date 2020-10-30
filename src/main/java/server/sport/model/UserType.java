@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "user_type", schema = "mydb", catalog = "")
+@Table(name = "user_type")
 public class UserType {
     private int userTypeId;
     private String userName;
-    private Collection<User> usersByUserTypeId;
+    private Collection<User> users;
 
     @Id
     @Column(name = "user_type_id", nullable = false)
@@ -50,12 +50,29 @@ public class UserType {
         return result;
     }
 
-    @OneToMany(mappedBy = "userTypeByUserTypeId")
-    public Collection<User> getUsersByUserTypeId() {
-        return usersByUserTypeId;
+    @OneToMany(mappedBy = "userType")
+    public Collection<User> getUsers() {
+        return users;
     }
 
-    public void setUsersByUserTypeId(Collection<User> usersByUserTypeId) {
-        this.usersByUserTypeId = usersByUserTypeId;
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }
+
+    public UserType(String userName, Collection<User> users) {
+        this.userName = userName;
+        this.users = users;
+    }
+
+    public UserType() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserType{" +
+                "userTypeId=" + userTypeId +
+                ", userName='" + userName + '\'' +
+                ", users=" + users +
+                '}';
     }
 }
