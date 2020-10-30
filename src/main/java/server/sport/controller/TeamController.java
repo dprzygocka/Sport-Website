@@ -57,5 +57,22 @@ public class TeamController {
         return new ResponseEntity<>(teamRepository.save(_team), HttpStatus.OK);
     }
 
+    @PostMapping//new team @RequestBody team
+    public ResponseEntity<Team> addTeam(@RequestBody Team team) {
+        /*Optional<Sport> sport = sportRepository.findById(team.getSport().getSportsId());
+        if(sport==null){
+            sport = sportRepository.save(team.getSport());
+            team.setSport(sport.get());
+        }*/
+        Sport sport;
+        if (team.getSport().getSportsId()!= null) {
+            sport = sportRepository.findById(team.getSport().getSportsId())
+                    .orElseThrow(() -> new NoSuchElementException("Sport not found with id = " + team.getSport().getSportsId()));
+        } else {
+            sport = sportRepository.save(team.getSport());
+        }
+        team.setSport(sport);
+        return new ResponseEntity<>(teamRepository.save(team), HttpStatus.OK);
+    }
 }
 
