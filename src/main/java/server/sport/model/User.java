@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "users", schema = "mydb", catalog = "")
+@Table(name = "users")
 public class User {
     private int userId;
     private String firstName;
@@ -13,10 +13,10 @@ public class User {
     private Integer age;
     private String gender;
     private String phone;
-    private Collection<Activity> activitiesByUserId;
-    private Collection<ActivityStatus> activityStatusesByUserId;
-    private Collection<Match> matchesByUserId;
-    private Collection<UserResponsibility> userResponsibilitiesByUserId;
+    private Collection<Activity> createdActivities;
+    private Collection<ActivityStatus> activityStatuses;
+    private Collection<Match> bestPlayedMatches;
+    private Collection<UserResponsibility> userResponsibilities;
     private UserType userTypeByUserTypeId;
     private Team teamsByTeamId;
 
@@ -120,40 +120,40 @@ public class User {
         return result;
     }
 
-    @OneToMany(mappedBy = "usersByCreatorId")
-    public Collection<Activity> getActivitiesByUserId() {
-        return activitiesByUserId;
+    @OneToMany(mappedBy = "creator")
+    public Collection<Activity> getCreatedActivities() {
+        return createdActivities;
     }
 
-    public void setActivitiesByUserId(Collection<Activity> activitiesByUserId) {
-        this.activitiesByUserId = activitiesByUserId;
+    public void setCreatedActivities(Collection<Activity> createdActivities) {
+        this.createdActivities = createdActivities;
     }
 
-    @OneToMany(mappedBy = "usersByUserId")
-    public Collection<ActivityStatus> getActivityStatusesByUserId() {
-        return activityStatusesByUserId;
+    @OneToMany(mappedBy = "user")
+    public Collection<ActivityStatus> getActivityStatuses() {
+        return activityStatuses;
     }
 
-    public void setActivityStatusesByUserId(Collection<ActivityStatus> activityStatusesByUserId) {
-        this.activityStatusesByUserId = activityStatusesByUserId;
+    public void setActivityStatuses(Collection<ActivityStatus> activityStatuses) {
+        this.activityStatuses = activityStatuses;
     }
 
-    @OneToMany(mappedBy = "usersByPlayerOfTheMatches")
-    public Collection<Match> getMatchesByUserId() {
-        return matchesByUserId;
+    @OneToMany(mappedBy = "playerOfTheMatch")
+    public Collection<Match> getBestPlayedMatches() {
+        return bestPlayedMatches;
     }
 
-    public void setMatchesByUserId(Collection<Match> matchesByUserId) {
-        this.matchesByUserId = matchesByUserId;
+    public void setBestPlayedMatches(Collection<Match> bestPlayedMatches) {
+        this.bestPlayedMatches = bestPlayedMatches;
     }
 
-    @OneToMany(mappedBy = "usersByUserId")
-    public Collection<UserResponsibility> getUserResponsibilitiesByUserId() {
-        return userResponsibilitiesByUserId;
+    @OneToMany(mappedBy = "user")
+    public Collection<UserResponsibility> getUserResponsibilities() {
+        return userResponsibilities;
     }
 
-    public void setUserResponsibilitiesByUserId(Collection<UserResponsibility> userResponsibilitiesByUserId) {
-        this.userResponsibilitiesByUserId = userResponsibilitiesByUserId;
+    public void setUserResponsibilities(Collection<UserResponsibility> userResponsibilities) {
+        this.userResponsibilities = userResponsibilities;
     }
 
     @ManyToOne
@@ -174,5 +174,42 @@ public class User {
 
     public void setTeamsByTeamId(Team teamsByTeamId) {
         this.teamsByTeamId = teamsByTeamId;
+    }
+
+    public User(String firstName, String lastName, String email, Integer age, String gender, String phone, Collection<Activity> createdActivities, Collection<ActivityStatus> activityStatuses, Collection<Match> bestPlayedMatches, Collection<UserResponsibility> userResponsibilities, UserType userTypeByUserTypeId, Team teamsByTeamId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.gender = gender;
+        this.phone = phone;
+        this.createdActivities = createdActivities;
+        this.activityStatuses = activityStatuses;
+        this.bestPlayedMatches = bestPlayedMatches;
+        this.userResponsibilities = userResponsibilities;
+        this.userTypeByUserTypeId = userTypeByUserTypeId;
+        this.teamsByTeamId = teamsByTeamId;
+    }
+
+    public User() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createdActivities=" + createdActivities +
+                ", activityStatuses=" + activityStatuses +
+                ", bestPlayedMatches=" + bestPlayedMatches +
+                ", userResponsibilities=" + userResponsibilities +
+                ", userTypeByUserTypeId=" + userTypeByUserTypeId +
+                ", teamsByTeamId=" + teamsByTeamId +
+                '}';
     }
 }
