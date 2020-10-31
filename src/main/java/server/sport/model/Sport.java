@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -8,10 +10,12 @@ import java.util.Collection;
 public class Sport {
     private int sportsId;
     private String sportsName;
+    @JsonBackReference
     private Collection<Responsibility> responsibilities;
     private Collection<Team> teams;
 
     @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "sports_id", nullable = false)
     public int getSportsId() {
         return sportsId;
@@ -86,7 +90,9 @@ public class Sport {
         this.sportsName = sportsName;
         this.responsibilities = responsibilities;
         this.teams = teams;
+    }
 
-
+    public Sport(String sportsName) {
+        this.sportsName = sportsName;
     }
 }

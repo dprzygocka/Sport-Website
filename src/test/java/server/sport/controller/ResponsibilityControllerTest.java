@@ -18,7 +18,7 @@ public class ResponsibilityControllerTest {
     public void testCreateResponsibility(){
         Responsibility responsibility = new Responsibility(
                 "Make laundry",
-                new Sport("Football")
+                new Sport("Sport")
         );
 
         Responsibility responsibilitySaved = responsibilityRepository.save(responsibility);
