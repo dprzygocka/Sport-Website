@@ -13,6 +13,7 @@ public class Responsibility {
     private Collection<UserResponsibility> userResponsibilities;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "responsibility_id", nullable = false)
     public int getResponsibilityId() {
         return responsibilityId;
@@ -79,6 +80,11 @@ public class Responsibility {
     }
 
     public Responsibility() {
+    }
+
+    public Responsibility(String responsibilityName, Sport sport) {
+        this.responsibilityName = responsibilityName;
+        this.sport = sport;
     }
 
     @Override
