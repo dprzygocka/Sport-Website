@@ -10,5 +10,5 @@ public interface SportRepository extends JpaRepository <Sport, Integer> {
 
     List<Sport> findBySportName(String sportName); //maybe this is not necessary
 
-   // Optional<Sport> findBySportsName(String sportsName);
+    Optional<Sport> findSportBySportName(String sportsName);
 }
