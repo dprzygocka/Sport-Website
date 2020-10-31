@@ -1,5 +1,8 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
@@ -107,6 +110,7 @@ public class Activity {
         this.creator = creator;
     }
 
+    @JsonBackReference(value="activityType")
     @ManyToOne
     @JoinColumn(name = "activity_type_id", referencedColumnName = "activity_type_id", nullable = false)
     public ActivityType getActivityType() {
@@ -135,6 +139,7 @@ public class Activity {
     public void setActivityStatuses(Collection<ActivityStatus> activityStatuses) {
         this.activityStatuses = activityStatuses;
     }
+
 
     @OneToOne(mappedBy = "activity")
     public Match getMatch() {
