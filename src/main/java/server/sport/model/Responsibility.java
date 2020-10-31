@@ -1,5 +1,8 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -54,6 +57,7 @@ public class Responsibility {
         return result;
     }
 
+    @JsonBackReference(value = "sportResponsibilities")
     @ManyToOne
     @JoinColumn(name = "sport_id", referencedColumnName = "sport_id")
     public Sport getSport() {
