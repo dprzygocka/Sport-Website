@@ -1,14 +1,11 @@
 package server.sport.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import server.sport.model.Match;
 import server.sport.model.Sport;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface SportRepository extends JpaRepository <Sport, Integer> {
+public interface MatchRepository extends JpaRepository <Match, Integer> {
 
-    List<Sport> findBySportName(String sportName); //maybe this is not necessary
-
-   // Optional<Sport> findBySportsName(String sportsName);
 }
