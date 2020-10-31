@@ -73,7 +73,7 @@ public class ResponsibilityController {
                 Sport _sport = sportRepository.save(new Sport(responsibility.getSport().getSportsName()));
                 responsibility.setSport(_sport);
             }
-            
+
             Responsibility _responsibility = responsibilityRepository.save(responsibility);
             return new ResponseEntity<>(_responsibility, HttpStatus.CREATED);
         }catch(Exception e){
