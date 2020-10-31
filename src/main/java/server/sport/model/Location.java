@@ -7,7 +7,7 @@ import java.util.Collection;
 @Table(name = "locations")
 public class Location {
     private int locationId;
-    private String courtName;
+    private String courtName; // Hall A Lyngby, Hall B Lynby, Gulbergsgade court, Rantzausgade needs to be UNIQUE values
     private Collection<Reservation> reservations;
 
     @Id
@@ -21,7 +21,7 @@ public class Location {
     }
 
     @Basic
-    @Column(name = "court_name", nullable = false, length = 45)
+    @Column(name = "court_name", nullable = false, length = 45, unique = true)
     public String getCourtName() {
         return courtName;
     }
