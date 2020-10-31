@@ -2,14 +2,14 @@ package server.sport.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "reservations")
 public class Reservation {
     private int reservationId;
     private Timestamp dateTime;
-    private Collection<Activity> activities;
+    private Activity activity;
     private Location location;
 
     @Id
@@ -32,6 +32,17 @@ public class Reservation {
         this.dateTime = dateTime;
     }
 
+    public Reservation(Timestamp dateTime, Location location) {
+        this.dateTime = dateTime;
+        this.location = location;
+    }
+
+    public Reservation(Timestamp dateTime, Location location, Activity activity) {
+        this.dateTime = dateTime;
+        this.location = location;
+        this.activity = activity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,7 +51,7 @@ public class Reservation {
         Reservation that = (Reservation) o;
 
         if (reservationId != that.reservationId) return false;
-        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
+        if (!Objects.equals(dateTime, that.dateTime)) return false;
 
         return true;
     }
@@ -52,13 +63,13 @@ public class Reservation {
         return result;
     }
 
-    @OneToMany(mappedBy = "reservation")
-    public Collection<Activity> getActivities() {
-        return activities;
+    @OneToOne(mappedBy = "reservation")
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setActivities(Collection<Activity> activities) {
-        this.activities = activities;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @ManyToOne
@@ -71,9 +82,9 @@ public class Reservation {
         this.location = location;
     }
 
-    public Reservation(Timestamp dateTime, Collection<Activity> activities, Location location) {
+    public Reservation(Timestamp dateTime, Activity activity, Location location) {
         this.dateTime = dateTime;
-        this.activities = activities;
+        this.activity = activity;
         this.location = location;
     }
 
@@ -86,7 +97,7 @@ public class Reservation {
         return "Reservation{" +
                 "reservationId=" + reservationId +
                 ", dateTime=" + dateTime +
-                ", activities=" + activities +
+                ", activity=" + activity +
                 ", location=" + location +
                 '}';
     }

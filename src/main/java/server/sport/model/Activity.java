@@ -117,7 +117,7 @@ public class Activity {
         this.activityType = activityType;
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id", nullable = false)
     public Reservation getReservation() {
         return reservation;
