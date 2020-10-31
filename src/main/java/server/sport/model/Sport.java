@@ -8,31 +8,31 @@ import java.util.Collection;
 @Entity
 @Table(name = "sports")
 public class Sport {
-    private int sportsId;
-    private String sportsName;
+    private int sportId;
+    private String sportName;
     @JsonBackReference
     private Collection<Responsibility> responsibilities;
     private Collection<Team> teams;
 
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
-    @Column(name = "sports_id", nullable = false)
-    public int getSportsId() {
-        return sportsId;
+    @Column(name = "sport_id", nullable = false)
+    public int getSportId() {
+        return sportId;
     }
 
-    public void setSportsId(int sportsId) {
-        this.sportsId = sportsId;
+    public void setSportId(int sportId) {
+        this.sportId = sportId;
     }
 
     @Basic
-    @Column(name = "sports_name", nullable = false, length = 45)
-    public String getSportsName() {
-        return sportsName;
+    @Column(name = "sport_name", nullable = false, length = 45)
+    public String getSportName() {
+        return sportName;
     }
 
-    public void setSportsName(String sportsName) {
-        this.sportsName = sportsName;
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
     }
 
     @Override
@@ -42,16 +42,16 @@ public class Sport {
 
         Sport sport = (Sport) o;
 
-        if (sportsId != sport.sportsId) return false;
-        if (sportsName != null ? !sportsName.equals(sport.sportsName) : sport.sportsName != null) return false;
+        if (sportId != sport.sportId) return false;
+        if (sportName != null ? !sportName.equals(sport.sportName) : sport.sportName != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = sportsId;
-        result = 31 * result + (sportsName != null ? sportsName.hashCode() : 0);
+        int result = sportId;
+        result = 31 * result + (sportName != null ? sportName.hashCode() : 0);
         return result;
     }
 
@@ -79,20 +79,20 @@ public class Sport {
     @Override
     public String toString() {
         return "Sport{" +
-                "sportsId=" + sportsId +
-                ", sportsName='" + sportsName + '\'' +
+                "sportId=" + sportId +
+                ", sportName='" + sportName + '\'' +
                 ", responsibilities=" + responsibilities +
                 ", teams=" + teams +
                 '}';
     }
 
-    public Sport(String sportsName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
-        this.sportsName = sportsName;
+    public Sport(String sportName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
+        this.sportName = sportName;
         this.responsibilities = responsibilities;
         this.teams = teams;
     }
 
-    public Sport(String sportsName) {
-        this.sportsName = sportsName;
+    public Sport(String sportName) {
+        this.sportName = sportName;
     }
 }

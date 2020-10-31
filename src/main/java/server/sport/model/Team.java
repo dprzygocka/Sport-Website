@@ -53,7 +53,7 @@ public class Team {
     }
 
     @ManyToOne
-    @JoinColumn(name = "sports_id", referencedColumnName = "sports_id", nullable = false)
+    @JoinColumn(name = "sport_id", referencedColumnName = "sport_id", nullable = false)
     public Sport getSport() {
         return sport;
     }

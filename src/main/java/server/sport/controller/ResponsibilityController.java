@@ -66,11 +66,11 @@ public class ResponsibilityController {
     public ResponseEntity<Responsibility> createResponsibility(
             @RequestBody Responsibility responsibility){
         try{
-            String sport_name = responsibility.getSport().getSportsName();
-            List<Sport> sport = sportRepository.findBySportsName(sport_name);
+            String sport_name = responsibility.getSport().getSportName();
+            List<Sport> sport = sportRepository.findBySportName(sport_name);
 
             if(sport.isEmpty()){
-                Sport _sport = sportRepository.save(new Sport(responsibility.getSport().getSportsName()));
+                Sport _sport = sportRepository.save(new Sport(responsibility.getSport().getSportName()));
                 responsibility.setSport(_sport);
             }
 

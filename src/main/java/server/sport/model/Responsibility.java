@@ -55,7 +55,7 @@ public class Responsibility {
     }
 
     @ManyToOne
-    @JoinColumn(name = "sport_id", referencedColumnName = "sports_id")
+    @JoinColumn(name = "sport_id", referencedColumnName = "sport_id")
     public Sport getSport() {
         return sport;
     }

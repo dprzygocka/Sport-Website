@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface SportRepository extends JpaRepository <Sport, Integer> {
 
-    List<Sport> findBySportsName(String sportsName); //maybe this is not necessary
+    List<Sport> findBySportName(String sportName); //maybe this is not necessary
 
    // Optional<Sport> findBySportsName(String sportsName);
 }

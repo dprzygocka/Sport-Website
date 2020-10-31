@@ -51,7 +51,7 @@ public class TeamController {
                 .orElseThrow(() -> new NoSuchElementException("Not found team with id = " + teamId));
         _team.setTeamId(teamId);
         _team.setTeamName(team.getTeamName());
-        Optional<Sport> optionalSport = sportRepository.findById(team.getSport().getSportsId());
+        Optional<Sport> optionalSport = sportRepository.findById(team.getSport().getSportId());
         if(optionalSport.isEmpty()){
             Sport sport = sportRepository.save(team.getSport());
             _team.setSport(sport);
@@ -69,9 +69,9 @@ public class TeamController {
             team.setSport(sport.get());
         }*/
         Sport sport;
-        if (team.getSport().getSportsId()!= null) {
-            sport = sportRepository.findById(team.getSport().getSportsId())
-                    .orElseThrow(() -> new NoSuchElementException("Sport not found with id = " + team.getSport().getSportsId()));
+        if (team.getSport() != null) {
+            sport = sportRepository.findById(team.getSport().getSportId())
+                    .orElseThrow(() -> new NoSuchElementException("Sport not found with id = " + team.getSport().getSportId()));
         } else {
             sport = sportRepository.save(team.getSport());
         }
