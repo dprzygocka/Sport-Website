@@ -21,6 +21,7 @@ public class User {
     private Team team;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;
