@@ -21,6 +21,7 @@ public class Activity {
     private Collection<ActivityStatus> activityStatuses;
     private Match match;
     private Collection<UserResponsibility> userResponsibilities;
+    private Team team;
 
     @Id
     @Column(name = "activity_id", nullable = false)
@@ -119,6 +120,16 @@ public class Activity {
 
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     @OneToOne

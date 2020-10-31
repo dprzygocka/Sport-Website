@@ -11,6 +11,7 @@ public class Team {
     private String teamName;
     private Sport sport;
     private Collection<User> users;
+    private Collection<Activity> activities;
 
     @Id
     @Column(name = "team_id", nullable = false)
@@ -66,9 +67,17 @@ public class Team {
     public Collection<User> getUsers() {
         return users;
     }
-
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    @OneToMany(mappedBy = "team")
+    public Collection<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Collection<Activity> activities) {
+        this.activities = activities;
     }
 
     public Team(String teamName, Sport sport, Collection<User> users) {
