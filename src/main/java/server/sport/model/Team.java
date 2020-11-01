@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -62,6 +64,7 @@ public class Team {
         this.sport = sport;
     }
 
+    @JsonManagedReference(value = "teamMembers")
     @OneToMany(mappedBy = "team")
     public Collection<User> getUsers() {
         return users;
@@ -69,6 +72,12 @@ public class Team {
 
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    public Team(int teamId, String teamName, Sport sport) {
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.sport = sport;
     }
 
     public Team(String teamName, Sport sport, Collection<User> users) {
