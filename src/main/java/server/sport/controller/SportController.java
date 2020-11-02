@@ -9,9 +9,10 @@ import server.sport.repository.SportRepository;
 import server.sport.model.Sport;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping ("/sport")
+@RequestMapping ("/api/sports")
 public class SportController {
 
     @Autowired
@@ -19,10 +20,15 @@ public class SportController {
 
 
     //At this stage it is simply making sport name, and is not concerned with the teams that correspond with the sport
-    @PostMapping ("/sport")
+    @PostMapping ()
     public ResponseEntity <Sport> createSport (@RequestBody Sport sport) {
-        Sport newSportEntry = sportRepository.save(sport); //newSportEntry has the new id which was not existing when passing sport
-        return new ResponseEntity<>(newSportEntry, HttpStatus.CREATED);
+        Optional<Sport> _sport = sportRepository.findBySportName(sport.getSportName());
+        if(_sport.isEmpty()) {
+            Sport newSportEntry = sportRepository.save(sport); //newSportEntry has the new id which was not existing when passing sport
+            return new ResponseEntity<>(newSportEntry, HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(_sport.get(), HttpStatus.IM_USED);
+        }
     }
 
     @PutMapping (path="/{sport_id}", consumes="application/json")
@@ -34,21 +40,16 @@ public class SportController {
         return new ResponseEntity<>(sportRepository.save(updatedSportEntry), HttpStatus.OK) ;
     }
 
-    @GetMapping("/sport")
-    public ResponseEntity<List<Sport>> getAllSports (@RequestParam(required=false) String sportName){
+    @GetMapping()
+    public ResponseEntity<List<Sport>> getAllSports(){
 
-        List<Sport> sportList;
-
-        if (sportName == null){
-            sportList = sportRepository.findAll();
-        }else{
-            sportList = sportRepository.findBySportName(sportName);
-        }
+        List<Sport> sportList = sportRepository.findAll();
 
         if (sportList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(sportList, HttpStatus.OK);
         }
-        return new ResponseEntity<>(sportList, HttpStatus.OK);
     }
 
 
