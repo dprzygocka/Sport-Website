@@ -4,9 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import server.sport.controller.LocationController;
 import server.sport.model.Location;
 import server.sport.repository.LocationRepository;
 import server.sport.repository.SportRepository;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,8 +41,13 @@ public class LocationControllerTest {
 
     @Test
     public void updateLocationTest(){
-        System.out.println(locationRepository.findAll());
-        System.out.println(sportRepository.findAll());
+        Iterable<Location> locations = new ArrayList<>(Arrays.asList(
+                new Location("Court 1"),
+                new Location("Court 2"),
+                new Location("Court 3")
+        ));
+        locationRepository.saveAll(locations);
+
         int location_id = locationRepository.findAll().get(0).getLocationId();
         String newLocationName = "New location :D ";
 
