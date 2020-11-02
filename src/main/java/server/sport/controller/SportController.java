@@ -20,7 +20,6 @@ public class SportController {
 
 
     //At this stage it is simply making sport name, and is not concerned with the teams that correspond with the sport
-
     @PostMapping ()
     public ResponseEntity <Sport> createSport (@RequestBody Sport sport) {
         Optional<Sport> _sport = sportRepository.findBySportName(sport.getSportName());
@@ -41,7 +40,7 @@ public class SportController {
         return new ResponseEntity<>(sportRepository.save(updatedSportEntry), HttpStatus.OK) ;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Sport>> getAllSports(){
 
         List<Sport> sportList = sportRepository.findAll();
@@ -52,16 +51,5 @@ public class SportController {
             return new ResponseEntity<>(sportList, HttpStatus.OK);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -10,7 +10,6 @@ import server.sport.model.Responsibility;
 import server.sport.model.Sport;
 import server.sport.repository.ResponsibilityRepository;
 import server.sport.repository.SportRepository;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,7 +91,6 @@ public class ResponsibilityControllerTest {
 
         ResponseEntity<Responsibility> updatedResponsibility = reponsibilityController.updateResponsibility(responsibility_id, newResponsibility);
         assertThat(updatedResponsibility.getBody().getResponsibilityName().equals(newResponsibility.getResponsibilityName()));
-
 
     }
 }

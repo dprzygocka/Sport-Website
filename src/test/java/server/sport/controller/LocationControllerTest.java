@@ -1,5 +1,6 @@
 package server.sport.controller;
 
+<<<<<<< HEAD
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.bind.annotation.PathVariable;
+=======
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import server.sport.controller.LocationController;
+>>>>>>> Running junit test on locations and responsibilities
 import server.sport.model.Location;
 import server.sport.repository.LocationRepository;
 import server.sport.repository.SportRepository;
@@ -17,8 +25,6 @@ import server.sport.repository.SportRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -37,7 +43,6 @@ public class LocationControllerTest {
     @Autowired
     SportRepository sportRepository;
 
-
     //--- Create Location Test ---//
 
     @Test
@@ -45,7 +50,7 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void findAllLocations(){
+    public void findAllLocations() {
         List<Location> location = locationRepository.findAll();
         System.out.println(location.toString());
     }
@@ -77,8 +82,6 @@ public class LocationControllerTest {
 
         assertThat(locationResponseEntity.getBody().getCourtName().equals(newLocationName));
     }
-
-
 
     @Test
     @Rollback(false)
@@ -124,6 +127,5 @@ public class LocationControllerTest {
         assertTrue(existingBeforeDelete);
         assertFalse(notExist);
     }
-
 
 }
