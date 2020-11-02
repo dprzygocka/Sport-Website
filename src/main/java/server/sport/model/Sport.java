@@ -10,8 +10,9 @@ import java.util.Collection;
 public class Sport {
     private int sportId;
     private String sportName;
-    @JsonBackReference
+    @JsonBackReference(value = "sports-responsibilities")
     private Collection<Responsibility> responsibilities;
+    @JsonBackReference(value = "sports-teams")
     private Collection<Team> teams;
 
     @Id
