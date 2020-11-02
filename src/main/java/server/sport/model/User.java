@@ -1,5 +1,8 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -156,6 +159,7 @@ public class User {
         this.userResponsibilities = userResponsibilities;
     }
 
+    @JsonBackReference(value = "userType")
     @ManyToOne
     @JoinColumn(name = "user_type_id", referencedColumnName = "user_type_id", nullable = false)
     public UserType getUserType() {
@@ -166,8 +170,9 @@ public class User {
         this.userType = userType;
     }
 
+    @JsonBackReference(value = "teamMembers")
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = true)
     public Team getTeam() {
         return team;
     }

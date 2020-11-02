@@ -1,5 +1,9 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -13,6 +17,8 @@ public class Team {
     private Collection<User> users;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "team_id", nullable = false)
     public int getTeamId() {
         return teamId;
@@ -52,6 +58,7 @@ public class Team {
         return result;
     }
 
+
     @ManyToOne
     @JoinColumn(name = "sport_id", referencedColumnName = "sport_id", nullable = false)
     public Sport getSport() {
@@ -62,6 +69,7 @@ public class Team {
         this.sport = sport;
     }
 
+    @JsonManagedReference(value = "teamMembers")
     @OneToMany(mappedBy = "team")
     public Collection<User> getUsers() {
         return users;
@@ -80,7 +88,7 @@ public class Team {
     public Team() {
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Team{" +
                 "teamId=" + teamId +
@@ -88,5 +96,5 @@ public class Team {
                 ", sport=" + sport +
                 ", users=" + users +
                 '}';
-    }
+    }*/
 }
