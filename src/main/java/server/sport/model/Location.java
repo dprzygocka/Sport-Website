@@ -12,6 +12,7 @@ public class Location {
 
     @Id
     @Column(name = "location_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getLocationId() {
         return locationId;
     }
