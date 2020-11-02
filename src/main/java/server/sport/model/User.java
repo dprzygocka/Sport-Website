@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -120,6 +122,7 @@ public class User {
         return result;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "creator")
     public Collection<Activity> getCreatedActivities() {
         return createdActivities;
@@ -174,6 +177,10 @@ public class User {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public User(int userId) {
+        this.userId = userId;
     }
 
     public User(String firstName, String lastName, String email, Integer age, String gender, String phone, Collection<Activity> createdActivities, Collection<ActivityStatus> activityStatuses, Collection<Match> bestPlayedMatches, Collection<UserResponsibility> userResponsibilities, UserType userType, Team team) {

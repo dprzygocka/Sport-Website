@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -50,6 +52,7 @@ public class UserType {
         return result;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "userType")
     public Collection<User> getUsers() {
         return users;

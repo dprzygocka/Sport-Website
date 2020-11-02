@@ -1,13 +1,20 @@
 package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 
+
 @Entity
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "activityId")*/
 @Table(name = "activities")
 public class Activity {
     private int activityId;
@@ -24,7 +31,10 @@ public class Activity {
     private Team team;
 
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "activity_id", nullable = false)
+
     public int getActivityId() {
         return activityId;
     }
@@ -102,7 +112,7 @@ public class Activity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "creator_id", referencedColumnName = "user_id", nullable = false)
     public User getCreator() {
         return creator;
     }
@@ -111,7 +121,7 @@ public class Activity {
         this.creator = creator;
     }
 
-    @JsonBackReference(value="activityType")
+    //@JsonBackReference(value="activityType")
     @ManyToOne
     @JoinColumn(name = "activity_type_id", referencedColumnName = "activity_type_id", nullable = false)
     public ActivityType getActivityType() {
@@ -123,7 +133,7 @@ public class Activity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = false)
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = true)
     public Team getTeam() {
         return team;
     }
@@ -185,6 +195,7 @@ public class Activity {
 
     public Activity() {}
 
+    /*
     //We will look into Collection of activities later
     @Override
     public String toString() {
@@ -201,5 +212,5 @@ public class Activity {
                 ", match=" + match +
                 ", userResponsibilities=" + userResponsibilities +
                 '}';
-    }
+    }*/
 }

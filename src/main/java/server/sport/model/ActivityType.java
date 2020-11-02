@@ -1,12 +1,19 @@
 package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+/*
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "activityTypeId")*/
 @Table(name = "activity_types")
 public class ActivityType {
     private int activityTypeId;
@@ -14,6 +21,8 @@ public class ActivityType {
     private Collection<Activity> activities;
 
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "activity_type_id", nullable = false)
     public int getActivityTypeId() {
         return activityTypeId;
@@ -54,7 +63,7 @@ public class ActivityType {
         return result;
     }
 
-    @JsonManagedReference(value="activityType")
+    @JsonBackReference(value="activityType")
     @OneToMany(mappedBy = "activityType")
     public Collection<Activity> getActivities() {
         return activities;
@@ -71,6 +80,7 @@ public class ActivityType {
 
     public ActivityType() {}
 
+    /*
     //We will look into Collection of activities later
     @Override
     public String toString() {
@@ -79,5 +89,5 @@ public class ActivityType {
                 ", activityTypeName='" + activityTypeName + '\'' +
                 ", activitiesByActivityTypeId=" + activities +
                 '}';
-    }
+    }*/
 }

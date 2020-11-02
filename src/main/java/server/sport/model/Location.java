@@ -67,6 +67,7 @@ public class Location {
     public Location() {
     }
 
+    /*
     @Override
     public String toString() {
         return "Location{" +
@@ -74,5 +75,5 @@ public class Location {
                 ", courtName='" + courtName + '\'' +
                 ", reservations=" + reservations +
                 '}';
-    }
+    }*/
 }

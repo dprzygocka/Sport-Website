@@ -35,6 +35,9 @@ public class ActivityController {
     @Autowired
     MatchRepository matchRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     private Sort.Direction getSortDirection (String direction){
 
         if (direction.equals("asc")){
@@ -121,28 +124,35 @@ public class ActivityController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Activity> createActivity (@RequestBody Activity activity){
 
-        Location location = locationRepository.findLocationByCourtName(activity.getReservation().getLocation().getCourtName())
-                .orElseThrow(()-> new ResourceNotFoundException("Location does not exist with court name,  " + activity.getReservation().getLocation().getCourtName()));
+        Location location = locationRepository.findById(activity.getReservation().getLocation().getLocationId())
+                .orElseThrow(()-> new ResourceNotFoundException("Location does not exist with court name,  " + activity.getReservation().getLocation().getLocationId()));
         activity.getReservation().setLocation(location);
 
-        Reservation reservation = reservationRepository.save(activity.getReservation());
+        Reservation res = activity.getReservation();
+        Reservation reservation = reservationRepository.save(res);
         //Do I need to get userId or are passing userId or userName in JSON????
         //I am assuming that the userId/creator is already passed
         activity.setReservation(reservation);
 
-        ActivityType activityType = activityTypeRepository.findActivityTypeByActivityTypeName(activity.getActivityType().getActivityTypeName())
-                    .orElseThrow (()-> new ResourceNotFoundException("Cannot find activity type : " + activity.getActivityType().getActivityTypeName()));
+        String activityTypeName = activity.getActivityType().getActivityTypeName();
+        ActivityType activityType = activityTypeRepository.findActivityTypeByActivityTypeName(activityTypeName)
+                    .orElseThrow (()-> new ResourceNotFoundException("Cannot find activity type : " + activityTypeName));
 
         activity.setActivityType(activityType);
 
+        User creator = userRepository.findById(activity.getCreator().getUserId()).get();
+        activity.setCreator(creator);
         Activity _activity = activityRepository.save(activity);
 
         if (activityType.getActivityTypeName().equals("match")){
-            activity.getMatch().setActivity(_activity); //back reference issue?
-            _activity.setMatch(matchRepository.save(activity.getMatch()));
+            Match match = new Match();
+            match.setActivity(_activity);
+            matchRepository.save(match);
+            //activity.getMatch().setActivity(_activity); //back reference issue?
+            //_activity.setMatch(matchRepository.save(activity.getMatch()));
         }
         return new ResponseEntity<>(_activity, HttpStatus.CREATED);
 

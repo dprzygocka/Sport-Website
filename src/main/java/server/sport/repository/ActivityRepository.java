@@ -13,5 +13,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
     Page<Activity> findByActivityName(String activityName, Pageable paging);
     Page<Activity> findByCapacity(int capacity, Pageable paging);
     Page<Activity> findByActivityType(String activityType, Pageable paging);
-    List<Activity> findAll(int size);
+    //List<Activity> findAll(int size);
 }

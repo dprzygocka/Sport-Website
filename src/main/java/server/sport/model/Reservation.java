@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -63,6 +65,7 @@ public class Reservation {
         return result;
     }
 
+    @JsonBackReference
     @OneToOne(mappedBy = "reservation")
     public Activity getActivity() {
         return activity;
@@ -91,6 +94,7 @@ public class Reservation {
     public Reservation() {
     }
 
+    /*
     //deal with collection later
     @Override
     public String toString() {
@@ -100,5 +104,5 @@ public class Reservation {
                 ", activity=" + activity +
                 ", location=" + location +
                 '}';
-    }
+    }*/
 }
