@@ -16,6 +16,7 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
     @Column(name = "location_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getLocationId() {
         return locationId;
     }
