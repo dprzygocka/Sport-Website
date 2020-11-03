@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -13,6 +15,8 @@ public class Reservation {
     private Location location;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "reservation_id", nullable = false)
     public int getReservationId() {
         return reservationId;

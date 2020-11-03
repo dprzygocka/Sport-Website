@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -11,6 +13,8 @@ public class ActivityType {
     private Collection<Activity> activities;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "activity_type_id", nullable = false)
     public int getActivityTypeId() {
         return activityTypeId;

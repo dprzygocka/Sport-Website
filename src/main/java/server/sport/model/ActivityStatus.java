@@ -1,5 +1,7 @@
 package server.sport.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,8 @@ public class ActivityStatus {
     private Activity activity;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "status_id", nullable = false, insertable = false, updatable = false)
     public int getStatusId() {
         return statusId;
