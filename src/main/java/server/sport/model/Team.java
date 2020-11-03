@@ -2,6 +2,7 @@ package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,6 +18,8 @@ public class Team {
     private Collection<Activity> activities;
 
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name="native", strategy = "native")
     @Column(name = "team_id", nullable = false)
     public int getTeamId() {
         return teamId;
