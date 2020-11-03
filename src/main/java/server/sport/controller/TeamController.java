@@ -36,8 +36,7 @@ public class TeamController {
         if (teams.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            for (Team team : teams
-                 ) {
+            for (Team team : teams) {
                 //to remove associated users as query doesnt work
                 team.setUsers(Collections.emptyList());
             }
@@ -48,18 +47,18 @@ public class TeamController {
     @GetMapping("/{team_id}")//teams information
     public ResponseEntity<Team> getTeam(@PathVariable("team_id") int teamId) {
         Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found team with id = " + teamId));
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find team with id = " + teamId));
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
     @PutMapping("/{team_id}")//update team @RequestBody team
     public ResponseEntity<Team> updateTeam(@PathVariable("team_id") int teamId, @RequestBody Team team) {
         Team _team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found team with id = " + teamId));
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find team with id = " + teamId));
         _team.setTeamId(teamId);
         _team.setTeamName(team.getTeamName());
-        Sport sport = sportRepository.findSportBySportName(team.getSport().getSportName())
-                .orElseThrow(() -> new ResourceNotFoundException("Sport not found with name = " + team.getSport().getSportName()));
+        Sport sport = sportRepository.findById(team.getSport().getSportId())
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find sport with id = " + team.getSport().getSportId()));
         _team.setSport(sport);
         return new ResponseEntity<>(teamRepository.save(_team), HttpStatus.OK);
     }
@@ -67,16 +66,15 @@ public class TeamController {
     @PostMapping//new team @RequestBody team
     public ResponseEntity<Team> addTeam(@RequestBody Team team) {
         if (team.getSport() != null) {
-            Sport sport = sportRepository.findSportBySportName(team.getSport().getSportName())
-                    .orElseThrow(() -> new ResourceNotFoundException("Sport not found with name = " + team.getSport().getSportName()));
-            team.setSport(sport);
+            sportRepository.findById(team.getSport().getSportId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Sport not found with id = " + team.getSport().getSportId()));
         } else {
             throw new NoSuchParameterException("No sport passed");
         }
         return new ResponseEntity<>(teamRepository.save(team), HttpStatus.OK);
     }
 
-    @DeleteMapping("{team_id}/{profile_id}")//delete user from team - not null or delete user completely? but for that its delete user
+    @DeleteMapping("{team_id}/{profile_id}")//delete user from team
     public ResponseEntity<Team> deleteUserFromTeam(@PathVariable("team_id") int teamId,@PathVariable("profile_id") int userId) {
         teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found tean with id = " + teamId));
