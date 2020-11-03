@@ -85,6 +85,11 @@ public class Responsibility {
     public Responsibility() {
     }
 
+    public Responsibility(int responsibilityId) {
+        this.responsibilityId = responsibilityId;
+    }
+
+
     public Responsibility(String responsibilityName, Sport sport) {
         this.responsibilityName = responsibilityName;
         this.sport = sport;

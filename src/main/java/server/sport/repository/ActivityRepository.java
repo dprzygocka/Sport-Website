@@ -8,8 +8,7 @@ import java.util.List;
 
 
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
-    Activity findByActivityId(int activityId);
-    List<Activity> findByTeamTeamId(int teamId);
+    List<Activity> findAllActivitiesByTeamTeamId(int teamId);
     Page<Activity> findByActivityName(String activityName, Pageable paging);
     Page<Activity> findByCapacity(int capacity, Pageable paging);
     Page<Activity> findByActivityType(String activityType, Pageable paging);
