@@ -85,11 +85,11 @@ public class LocationControllerTest {
         ResponseEntity<Location> responseEntity = locationController.createLocation(location);
 
         locationRepository.deleteById(location.getLocationId());
-        List<Location> deletedLocation = locationRepository.findByCourtName("Basketball Pitch 2");
+        List<Location> deletedLocation = locationRepository.findByCourtName("Court 7");
         assertThat(deletedLocation).isEmpty();
     }
 
-    //method interacting with in-memory database
+    //this method will interact with in-memory database
     @Test
     @Rollback(false)
     public void testLocationIsDeleted(){
