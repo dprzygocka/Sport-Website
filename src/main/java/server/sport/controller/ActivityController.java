@@ -44,6 +44,9 @@ public class ActivityController {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    UserResponsibilityRepository userResponsibilityRepository;
+
     private Sort.Direction getSortDirection (String direction){
 
         if (direction.equals("asc")){
@@ -123,9 +126,11 @@ public class ActivityController {
 
         Responsibility responsibility1 = responsibilityRepository.findById(responsibility.getResponsibilityId()).orElseThrow(
                 () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + responsibility.getResponsibilityId()));
+
         UserResponsibility userResponsibility = new UserResponsibility(activityId, responsibility1, null, activity);
         //should I save new User resposibility ti db? or it it saved along with the list of userResposibilities?????????????????????????????????????????????
-        activity.getUserResponsibilities().add(userResponsibility);
+        UserResponsibility userResponsibility1 = userResponsibilityRepository.save(userResponsibility);
+        activity.getUserResponsibilities().add(userResponsibility1);
         activityRepository.save(activity);
         return (new ResponseEntity<>(activity, HttpStatus.CREATED));
     }
