@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -91,6 +95,5 @@ public class ResponsibilityControllerTest {
 
         ResponseEntity<Responsibility> updatedResponsibility = reponsibilityController.updateResponsibility(responsibility_id, newResponsibility);
         assertThat(updatedResponsibility.getBody().getResponsibilityName().equals(newResponsibility.getResponsibilityName()));
-
     }
 }
