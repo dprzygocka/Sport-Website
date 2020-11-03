@@ -5,9 +5,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.PathVariable;
 import server.sport.model.Location;
 import server.sport.repository.LocationRepository;
 import server.sport.repository.SportRepository;
@@ -15,6 +17,7 @@ import server.sport.repository.SportRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,7 +79,7 @@ public class LocationControllerTest {
     }
 
 
-    //I'm aware that this doesn't test controller.
+
     @Test
     @Rollback(false)
     public void whenDeletingLocationFromRepoItShouldBeSuccessful(){
@@ -84,10 +87,31 @@ public class LocationControllerTest {
         Location location = new Location("Court 7");
         ResponseEntity<Location> responseEntity = locationController.createLocation(location);
 
-        locationRepository.deleteById(location.getLocationId());
-        List<Location> deletedLocation = locationRepository.findByCourtName("Court 7");
+        locationRepository.deleteById(location.getLocationId()); //deletes id 1
+        List<Location> deletedLocation = locationRepository.findByCourtName("Court 7"); //corresponds with id 1
         assertThat(deletedLocation).isEmpty();
     }
+
+    @Test
+    public void DeleteShouldSucceedPurelyOnController(){
+        Location location = new Location("Court 7");
+        locationController.createLocation(location); //create id 1
+        System.out.println("this is the location" + location);
+
+        ResponseEntity<HttpStatus> deleteLocation = locationController.deleteLocation(1);
+        assertThat(deleteLocation.equals(HttpStatus.NO_CONTENT));
+    }
+
+    @Test
+    public void DeleteShouldFail(){
+        Location location = new Location("Court 7");
+        locationController.createLocation(location); //create id 1
+        System.out.println("this is the location" + location);
+
+        ResponseEntity<HttpStatus> deleteLocation = locationController.deleteLocation(3);
+        assertThat(deleteLocation.equals(HttpStatus.NO_CONTENT));
+    }
+
 
     //this method will interact with in-memory database
     @Test
