@@ -42,12 +42,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        UserType userType = userTypeRepository.findUserTypeByUserName(user.getUserType().getUserName())
-                .orElseThrow(() -> new ResourceNotFoundException("User type " + user.getUserType().getUserName() + " not found."));
-        user.setUserType(userType);
-        Team team = teamRepository.findTeamByTeamName(user.getTeam().getTeamName())
-                .orElseThrow(() -> new ResourceNotFoundException("Team " + user.getTeam().getTeamName() + " not found."));
-        user.setTeam(team);
+        userTypeRepository.findById(user.getUserType().getUserTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("User type with id " + user.getUserType().getUserTypeId() + " not found."));
+        teamRepository.findById(user.getTeam().getTeamId())
+                .orElseThrow(() -> new ResourceNotFoundException("Team with id " + user.getTeam().getTeamId() + " not found."));
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
