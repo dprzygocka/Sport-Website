@@ -1,5 +1,7 @@
 package server.sport.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE dbo.users u SET u.team_id = NULL WHERE u.user_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE mydb.users u SET u.team_id = NULL WHERE u.user_id = ?1", nativeQuery = true)
     int removeFromTeam(int user_id);
+
+    Page<User> findAllByTeamTeamId(int teamId, Pageable paging);
 }

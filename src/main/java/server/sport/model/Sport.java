@@ -1,7 +1,6 @@
 package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -58,7 +57,6 @@ public class Sport {
         return result;
     }
 
-    @JsonManagedReference(value = "sportResponsibilities")
     @OneToMany(mappedBy = "sport")
     public Collection<Responsibility> getResponsibilities() {
         return responsibilities;
@@ -95,6 +93,12 @@ public class Sport {
         this.sportName = sportName;
         this.responsibilities = responsibilities;
         this.teams = teams;
+    }
+
+    public Sport(int sportId, String sportName, Collection<Responsibility> responsibilities) {
+        this.sportId = sportId;
+        this.sportName = sportName;
+        this.responsibilities = responsibilities;
     }
 
     public Sport(String sportName) {

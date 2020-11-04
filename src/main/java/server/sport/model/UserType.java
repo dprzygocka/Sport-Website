@@ -1,7 +1,6 @@
 package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -56,7 +55,7 @@ public class UserType {
         return result;
     }
 
-    @JsonManagedReference(value = "userType")
+    @JsonBackReference(value = "userType")
     @OneToMany(mappedBy = "userType")
     public Collection<User> getUsers() {
         return users;
