@@ -1,6 +1,5 @@
 package server.sport.controller;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.PathVariable;
 import server.sport.model.Location;
 import server.sport.repository.LocationRepository;
 import server.sport.repository.SportRepository;
@@ -17,8 +15,6 @@ import server.sport.repository.SportRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -37,7 +33,6 @@ public class LocationControllerTest {
     @Autowired
     SportRepository sportRepository;
 
-
     //--- Create Location Test ---//
 
     @Test
@@ -45,10 +40,11 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void findAllLocations(){
+    public void findAllLocations() {
         List<Location> location = locationRepository.findAll();
         System.out.println(location.toString());
     }
+    //--- Create Location Test ---//
 
     @Test
     public void createLocationTest(){
@@ -77,7 +73,6 @@ public class LocationControllerTest {
 
         assertThat(locationResponseEntity.getBody().getCourtName().equals(newLocationName));
     }
-
 
 
     @Test
@@ -124,6 +119,5 @@ public class LocationControllerTest {
         assertTrue(existingBeforeDelete);
         assertFalse(notExist);
     }
-
 
 }
