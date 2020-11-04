@@ -19,7 +19,6 @@ public class Sport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
-    @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "sport_id", nullable = false)
     public int getSportId() {
         return sportId;
@@ -100,5 +99,9 @@ public class Sport {
 
     public Sport(String sportName) {
         this.sportName = sportName;
+    }
+
+    public Sport(int sportId) {
+        this.sportId = sportId;
     }
 }
