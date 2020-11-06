@@ -8,6 +8,7 @@ import server.sport.model.Team;
 import server.sport.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "UPDATE dbo.users u SET u.team_id = NULL WHERE u.user_id = ?1", nativeQuery = true)
     int removeFromTeam(int user_id);
+
+
 }

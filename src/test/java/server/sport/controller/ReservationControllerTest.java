@@ -11,11 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ReservationControllerTest {
 
-    @Autowired //need to rebase to get this
-    ReservationController reservationController;
-
-    @Autowired // need to rebase to get this
-    ReservationRepository reservationRepository;
 
 
 
