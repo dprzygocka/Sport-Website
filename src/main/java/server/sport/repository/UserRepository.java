@@ -10,6 +10,7 @@ import server.sport.model.Team;
 import server.sport.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -19,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int removeFromTeam(int user_id);
 
     Page<User> findAllByTeamTeamId(int teamId, Pageable paging);
+
 }
