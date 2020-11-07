@@ -80,10 +80,6 @@ public class Location {
         this.locationId = locationId;
     }
 
-    public Location(String courtName) {
-        this.courtName = courtName;
-    }
-
 
     @Override
     public String toString() {

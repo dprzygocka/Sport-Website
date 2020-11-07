@@ -84,29 +84,20 @@ public class ResponsibilityControllerTest {
                 new Sport("Ping Pong")
         ));
         sportRepository.saveAll(sports);
-
         List <Responsibility> responsibilities = new ArrayList<>(Arrays.asList(
                 new Responsibility("Bring balls", sports.get(0)),
                 new Responsibility("Bring outfits", sports.get(1)),
                 new Responsibility("Bring water", sports.get(2))
         ));
         responsibilityRepository.saveAll(responsibilities);
-        Responsibility newResponsibility = new Responsibility("Updated", sports.get(0));
-        int responsibility_id = responsibilityRepository.findAll().get(0).getResponsibilityId();
 
-        List <Responsibility> responsibilities = new ArrayList<>(Arrays.asList(
-                new Responsibility("Bring balls", sports.get(0)),
-                new Responsibility("Bring outfits", sports.get(0)),
-                new Responsibility("Bring water", sports.get(2))
-        ));
-        responsibilityRepository.saveAll(responsibilities);
         Responsibility responsibilityNew = new Responsibility("Test if creates responsibilities", sports.get(0));
         ResponseEntity<Responsibility> responsibility1 = reponsibilityController.createResponsibility(responsibilityNew);
         assertThat(responsibility1.getBody().equals(responsibilityNew));
     }
 
     @Test
-    public void testUpdateResponsibility(){
+    public void testUpdatedResponsibility(){
         List<Sport> sports = new ArrayList<>(Arrays.asList(
                 new Sport("Tennis"),
                 new Sport("Football"),
@@ -122,9 +113,6 @@ public class ResponsibilityControllerTest {
         responsibilityRepository.saveAll(responsibilities);
         Responsibility newResponsibility = new Responsibility("Updated", sports.get(0));
         int responsibility_id = responsibilityRepository.findAll().get(0).getResponsibilityId();
-
-        ResponseEntity<Responsibility> updatedResponsibility = reponsibilityController.updateResponsibility(responsibility_id, newResponsibility);
-        assertThat(updatedResponsibility.getBody().getResponsibilityName().equals(newResponsibility.getResponsibilityName()));
 
         ResponseEntity<Responsibility> updatedResponsibility = reponsibilityController.updateResponsibility(responsibility_id, newResponsibility);
         assertThat(updatedResponsibility.getBody().getResponsibilityName().equals(newResponsibility.getResponsibilityName()));
