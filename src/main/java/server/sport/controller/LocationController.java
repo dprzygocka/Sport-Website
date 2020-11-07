@@ -17,23 +17,29 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/locations")
 public class LocationController {
-
     @Autowired
     LocationRepository locationRepository;
 
-    @GetMapping("/locations")
+    //////Getting all locations based on start date and end date ??
+    @GetMapping("/all")
     public ResponseEntity<List<Location>> getAllLocations (@RequestParam(required = false) String dateTime) throws ParseException { //how to handle exception???
+        List<Location> locations;
         if (dateTime.isEmpty()){ //what if the date is not going to be past?
-            List<Location> locations = locationRepository.findAll();
+            locations = locationRepository.findAll();
             return new ResponseEntity<>(locations, HttpStatus.OK);
         }
         Date _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime); //data type is not right, I don;t now why it return: [Wed Nov 15 15:30:14 CET 2017] instead of 2017-11-15 15:30:14.332
+
+        //TODO - make sure this method works with new start_at and end_at attributes
         System.out.println(_date.toString());
-        List<Location> locations = locationRepository.findAllByReservationsStartAt(_date);
+        locations = locationRepository.findAllByReservationsStartAt(_date);
+
+        //System.out.println(_date.toString());
+
         if(locations.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
@@ -47,7 +53,7 @@ public class LocationController {
         return Sort.Direction.DESC;
     }
 
-    @GetMapping("/sortedLocations")
+    @GetMapping
     public ResponseEntity<Map<String, Object>> getPageOfLocations (
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size,
@@ -83,22 +89,22 @@ public class LocationController {
 
     }
 
-    @PostMapping("/locations")
+    @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location){
         Location _location = locationRepository.save(location);
         return new ResponseEntity<>(_location, HttpStatus.CREATED);
     }
 
-    @PutMapping("/locations/{location_id}")
+    @PutMapping("/{location_id}")
     public ResponseEntity<Location> updateLocation(@PathVariable("location_id") int locationId,
                                                    @RequestBody Location location){
         Location _location = locationRepository.findById(locationId).orElseThrow(
-                () -> new ResourceNotFoundException("Not found tutorial with id = " + locationId));
+                () -> new ResourceNotFoundException("Not found location with id = " + locationId));
         _location.setCourtName(location.getCourtName());
         return new ResponseEntity<>(locationRepository.save(_location),HttpStatus.OK);
     }
 
-    @DeleteMapping("/locations/{location_id}")
+    @DeleteMapping("/{location_id}")
     public ResponseEntity<HttpStatus> deleteLocation (@PathVariable("location_id") int locationId){
         locationRepository.deleteById(locationId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

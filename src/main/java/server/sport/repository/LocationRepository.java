@@ -1,6 +1,5 @@
 package server.sport.repository;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import server.sport.model.Location;
 
@@ -13,4 +12,6 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
 
     Optional<Location> findLocationByCourtName(String courtName);
     Optional<Location> findLocationByCourtNameOrLocationId(String courtName, Integer locationId);
+    List<Location> findByCourtName(String courtName);
+    List<Location> deleteById (int locationId);
 }

@@ -69,6 +69,10 @@ public class Location {
         this.reservations = reservations;
     }
 
+    public Location(String courtName){
+        this.courtName = courtName;
+    }
+
     public Location() {
     }
 

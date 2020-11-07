@@ -205,6 +205,20 @@ public class User {
     public User() {
     }
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
+    /*
     @Override
     public String toString() {
         return "User{" +
@@ -222,5 +236,5 @@ public class User {
                 ", userType=" + userType +
                 ", team=" + team +
                 '}';
-    }
+    }*/
 }
