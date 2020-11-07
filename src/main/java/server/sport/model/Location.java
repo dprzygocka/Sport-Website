@@ -1,5 +1,6 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -54,6 +55,7 @@ public class Location {
         return result;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "location")
     public Collection<Reservation> getReservations() {
         return reservations;
@@ -71,7 +73,15 @@ public class Location {
     public Location() {
     }
 
-    /*
+    public Location(int locationId){
+        this.locationId = locationId;
+    }
+
+    public Location(String courtName) {
+        this.courtName = courtName;
+    }
+
+
     @Override
     public String toString() {
         return "Location{" +
@@ -79,5 +89,5 @@ public class Location {
                 ", courtName='" + courtName + '\'' +
                 ", reservations=" + reservations +
                 '}';
-    }*/
+    }
 }

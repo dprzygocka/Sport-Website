@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import server.sport.enumerated.ActivityTypeEnum;
 import server.sport.model.*;
 import server.sport.repository.*;
+
+import javax.annotation.Resource;
 
 
 @RequestMapping("/api/activities")
@@ -136,42 +139,111 @@ public class ActivityController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<Activity> createActivity (@RequestBody Activity activity){
-
-        Location location = locationRepository.findById(activity.getReservation().getLocation().getLocationId())
-                .orElseThrow(()-> new ResourceNotFoundException("Location does not exist with court name,  " + activity.getReservation().getLocation().getLocationId()));
-        activity.getReservation().setLocation(location);
-
-        Reservation res = activity.getReservation();
-        Reservation reservation = reservationRepository.save(res);
-        //Do I need to get userId or are passing userId or userName in JSON????
-        //I am assuming that the userId/creator is already passed
-        activity.setReservation(reservation);
-
-        String activityTypeName = activity.getActivityType().getActivityTypeName();
-        ActivityType activityType = activityTypeRepository.findActivityTypeByActivityTypeName(activityTypeName)
-                    .orElseThrow (()-> new ResourceNotFoundException("Cannot find activity type : " + activityTypeName));
-
-        activity.setActivityType(activityType);
-
-        User creator = userRepository.findById(activity.getCreator().getUserId()).get();
-        activity.setCreator(creator);
-        Activity _activity = activityRepository.save(activity);
-
-        if (activityType.getActivityTypeName().equals("match")){
-            Match match = new Match();
-            match.setActivity(_activity);
-            matchRepository.save(match);
-            //activity.getMatch().setActivity(_activity); //back reference issue?
-            //_activity.setMatch(matchRepository.save(activity.getMatch()));
+    private Location getNewActivityLocation(Location _location){
+        Location location;
+        try {
+            location = locationRepository.findById(_location.getLocationId())
+                    .orElse(locationRepository.findLocationByCourtName(_location.getCourtName())
+                    .orElse(locationRepository.save(new Location(_location.getCourtName()))));
+        }catch(ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Provide location information under reservation object. " +
+                    "Missing id if the location exist or a name of a new location");
         }
-        return new ResponseEntity<>(_activity, HttpStatus.CREATED);
-
+        return location;
     }
 
+    private Reservation getNewActivityReservation(Location location, Reservation _reservation){
+        Reservation reservation;
+        try {
+            _reservation.setLocation(location);
+            reservation = reservationRepository.save(_reservation);
+        }catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Cannot save the reservation. Check whether date and time format is correct");
+        }
+        return reservation;
+    }
+
+    private ActivityType getNewActivityActivityType(ActivityType _activityType){
+        ActivityType activityType;
+
+        activityType = activityTypeRepository.findById(_activityType.getActivityTypeId())
+                .orElse(activityTypeRepository.findActivityTypeByActivityTypeName(_activityType.getActivityTypeName()).
+                        orElseThrow(() -> new ResourceNotFoundException("Activity type of a given id or given name doesn't exist")));
+
+        return activityType;
+    }
+
+    private User getNewActivityCreator(User _user){
+        User user;
+
+        user = userRepository.findById(_user.getUserId()).
+                orElseThrow(() -> new ResourceNotFoundException("User with a given id doesn't exist"));
+        return user;
+    }
+
+    private Team getNewActivityTeam(Team _team){
+        Team team;
+        team = teamRepository.findById(_team.getTeamId()).orElseThrow(() ->
+                new ResourceNotFoundException("The team of the user doesn't exist"));
+        return team;
+    }
+
+    private Match getNewActivityMatch(ActivityType activityType, Activity activity){
+        Match match;
+        if(activityType.getActivityTypeName().equals(ActivityTypeEnum.MATCH)) {
+            match = new Match(activity);
+        }else{
+            match = null;
+        }
+        return match;
+    }
+
+    @PostMapping
+    public ResponseEntity<Activity> createActivity (@RequestBody Activity activity){
+        User user;
+        ActivityType activityType;
+        Location location;
+        Reservation reservation;
+        Team team;
+        Match match;
+        Collection<ActivityStatus> activityStatuses;
+
+        //Get a creator of the activity
+        user = getNewActivityCreator(activity.getCreator());
+
+        //Get the activity Type
+        activityType = getNewActivityActivityType(activity.getActivityType());
+
+        //Set a match object if activity Type match is present
+        match = getNewActivityMatch(activityType, activity);
+
+        //Create a new reservation
+        location = getNewActivityLocation(activity.getReservation().getLocation());
+
+        //TODO Validate whether the location is free within the given time frames before saving it to the database
+
+        reservation = getNewActivityReservation(location, activity.getReservation());
+
+        //Get the team of the activity
+        team = getNewActivityTeam(activity.getTeam());
+
+        //TODO return activity statuses - get users of a team and set everyone to - not answered yet - create enum for that.
 
 
+        activity.setActivityType(activityType);
+        activity.setReservation(reservation);
+        activity.setCreator(user);
+        activity.setTeam(team);
+        activity.setIsCancelled(false);
+        activity.setUserResponsibilities(null);
+        activity.setMatch(match);
 
+        try {
+            Activity _activity = activityRepository.save(activity);
+            return new ResponseEntity<>(_activity, HttpStatus.CREATED);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

@@ -85,6 +85,10 @@ public class Match {
         this.activity = activity;
     }
 
+    public Match(Activity activity){
+        this.activity = activity;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
