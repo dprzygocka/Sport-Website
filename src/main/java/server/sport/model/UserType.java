@@ -14,7 +14,7 @@ public class UserType {
     private Collection<User> users;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy= GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
     @Column(name = "user_type_id", nullable = false)
     public int getUserTypeId() {
@@ -55,7 +55,7 @@ public class UserType {
         return result;
     }
 
-    @JsonBackReference(value = "userType")
+    @JsonBackReference
     @OneToMany(mappedBy = "userType")
     public Collection<User> getUsers() {
         return users;

@@ -14,5 +14,4 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     List<Team> findTeamsWithoutUsers();
 
     Optional<Team> findTeamByTeamName(String teamName);
-
 }

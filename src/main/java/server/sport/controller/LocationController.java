@@ -31,7 +31,7 @@ public class LocationController {
         }
         Date _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime); //data type is not right, I don;t now why it return: [Wed Nov 15 15:30:14 CET 2017] instead of 2017-11-15 15:30:14.332
         System.out.println(_date.toString());
-        List<Location> locations = locationRepository.findAllByReservationsDateTime(_date);
+        List<Location> locations = locationRepository.findAllByReservationsStartAt(_date);
         if(locations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

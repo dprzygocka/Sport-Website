@@ -1,7 +1,7 @@
 package server.sport.model;
 
 import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
 @Table(name = "locations")
 public class Location {
     private int locationId;
-    private String courtName;
+    private String courtName; // Hall A Lyngby, Hall B Lynby, Gulbergsgade court, Rantzausgade needs to be UNIQUE values
     private Collection<Reservation> reservations;
 
     @Id
@@ -25,7 +25,7 @@ public class Location {
     }
 
     @Basic
-    @Column(name = "court_name", nullable = false, length = 45)
+    @Column(name = "court_name", nullable = false, length = 45, unique = true)
     public String getCourtName() {
         return courtName;
     }
@@ -54,6 +54,7 @@ public class Location {
         return result;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "location")
     public Collection<Reservation> getReservations() {
         return reservations;
@@ -70,6 +71,15 @@ public class Location {
 
     public Location() {
     }
+
+    public Location(int locationId){
+        this.locationId = locationId;
+    }
+
+    public Location(String courtName) {
+        this.courtName = courtName;
+    }
+
 
     @Override
     public String toString() {

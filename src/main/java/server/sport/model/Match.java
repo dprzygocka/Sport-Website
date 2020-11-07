@@ -1,7 +1,7 @@
 package server.sport.model;
 
 import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
@@ -64,6 +64,7 @@ public class Match {
         this.playerOfTheMatch = playerOfTheMatch;
     }
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
     public Activity getActivity() {
@@ -80,6 +81,10 @@ public class Match {
     public Match(Integer score, User playerOfTheMatch, Activity activity) {
         this.score = score;
         this.playerOfTheMatch = playerOfTheMatch;
+        this.activity = activity;
+    }
+
+    public Match(Activity activity){
         this.activity = activity;
     }
 

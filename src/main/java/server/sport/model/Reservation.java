@@ -1,7 +1,7 @@
 package server.sport.model;
 
 import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -10,7 +10,8 @@ import java.util.Objects;
 @Table(name = "reservations")
 public class Reservation {
     private int reservationId;
-    private Timestamp dateTime;
+    private Timestamp startAt;
+    private Timestamp endAt;
     private Activity activity;
     private Location location;
 
@@ -27,25 +28,25 @@ public class Reservation {
     }
 
     @Basic
-    @Column(name = "date_time", nullable = false)
-    public Timestamp getDateTime() {
-        return dateTime;
+    @Column(name = "start_at", nullable = false)
+    public Timestamp getStartAt() {
+        return startAt;
     }
 
-    public void setDateTime(Timestamp dateTime) {
-        this.dateTime = dateTime;
+    public void setStartAt(Timestamp startAt) {
+        this.startAt = startAt;
     }
 
-    public Reservation(Timestamp dateTime, Location location) {
-        this.dateTime = dateTime;
-        this.location = location;
+    @Basic
+    @Column(name = "end_at", nullable = false)
+    public Timestamp getEndAt() {
+        return endAt;
     }
 
-    public Reservation(Timestamp dateTime, Location location, Activity activity) {
-        this.dateTime = dateTime;
-        this.location = location;
-        this.activity = activity;
+    public void setEndAt(Timestamp endAt) {
+        this.endAt = endAt;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -55,7 +56,7 @@ public class Reservation {
         Reservation that = (Reservation) o;
 
         if (reservationId != that.reservationId) return false;
-        if (!Objects.equals(dateTime, that.dateTime)) return false;
+        if (!Objects.equals(startAt, that.startAt)) return false;
 
         return true;
     }
@@ -63,10 +64,12 @@ public class Reservation {
     @Override
     public int hashCode() {
         int result = reservationId;
-        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
+        result = 31 * result + (startAt != null ? startAt.hashCode() : 0);
+        result = 31 * result + (endAt != null ? endAt.hashCode() : 0);
         return result;
     }
 
+    @JsonBackReference
     @OneToOne(mappedBy = "reservation")
     public Activity getActivity() {
         return activity;
@@ -86,15 +89,10 @@ public class Reservation {
         this.location = location;
     }
 
-    public Reservation(Timestamp dateTime, Activity activity, Location location) {
-        this.dateTime = dateTime;
-        this.activity = activity;
-        this.location = location;
-    }
-
     public Reservation() {
     }
 
+    /*
     //deal with collection later
     @Override
     public String toString() {
@@ -104,5 +102,5 @@ public class Reservation {
                 ", activity=" + activity +
                 ", location=" + location +
                 '}';
-    }
+    }*/
 }
