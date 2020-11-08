@@ -155,6 +155,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference(value = "userResponsibilities")
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
     }

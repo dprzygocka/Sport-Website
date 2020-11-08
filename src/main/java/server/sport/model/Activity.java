@@ -1,5 +1,6 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Collection;
@@ -166,6 +167,7 @@ public class Activity {
     }
 
     @OneToMany(mappedBy = "activity")
+    @JsonBackReference
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
     }

@@ -8,13 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.sport.exception.ForbiddenActionException;
 import server.sport.exception.ResourceNotFoundException;
 import server.sport.model.*;
 import server.sport.model.helper.BasicUser;
-import server.sport.repository.ActivityRepository;
-import server.sport.repository.TeamRepository;
-import server.sport.repository.UserRepository;
-import server.sport.repository.UserTypeRepository;
+import server.sport.repository.*;
 
 import java.util.*;
 
@@ -33,6 +31,12 @@ public class UserController {
 
     @Autowired
     ActivityRepository activityRepository;
+
+    @Autowired
+    ResponsibilityRepository responsibilityRepository;
+
+    @Autowired
+    UserResponsibilityRepository userResponsibilityRepository;
 
     private Sort.Direction getSortDirection(String direction){
         if(direction.equals("asc")){
@@ -102,6 +106,26 @@ public class UserController {
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Did not find activity with id = " + activityId));
         return new ResponseEntity<>(activity, HttpStatus.OK);
+    }
+
+    @PutMapping("/{user_id}/activity/{activity_id}")
+    public ResponseEntity<UserResponsibility> assignUserResponsibility(
+            @PathVariable("user_id") Integer userId,
+            @PathVariable("activity_id") int activityId,
+            @RequestParam int responsibility){
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find activity with id = " + activityId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find user with id = " + userId));
+        if (!activity.getTeam().getUsers().contains(user)){
+            throw new ForbiddenActionException("Cannot assign responsibility to user from another team. Activity id = " + activityId + " User id = " + userId);
+        }
+        responsibilityRepository.findById(responsibility)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find responsibility with id = " + responsibility));
+        UserResponsibility userResponsibility = userResponsibilityRepository.findById(new UserResponsibilityPK(responsibility,activityId))
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find activity with id = " + activityId + " and assigned responsibility with id " + responsibility));
+        userResponsibility.setUser(user);
+        return new ResponseEntity<>(userResponsibilityRepository.save(userResponsibility), HttpStatus.OK);
     }
 }
 
