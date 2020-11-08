@@ -1,5 +1,6 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -89,6 +90,7 @@ public class ActivityStatus {
 
     @ManyToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", nullable = false)
+    @JsonBackReference
     public Activity getActivity() {
         return activity;
     }

@@ -9,11 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ResourceNotFoundException;
-import server.sport.model.Sport;
-import server.sport.model.Team;
-import server.sport.model.User;
-import server.sport.model.UserType;
+import server.sport.model.*;
 import server.sport.model.helper.BasicUser;
+import server.sport.repository.ActivityRepository;
 import server.sport.repository.TeamRepository;
 import server.sport.repository.UserRepository;
 import server.sport.repository.UserTypeRepository;
@@ -32,6 +30,9 @@ public class UserController {
 
     @Autowired
     TeamRepository teamRepository;
+
+    @Autowired
+    ActivityRepository activityRepository;
 
     private Sort.Direction getSortDirection(String direction){
         if(direction.equals("asc")){
@@ -94,6 +95,13 @@ public class UserController {
         response.put("totalItems", pageUsers.getTotalElements());
         response.put("totalPages", pageUsers.getTotalPages());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{user_id}/activity/{activity_id}")//activity information
+    public ResponseEntity<Activity> getActivity(@PathVariable("user_id") int userId, @PathVariable("activity_id") int activityId) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find activity with id = " + activityId));
+        return new ResponseEntity<>(activity, HttpStatus.OK);
     }
 }
 

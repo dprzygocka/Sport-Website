@@ -135,6 +135,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     public Collection<ActivityStatus> getActivityStatuses() {
         return activityStatuses;
     }
@@ -144,6 +145,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "playerOfTheMatch")
+    @JsonBackReference( value = "bestPlayedMatches")
     public Collection<Match> getBestPlayedMatches() {
         return bestPlayedMatches;
     }
