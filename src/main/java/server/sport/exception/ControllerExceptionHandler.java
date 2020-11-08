@@ -24,6 +24,17 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ForbiddenActionException.class)
+    public ResponseEntity <ErrorMessage> forbiddenAction (Exception e, WebRequest request){ //Using our own ErrorMessage object
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                e.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> globalExceptionHandler (Exception e, WebRequest request){ //Using our own ErrorMessage object
