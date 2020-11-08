@@ -34,7 +34,8 @@ public class SportController {
     @PutMapping (path="/{sport_id}", consumes="application/json")
     public ResponseEntity <Sport> updateSport (@PathVariable ("sport_id") int sportId, @RequestBody Sport sport){
 
-        Sport updatedSportEntry = sportRepository.findById(sportId).orElseThrow(() -> new ResourceNotFoundException("Not found with id = " + sportId));
+        Sport updatedSportEntry = sportRepository.findById(sportId).
+                orElseThrow(() -> new ResourceNotFoundException("Not found with id = " + sportId));
         updatedSportEntry.setSportName(sport.getSportName());
 
         return new ResponseEntity<>(sportRepository.save(updatedSportEntry), HttpStatus.OK) ;

@@ -95,5 +95,28 @@ public class UserController {
         response.put("totalPages", pageUsers.getTotalPages());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/user/{user_id}")//
+    public ResponseEntity<User> getUser(@PathVariable("user_id") int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find User with id = " + userId));
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    //There is already a delete user from Team method in the TeamController class
+    //This method will not deal with team nor activities. The rationale is that the user should still have their historic records within activities
+    @DeleteMapping("/user/{user_id}")
+    public ResponseEntity<HttpStatus> deleteUser (@PathVariable("user_id") int userId){
+        userRepository.deleteByUserId(userId).
+               orElseThrow(() -> new ResourceNotFoundException("Did not find User with id = " + userId));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+
+
+
+
+
 }
 

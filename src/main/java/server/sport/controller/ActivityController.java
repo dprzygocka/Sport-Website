@@ -227,7 +227,8 @@ public class ActivityController {
         //Get the team of the activity
         team = getNewActivityTeam(activity.getTeam());
 
-        //TODO return activity statuses - get users of a team and set everyone to - not answered yet - create enum for that.
+        //TODO return activity statuses - get users of a team and set everyone to - not answered yet -
+        // create enum for that.
 
 
         activity.setActivityType(activityType);
