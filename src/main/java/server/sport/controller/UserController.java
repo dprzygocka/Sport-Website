@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ResourceNotFoundException;
-import server.sport.model.Sport;
-import server.sport.model.Team;
-import server.sport.model.User;
-import server.sport.model.UserType;
+import server.sport.model.*;
 import server.sport.model.helper.BasicUser;
 import server.sport.repository.TeamRepository;
 import server.sport.repository.UserRepository;
@@ -111,6 +108,32 @@ public class UserController {
                orElseThrow(() -> new ResourceNotFoundException("Did not find User with id = " + userId));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/update/{user_id}")
+    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("user_id") int userId) {
+        User _user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find user with id = " + userId));
+        _user.setUserId(userId);
+        _user.setFirstName(user.getFirstName());
+        _user.setLastName(user.getLastName());
+        _user.setEmail(user.getEmail());
+        _user.setGender(user.getGender());
+        _user.setPhone(user.getPhone());
+        _user.setEmail(user.getEmail());
+
+        UserType userType= userTypeRepository.findById(user.getUserType().getUserTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find user type with id = " + user.getUserType().getUserTypeId()));
+        _user.setUserType(userType);
+
+        Team team = teamRepository.findById(user.getTeam().getTeamId())
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find team with id = " + user.getTeam().getTeamId()));
+        _user.setTeam(team);
+
+        _user.setTeam(user.getTeam());
+
+        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    }
+
 
 
 
