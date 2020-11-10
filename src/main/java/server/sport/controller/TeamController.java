@@ -67,8 +67,9 @@ public class TeamController {
     @PostMapping//new team @RequestBody team
     public ResponseEntity<Team> addTeam(@RequestBody Team team) {
         if (team.getSport() != null) {
-            sportRepository.findById(team.getSport().getSportId())
+            Sport sport = sportRepository.findById(team.getSport().getSportId())
                     .orElseThrow(() -> new ResourceNotFoundException("Sport not found with id = " + team.getSport().getSportId()));
+            team.setSport(sport);
         } else {
             throw new NoSuchParameterException("No sport passed");
         }
