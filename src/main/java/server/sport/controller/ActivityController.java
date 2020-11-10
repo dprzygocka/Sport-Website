@@ -238,9 +238,6 @@ public class ActivityController {
         //Get the activity Type
         activityType = getNewActivityActivityType(activity.getActivityType());
 
-        //Set a match object if activity Type match is present
-        match = getNewActivityMatch(activityType, activity);
-
         //Create a new reservation
         location = getNewActivityLocation(activity.getReservation().getLocation());
 
@@ -260,11 +257,19 @@ public class ActivityController {
         activity.setTeam(team);
         activity.setIsCancelled(false);
         activity.setUserResponsibilities(null);
-        activity.setMatch(match);
+        activity.setMatch(null);
 
         try {
             Activity _activity = activityRepository.save(activity);
 
+            //Set a match object if activity Type match is present
+            match = getNewActivityMatch(activityType, activity);
+
+            if(match != null) {
+                _activity.setMatch(match);
+                Activity activityWithMatch = activityRepository.save(_activity);
+                return new ResponseEntity<>(activityWithMatch, HttpStatus.CREATED);
+            }
             //TODO return activity statuses - get users of a team and set everyone to - not answered yet - create enum for that.
           //  activityStatuses = getNewActivityActivityStatuses(team, activity.getActivityId());
           //  _activity.setActivityStatuses(activityStatuses);
