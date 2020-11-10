@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Page<User> findAllByTeamTeamId(int teamId, Pageable paging);
 
+    @Transactional
+    Optional<User> deleteByUserId (int userId);
+
 }
