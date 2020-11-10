@@ -68,6 +68,7 @@ public class Responsibility {
         this.sport = sport;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "responsibility")
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
