@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -197,6 +198,7 @@ public class ActivityController {
         Match match;
         if(activityType.getActivityTypeName().equals(ActivityTypeEnum.MATCH.toString())) {
             match = new Match(activity);
+            matchRepository.save(match);
         }else{
             match = null;
         }
@@ -219,6 +221,7 @@ public class ActivityController {
     }
 
 
+    @Transactional(rollbackFor = ResourceNotFoundException.class)
     @PostMapping
     public ResponseEntity<Activity> createActivity (@RequestBody Activity activity){
         User user;
