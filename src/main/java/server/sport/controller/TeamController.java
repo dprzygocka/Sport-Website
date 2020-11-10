@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ResourceNotFoundException;
+//import server.sport.exception.ForbiddenActionException;
 import server.sport.model.Sport;
 import server.sport.model.Team;
 import server.sport.model.User;
@@ -80,6 +81,9 @@ public class TeamController {
                 .orElseThrow(() -> new ResourceNotFoundException("Not found tean with id = " + teamId));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found user with id = " + userId));
+        if (user.getTeam().getTeamId() != teamId) {
+            throw new ForbiddenActionException("Can't delete user with id: " + userId + " from team with id: " + teamId + ". User isn't part of this team.");
+        }
         userRepository.removeFromTeam(user.getUserId());
         return new ResponseEntity<>(teamRepository.findById(teamId).get(), HttpStatus.OK);
     }
