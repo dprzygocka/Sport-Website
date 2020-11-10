@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_statuses")
@@ -43,7 +44,7 @@ public class UserStatus {
         UserStatus status = (UserStatus) o;
 
         if (statusId != status.statusId) return false;
-        if (statusName != null ? !statusName.equals(status.statusName) : status.statusName != null) return false;
+        if (!Objects.equals(statusName, status.statusName)) return false;
 
         return true;
     }
@@ -74,6 +75,7 @@ public class UserStatus {
     }
 
     //deal with Collection later
+    /*
     @Override
     public String toString() {
         return "Status{" +
@@ -81,5 +83,5 @@ public class UserStatus {
                 ", statusName='" + statusName + '\'' +
                 ", activityStatus=" + activityStatus +
                 '}';
-    }
+    }*/
 }

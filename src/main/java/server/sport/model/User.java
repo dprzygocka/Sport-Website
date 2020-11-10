@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -102,12 +103,12 @@ public class User {
         User user = (User) o;
 
         if (userId != user.userId) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (age != null ? !age.equals(user.age) : user.age != null) return false;
-        if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
-        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
+        if (!Objects.equals(firstName, user.firstName)) return false;
+        if (!Objects.equals(lastName, user.lastName)) return false;
+        if (!Objects.equals(email, user.email)) return false;
+        if (!Objects.equals(age, user.age)) return false;
+        if (!Objects.equals(gender, user.gender)) return false;
+        if (!Objects.equals(phone, user.phone)) return false;
 
         return true;
     }
@@ -207,7 +208,7 @@ public class User {
     }
 
 
-    @Override
+   /* @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +

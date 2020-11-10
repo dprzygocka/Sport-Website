@@ -101,7 +101,7 @@ public class Team {
     public Team() {
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Team{" +
                 "teamId=" + teamId +
@@ -109,5 +109,5 @@ public class Team {
                 ", sport=" + sport +
                 ", users=" + users +
                 '}';
-    }
+    }*/
 }

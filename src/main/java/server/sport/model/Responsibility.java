@@ -96,7 +96,7 @@ public class Responsibility {
         this.sport = sport;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Responsibility{" +
                 "responsibilityId=" + responsibilityId +
@@ -104,5 +104,5 @@ public class Responsibility {
                 ", sport=" + sport +
                 ", userResponsibilities=" + userResponsibilities +
                 '}';
-    }
+    }*/
 }

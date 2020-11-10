@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 /*
@@ -46,7 +47,7 @@ public class ActivityType {
         ActivityType that = (ActivityType) o;
 
         if (activityTypeId != that.activityTypeId) return false;
-        if (activityTypeName != null ? !activityTypeName.equals(that.activityTypeName) : that.activityTypeName != null)
+        if (!Objects.equals(activityTypeName, that.activityTypeName))
             return false;
 
         return true;

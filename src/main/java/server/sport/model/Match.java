@@ -3,6 +3,7 @@ package server.sport.model;
 import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "matches")
@@ -42,7 +43,7 @@ public class Match {
         Match match = (Match) o;
 
         if (matchesId != match.matchesId) return false;
-        if (score != null ? !score.equals(match.score) : match.score != null) return false;
+        if (!Objects.equals(score, match.score)) return false;
 
         return true;
     }
@@ -88,7 +89,7 @@ public class Match {
         this.activity = activity;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Match{" +
                 "matchesId=" + matchesId +
@@ -96,5 +97,5 @@ public class Match {
                 ", playerOfTheMatch=" + playerOfTheMatch +
                 ", activity=" + activity +
                 '}';
-    }
+    }*/
 }

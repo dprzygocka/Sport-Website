@@ -1,5 +1,6 @@
 package server.sport.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Collection;
@@ -115,7 +116,7 @@ public class Activity {
         this.creator = creator;
     }
 
-    //@JsonBackReference(value="activityType")
+    @JsonBackReference(value="activityType")
     @ManyToOne
     @JoinColumn(name = "activity_type_id", referencedColumnName = "activity_type_id", nullable = false)
     public ActivityType getActivityType() {
@@ -189,9 +190,8 @@ public class Activity {
 
     public Activity() {}
 
-    /*
     //We will look into Collection of activities later
-    @Override
+   /* @Override
     public String toString() {
         return "Activity{" +
                 "activityId=" + activityId +
@@ -202,9 +202,9 @@ public class Activity {
                 ", creator=" + creator +
                 ", activityType=" + activityType +
                 ", reservation=" + reservation +
-                ", activityStatuses=" + activityStatuses +
+                ", activityStatuses=" + activityStatuses.toString() +
                 ", match=" + match +
-                ", userResponsibilities=" + userResponsibilities +
+                ", userResponsibilities=" + userResponsibilities.toString() +
                 '}';
     }*/
 }
