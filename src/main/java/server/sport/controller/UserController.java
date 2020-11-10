@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.sport.exception.ForbiddenActionException;
+import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.exception.ResourceNotFoundException;
 import server.sport.model.*;
 import server.sport.model.helper.BasicUser;
@@ -118,7 +118,7 @@ public class UserController {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Did not find user with id = " + userId));
         if (!activity.getTeam().getUsers().contains(user)){
-            throw new ForbiddenActionException("Cannot assign responsibility to user from another team. Activity id = " + activityId + " User id = " + userId);
+            throw new EntityCannotBeProcessedExecption("Cannot assign responsibility to user from another team. Activity id = " + activityId + " User id = " + userId);
         }
         responsibilityRepository.findById(responsibility)
                 .orElseThrow(() -> new ResourceNotFoundException("Did not find responsibility with id = " + responsibility));
