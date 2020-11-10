@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ResourceNotFoundException;
-//import server.sport.exception.ForbiddenActionException;
+import server.sport.exception.ForbiddenActionException;
 import server.sport.model.Sport;
 import server.sport.model.Team;
 import server.sport.model.User;
