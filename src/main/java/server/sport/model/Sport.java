@@ -80,16 +80,6 @@ public class Sport {
     public Sport() {
     }
 
-    @Override
-    public String toString() {
-        return "Sport{" +
-                "sportId=" + sportId +
-                ", sportName='" + sportName + '\'' +
-                ", responsibilities=" + responsibilities +
-                ", teams=" + teams +
-                '}';
-    }
-
     public Sport(String sportName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
         this.sportName = sportName;
         this.responsibilities = responsibilities;
