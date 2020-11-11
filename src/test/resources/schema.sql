@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `dbo`.`users`
     `first_name`   VARCHAR(45) NOT NULL,
     `last_name`    VARCHAR(45) NOT NULL,
     `email`        VARCHAR(45) NOT NULL,
-    `team_id`      INT         NOT NULL,
+    `team_id`      INT         NULL,
     `age`          INT         NULL,
     `gender`       VARCHAR(6)  NULL,
     `phone`        VARCHAR(20) NOT NULL,
