@@ -8,13 +8,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.sport.exception.ErrorMessage;
 import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.exception.ResourceNotFoundException;
 import server.sport.model.*;
 import server.sport.model.helper.BasicUser;
 import server.sport.repository.*;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profiles")
@@ -37,6 +40,12 @@ public class UserController {
 
     @Autowired
     UserResponsibilityRepository userResponsibilityRepository;
+
+    @Autowired
+    UserStatusRepository userStatusRepository;
+
+    @Autowired
+    ActivityStatusRepository activityStatusRepository;
 
     private Sort.Direction getSortDirection(String direction){
         if(direction.equals("asc")){
@@ -100,6 +109,38 @@ public class UserController {
         response.put("totalPages", pageUsers.getTotalPages());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    //Method updates activity with user status
+    @PutMapping("/{user_id}/{activity_id}")
+    public ResponseEntity<ActivityStatus> updateStatusInActivity (@PathVariable("user_id") int userId, @PathVariable("activity_id") int activityId,
+                                                    @RequestParam(required = false) String status){
+        Activity activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new org.springframework.data.rest.webmvc.ResourceNotFoundException("Not found activity with activity id = " + activityId));
+
+        UserStatus userStatus = userStatusRepository.findByStatusName(status);
+        if (userStatus.equals(null))
+            new org.springframework.data.rest.webmvc.ResourceNotFoundException("Not found status with user status name = " + status);
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new org.springframework.data.rest.webmvc.ResourceNotFoundException("Not found user with user id = " + userId));
+
+        List <ActivityStatus> activityStatuses1 = activity.getActivityStatuses().stream().filter
+                (activityStatus1 -> activityStatus1.getUserId()==userId).collect(Collectors.toList());
+
+        ActivityStatus activityStatus = null;
+
+        if (activityStatuses1.size() == 1){
+            activityStatus = new ActivityStatus(userId, activityId, userStatus, user, activity);
+        }else if (activityStatuses1.size() > 1 ){
+            new ErrorMessage(403, new Date(), "Too many activityStauses for one users", "Found more than one record of activity status for one user");
+        }else {
+            activityStatus = activityStatuses1.get(0);
+            activityStatus.setUserStatus(userStatus);
+        }
+
+        return new ResponseEntity<>(activityStatusRepository.save(activityStatus), HttpStatus.OK);
+    }
+
 
     @GetMapping("/{user_id}/activity/{activity_id}")//activity information
     public ResponseEntity<Activity> getActivity(@PathVariable("user_id") int userId, @PathVariable("activity_id") int activityId) {
