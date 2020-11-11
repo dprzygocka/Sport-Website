@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.sport.exception.ResourceNotFoundException;
 import server.sport.model.Responsibility;
 import server.sport.model.Sport;
 import server.sport.repository.ResponsibilityRepository;
 import server.sport.repository.SportRepository;
 
-import javax.websocket.server.PathParam;
-import java.rmi.activation.ActivationGroup_Stub;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,5 +80,14 @@ public class ResponsibilityController {
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @DeleteMapping("/{responsibility_id}")
+    public ResponseEntity<HttpStatus> deleteResponsibility(@PathVariable ("responsibility_id") int responsibilityId){
+        Responsibility responsibility = responsibilityRepository.findById(responsibilityId).orElseThrow(
+                () -> new ResourceNotFoundException("Responsibility with id " + responsibilityId + " not found."));
+        responsibilityRepository.delete(responsibility);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }
