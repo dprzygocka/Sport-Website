@@ -121,21 +121,24 @@ public class ActivityController {
         return new ResponseEntity<>(activities, HttpStatus.OK);
     }
 
-
-    @PostMapping("/{activity_id}") //NOT WORKING WHYYYYYYYYYYYY
+    //Put resposibility into activity
+    @PutMapping("/{activity_id}") 
     public ResponseEntity<Activity> updateActivityInformation (@PathVariable("activity_id") int activityId, @RequestBody(required = false) Responsibility responsibility){
-        Activity activity = activityRepository.findById(activityId).orElseThrow(
-                () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + activityId));
 
         Responsibility responsibility1 = responsibilityRepository.findById(responsibility.getResponsibilityId()).orElseThrow(
                 () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + responsibility.getResponsibilityId()));
 
+        Activity activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + activityId));
+
         UserResponsibility userResponsibility = new UserResponsibility(activityId, responsibility1, null, activity);
         //should I save new User resposibility ti db? or it it saved along with the list of userResposibilities?????????????????????????????????????????????
-        UserResponsibility userResponsibility1 = userResponsibilityRepository.save(userResponsibility);
-        activity.getUserResponsibilities().add(userResponsibility1);
-        activityRepository.save(activity);
-        return (new ResponseEntity<>(activity, HttpStatus.CREATED));
+        userResponsibilityRepository.saveUserResponsibilityForActivity(0, responsibility1.getResponsibilityId(), activityId);
+
+        Activity _activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + activityId));
+
+        return (new ResponseEntity<>(_activity, HttpStatus.CREATED));
     }
 
 
