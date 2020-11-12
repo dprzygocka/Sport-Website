@@ -112,7 +112,7 @@ public class UserController {
 
     //Method updates activity with user status
     @PutMapping("/{user_id}/{activity_id}")
-    public ResponseEntity<ActivityStatus> updateStatusInActivity (@PathVariable("user_id") int userId, @PathVariable("activity_id") int activityId,
+    public ResponseEntity<Integer> updateStatusInActivity (@PathVariable("user_id") int userId, @PathVariable("activity_id") int activityId,
                                                     @RequestParam(required = false) String status){
         Activity activity = activityRepository.findById(activityId).orElseThrow(
                 () -> new org.springframework.data.rest.webmvc.ResourceNotFoundException("Not found activity with activity id = " + activityId));
@@ -124,8 +124,10 @@ public class UserController {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new org.springframework.data.rest.webmvc.ResourceNotFoundException("Not found user with user id = " + userId));
 
-        List <ActivityStatus> activityStatuses1 = activity.getActivityStatuses().stream().filter
+        /*List <ActivityStatus> activityStatuses1 = activity.getActivityStatuses().stream().filter
                 (activityStatus1 -> activityStatus1.getUserId()==userId).collect(Collectors.toList());
+
+
 
         ActivityStatus activityStatus = null;
 
@@ -138,7 +140,9 @@ public class UserController {
             activityStatus.setUserStatus(userStatus);
         }
 
-        return new ResponseEntity<>(activityStatusRepository.save(activityStatus), HttpStatus.OK);
+         */
+
+        return new ResponseEntity<>(activityStatusRepository.saveNewActivityStatus(userStatus.getStatusId(),activityId, userId), HttpStatus.OK);
     }
 
 

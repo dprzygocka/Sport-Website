@@ -134,9 +134,8 @@ public class User {
         this.createdActivities = createdActivities;
     }
 
-    @JsonBackReference(value = "usersActivityStatuses")
     @OneToMany(mappedBy = "user")
-    @JsonBackReference
+    @JsonBackReference(value = "usersActivityStatuses")
     public Collection<ActivityStatus> getActivityStatuses() {
         return activityStatuses;
     }

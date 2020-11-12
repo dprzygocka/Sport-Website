@@ -55,7 +55,6 @@ public class UserStatus {
         return result;
     }
 
-    @JsonBackReference
     @OneToMany(mappedBy = "userStatus")
     @JsonBackReference
     public Collection<ActivityStatus> getActivityStatus() {
