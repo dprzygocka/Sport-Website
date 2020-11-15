@@ -101,4 +101,11 @@ public class Team {
     public Team() {
     }
 
+    public Team(int teamId, String teamName, Sport sport, Collection<User> users, Collection<Activity> activities) {
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.sport = sport;
+        this.users = users;
+        this.activities = activities;
+    }
 }

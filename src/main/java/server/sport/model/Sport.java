@@ -99,4 +99,11 @@ public class Sport {
     public Sport(int sportId) {
         this.sportId = sportId;
     }
+
+    public Sport(int sportId, String sportName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
+        this.sportId = sportId;
+        this.sportName = sportName;
+        this.responsibilities = responsibilities;
+        this.teams = teams;
+    }
 }

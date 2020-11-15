@@ -206,6 +206,21 @@ public class User {
     public User() {
     }
 
+    public User(int userId, String firstName, String lastName, String email, Integer age, String gender, String phone, Collection<Activity> createdActivities, Collection<ActivityStatus> activityStatuses, Collection<Match> bestPlayedMatches, Collection<UserResponsibility> userResponsibilities, UserType userType, Team team) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.gender = gender;
+        this.phone = phone;
+        this.createdActivities = createdActivities;
+        this.activityStatuses = activityStatuses;
+        this.bestPlayedMatches = bestPlayedMatches;
+        this.userResponsibilities = userResponsibilities;
+        this.userType = userType;
+        this.team = team;
+    }
 
     @Override
     public String toString() {
@@ -217,6 +232,7 @@ public class User {
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", phone='" + phone + '\'' +
+                team.getTeamId() +
                 '}';
     }
     /*
