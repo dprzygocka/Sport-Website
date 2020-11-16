@@ -28,6 +28,14 @@ public class UserResponsibilityPK implements Serializable {
         this.activityId = activityId;
     }
 
+    public UserResponsibilityPK(int responsibilityId, int activityId) {
+        this.responsibilityId = responsibilityId;
+        this.activityId = activityId;
+    }
+
+    public UserResponsibilityPK() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

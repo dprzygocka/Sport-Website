@@ -134,8 +134,8 @@ public class User {
         this.createdActivities = createdActivities;
     }
 
-    @JsonBackReference(value = "usersActivityStatuses")
     @OneToMany(mappedBy = "user")
+    @JsonBackReference(value = "usersActivityStatuses")
     public Collection<ActivityStatus> getActivityStatuses() {
         return activityStatuses;
     }
@@ -145,6 +145,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "playerOfTheMatch")
+    @JsonBackReference( value = "bestPlayedMatches")
     public Collection<Match> getBestPlayedMatches() {
         return bestPlayedMatches;
     }
@@ -154,6 +155,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference(value = "userResponsibilities")
     public Collection<UserResponsibility> getUserResponsibilities() {
         return userResponsibilities;
     }

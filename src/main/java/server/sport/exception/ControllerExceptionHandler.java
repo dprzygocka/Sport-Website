@@ -24,6 +24,17 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(EntityCannotBeProcessedExecption.class)
+    public ResponseEntity <ErrorMessage> cannotBeProcessed (Exception e, WebRequest request){ //Using our own ErrorMessage object
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                e.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> globalExceptionHandler (Exception e, WebRequest request){ //Using our own ErrorMessage object
