@@ -1,4 +1,4 @@
-package server.sport.model.helper;
+package server.sport.model;
 
 public class ResponsibilityHelper {
 

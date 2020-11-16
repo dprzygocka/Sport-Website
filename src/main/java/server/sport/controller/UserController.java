@@ -8,19 +8,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.sport.exception.ErrorMessage;
 import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.exception.ResourceNotFoundException;
-import server.sport.model.Sport;
+import server.sport.model.*;
+import server.sport.model.BasicUser;
+import server.sport.repository.*;
 import server.sport.model.Team;
-import server.sport.model.User;
-import server.sport.model.UserType;
-import server.sport.model.helper.BasicUser;
-import server.sport.repository.TeamRepository;
-import server.sport.repository.UserRepository;
-import server.sport.repository.UserTypeRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/profiles")

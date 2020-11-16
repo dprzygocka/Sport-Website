@@ -16,9 +16,8 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import server.sport.enumerated.ActivityTypeEnum;
 import server.sport.enumerated.UserStatusesEnum;
 import server.sport.model.*;
+import server.sport.model.Team;
 import server.sport.repository.*;
-
-import javax.annotation.Resource;
 
 
 @RequestMapping("/api/activities")
@@ -129,7 +128,7 @@ public class ActivityController {
         return new ResponseEntity<>(activities, HttpStatus.OK);
     }
 
-    //Put resposibility into activity
+    //Put responsibility into activity
     @PutMapping("/{activity_id}") 
     public ResponseEntity<Activity> updateActivityInformation (@PathVariable("activity_id") int activityId, @RequestBody(required = false) Responsibility responsibility){
 
@@ -139,9 +138,8 @@ public class ActivityController {
         Activity activity = activityRepository.findById(activityId).orElseThrow(
                 () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + activityId));
 
-        UserResponsibility userResponsibility = new UserResponsibility(activityId, responsibility1, null, activity);
         //should I save new User resposibility ti db? or it it saved along with the list of userResposibilities?????????????????????????????????????????????
-        userResponsibilityRepository.saveUserResponsibilityForActivity(0, responsibility1.getResponsibilityId(), activityId);
+        userResponsibilityRepository.saveResponsibilityForActivity(responsibility1.getResponsibilityId(), activityId);
 
         Activity _activity = activityRepository.findById(activityId).orElseThrow(
                 () -> new server.sport.exception.ResourceNotFoundException("Not found with id = " + activityId));

@@ -83,6 +83,8 @@ public class UserType {
                 '}';
     }
 
+ */
+
     public UserType(int userTypeId, String userName, Collection<User> users) {
         this.userTypeId = userTypeId;
         this.userName = userName;

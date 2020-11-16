@@ -145,7 +145,7 @@ public class User {
         this.activityStatuses = activityStatuses;
     }
 
-    @JsonBackReference
+
     @OneToMany(mappedBy = "playerOfTheMatch")
     @JsonBackReference( value = "bestPlayedMatches")
     public Collection<Match> getBestPlayedMatches() {
@@ -156,7 +156,6 @@ public class User {
         this.bestPlayedMatches = bestPlayedMatches;
     }
 
-    @JsonBackReference(value = "userResponsibilities")
     @OneToMany(mappedBy = "user")
     @JsonBackReference(value = "userResponsibilities")
     public Collection<UserResponsibility> getUserResponsibilities() {

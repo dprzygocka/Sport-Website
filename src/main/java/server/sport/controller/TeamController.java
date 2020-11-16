@@ -14,7 +14,7 @@ import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.model.Sport;
 import server.sport.model.Team;
 import server.sport.model.User;
-import server.sport.model.helper.BasicUser;
+import server.sport.model.BasicUser;
 import server.sport.repository.SportRepository;
 import server.sport.repository.TeamRepository;
 import server.sport.repository.UserRepository;

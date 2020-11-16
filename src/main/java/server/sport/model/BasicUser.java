@@ -1,8 +1,4 @@
-package server.sport.model.helper;
-
-import server.sport.model.*;
-
-import java.util.Collection;
+package server.sport.model;
 
 public class BasicUser {
 
