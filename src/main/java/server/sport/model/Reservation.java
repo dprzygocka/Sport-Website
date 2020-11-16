@@ -92,13 +92,12 @@ public class Reservation {
     public Reservation() {
     }
 
-    /*
-    //deal with collection later
-    @Override
+    /*@Override
     public String toString() {
         return "Reservation{" +
                 "reservationId=" + reservationId +
-                ", dateTime=" + dateTime +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
                 ", activity=" + activity +
                 ", location=" + location +
                 '}';

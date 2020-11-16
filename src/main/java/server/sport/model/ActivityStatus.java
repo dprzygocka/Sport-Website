@@ -1,7 +1,6 @@
 package server.sport.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -111,7 +110,13 @@ public class ActivityStatus {
         this.activity = activity;
     }
 
-    @Override
+    public ActivityStatus(int statusId, int userId, int activityId) {
+        this.statusId = statusId;
+        this.userId = userId;
+        this.activityId = activityId;
+    }
+
+  /*  @Override
     public String toString() {
         return "ActivityStatus{" +
                 "statusId=" + statusId +
@@ -121,6 +126,6 @@ public class ActivityStatus {
                 ", user=" + user +
                 ", activity=" + activity +
                 '}';
-    }
+    }*/
 
 }

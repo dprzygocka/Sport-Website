@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_types")
@@ -43,7 +44,7 @@ public class UserType {
         UserType userType = (UserType) o;
 
         if (userTypeId != userType.userTypeId) return false;
-        if (userName != null ? !userName.equals(userType.userName) : userType.userName != null) return false;
+        if (!Objects.equals(userName, userType.userName)) return false;
 
         return true;
     }
@@ -72,7 +73,7 @@ public class UserType {
 
     public UserType() {
     }
-
+/*
     @Override
     public String toString() {
         return "UserType{" +

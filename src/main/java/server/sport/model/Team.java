@@ -107,4 +107,13 @@ public class Team {
         this.users = users;
         this.activities = activities;
     }
+    /*@Override
+    public String toString() {
+        return "Team{" +
+                "teamId=" + teamId +
+                ", teamName='" + teamName + '\'' +
+                ", sport=" + sport +
+                ", users=" + users +
+                '}';
+    }*/
 }

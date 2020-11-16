@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "locations")
@@ -42,7 +43,7 @@ public class Location {
         Location location = (Location) o;
 
         if (locationId != location.locationId) return false;
-        if (courtName != null ? !courtName.equals(location.courtName) : location.courtName != null) return false;
+        if (!Objects.equals(courtName, location.courtName)) return false;
 
         return true;
     }
@@ -81,12 +82,11 @@ public class Location {
     }
 
 
-    @Override
+   /* @Override
     public String toString() {
         return "Location{" +
                 "locationId=" + locationId +
                 ", courtName='" + courtName + '\'' +
-                ", reservations=" + reservations +
                 '}';
-    }
+    }*/
 }

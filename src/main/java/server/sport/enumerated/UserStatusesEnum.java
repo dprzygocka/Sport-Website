@@ -1,5 +1,5 @@
 package server.sport.enumerated;
 
 public enum UserStatusesEnum {
-    READY, DIDNT_ANSWER, UNAVAILABLE, CHOSEN
+    READY, UNAVAILABLE, PICKED, HAS_NOT_ANSWERED
 }

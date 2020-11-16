@@ -8,11 +8,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import server.sport.enumerated.ActivityTypeEnum;
+import server.sport.enumerated.UserStatusesEnum;
 import server.sport.model.*;
 import server.sport.repository.*;
 
@@ -49,6 +51,12 @@ public class ActivityController {
 
     @Autowired
     UserResponsibilityRepository userResponsibilityRepository;
+
+    @Autowired
+    UserStatusRepository userStatusRepository;
+
+    @Autowired
+    ActivityStatusRepository activityStatusRepository;
 
     private Sort.Direction getSortDirection (String direction){
 
@@ -145,9 +153,7 @@ public class ActivityController {
     private Location getNewActivityLocation(Location _location){
         Location location;
         try {
-            location = locationRepository.findById(_location.getLocationId())
-                    .orElse(locationRepository.findLocationByCourtName(_location.getCourtName())
-                    .orElse(locationRepository.save(new Location(_location.getCourtName()))));
+            location = locationRepository.findById(_location.getLocationId()).get();
         }catch(ResourceNotFoundException e){
             throw new ResourceNotFoundException("Provide location information under reservation object. " +
                     "Missing id if the location exist or a name of a new location");
@@ -193,14 +199,32 @@ public class ActivityController {
 
     private Match getNewActivityMatch(ActivityType activityType, Activity activity){
         Match match;
-        if(activityType.getActivityTypeName().equals(ActivityTypeEnum.MATCH)) {
+        if(activityType.getActivityTypeName().equals(ActivityTypeEnum.MATCH.toString())) {
             match = new Match(activity);
+            matchRepository.save(match);
         }else{
             match = null;
         }
         return match;
     }
 
+    private Collection<ActivityStatus> getNewActivityActivityStatuses(Team team, int activityId) {
+        Collection<ActivityStatus> activityStatuses = new ArrayList<>();
+
+        List<User> players = userRepository.findAllByTeamTeamId(team.getTeamId());
+
+        for(User player : players){
+            activityStatuses.add(activityStatusRepository.save(new ActivityStatus(
+                    userStatusRepository.findByStatusName(UserStatusesEnum.HAS_NOT_ANSWERED.toString()).getStatusId(),
+                    player.getUserId(),
+                    activityId
+                    )));
+        }
+        return activityStatuses;
+    }
+
+
+    @Transactional(rollbackFor = ResourceNotFoundException.class)
     @PostMapping
     public ResponseEntity<Activity> createActivity (@RequestBody Activity activity){
         User user;
@@ -217,21 +241,17 @@ public class ActivityController {
         //Get the activity Type
         activityType = getNewActivityActivityType(activity.getActivityType());
 
-        //Set a match object if activity Type match is present
-        match = getNewActivityMatch(activityType, activity);
-
         //Create a new reservation
         location = getNewActivityLocation(activity.getReservation().getLocation());
 
-        //TODO Validate whether the location is free within the given time frames before saving it to the database
-
+        //Get reservation object
         reservation = getNewActivityReservation(location, activity.getReservation());
-
+        System.out.println(reservation.toString());
         //Get the team of the activity
         team = getNewActivityTeam(activity.getTeam());
 
-        //TODO return activity statuses - get users of a team and set everyone to - not answered yet -
-        // create enum for that.
+        //TODO Validate whether the location is free within the given time frames before saving it to the database
+
 
 
         activity.setActivityType(activityType);
@@ -240,14 +260,26 @@ public class ActivityController {
         activity.setTeam(team);
         activity.setIsCancelled(false);
         activity.setUserResponsibilities(null);
-        activity.setMatch(match);
+        activity.setMatch(null);
 
         try {
             Activity _activity = activityRepository.save(activity);
+
+            //Set a match object if activity Type match is present
+            match = getNewActivityMatch(activityType, activity);
+
+            if(match != null) {
+                _activity.setMatch(match);
+                Activity activityWithMatch = activityRepository.save(_activity);
+                return new ResponseEntity<>(activityWithMatch, HttpStatus.CREATED);
+            }
+            //TODO return activity statuses - get users of a team and set everyone to - not answered yet - create enum for that.
+          //  activityStatuses = getNewActivityActivityStatuses(team, activity.getActivityId());
+          //  _activity.setActivityStatuses(activityStatuses);
+
             return new ResponseEntity<>(_activity, HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

@@ -68,6 +68,7 @@ public class Responsibility {
         this.sport = sport;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "responsibility")
     @JsonBackReference(value = "userResponsibilities")
     public Collection<UserResponsibility> getUserResponsibilities() {
@@ -97,7 +98,7 @@ public class Responsibility {
         this.sport = sport;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Responsibility{" +
                 "responsibilityId=" + responsibilityId +
@@ -105,5 +106,5 @@ public class Responsibility {
                 ", sport=" + sport +
                 ", userResponsibilities=" + userResponsibilities +
                 '}';
-    }
+    }*/
 }

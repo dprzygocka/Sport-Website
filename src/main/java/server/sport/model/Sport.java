@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "sports")
@@ -46,7 +47,7 @@ public class Sport {
         Sport sport = (Sport) o;
 
         if (sportId != sport.sportId) return false;
-        if (sportName != null ? !sportName.equals(sport.sportName) : sport.sportName != null) return false;
+        if (!Objects.equals(sportName, sport.sportName)) return false;
 
         return true;
     }
@@ -79,6 +80,16 @@ public class Sport {
 
     public Sport() {
     }
+
+   /* @Override
+    public String toString() {
+        return "Sport{" +
+                "sportId=" + sportId +
+                ", sportName='" + sportName + '\'' +
+                ", responsibilities=" + responsibilities +
+                ", teams=" + teams +
+                '}';
+    }*/
 
     public Sport(String sportName, Collection<Responsibility> responsibilities, Collection<Team> teams) {
         this.sportName = sportName;
