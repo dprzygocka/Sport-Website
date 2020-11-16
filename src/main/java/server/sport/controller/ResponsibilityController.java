@@ -54,7 +54,7 @@ public class ResponsibilityController {
         if(optionalResponsibility.isPresent()){
             Responsibility _responsibility = optionalResponsibility.get();
             _responsibility.setResponsibilityName(responsibility.getResponsibilityName());
-            responsibilityRepository.save(_responsibility);
+            responsibilityRepository.save(responsibility);
             return new ResponseEntity<>(_responsibility, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ErrorMessage;
 import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.exception.ResourceNotFoundException;
-import server.sport.model.*;
+import server.sport.model.Sport;
+import server.sport.model.Team;
+import server.sport.model.User;
+import server.sport.model.UserType;
 import server.sport.model.helper.BasicUser;
-import server.sport.repository.*;
+import server.sport.repository.TeamRepository;
+import server.sport.repository.UserRepository;
+import server.sport.repository.UserTypeRepository;
 
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profiles")

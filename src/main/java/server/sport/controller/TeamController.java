@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.sport.exception.ResourceNotFoundException;
+import server.sport.exception.EntityCannotBeProcessedExecption;
 import server.sport.model.Sport;
 import server.sport.model.Team;
 import server.sport.model.User;
@@ -18,6 +19,8 @@ import server.sport.repository.SportRepository;
 import server.sport.repository.TeamRepository;
 import server.sport.repository.UserRepository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.*;
 
 @RestController
@@ -69,8 +72,9 @@ public class TeamController {
     @PostMapping//new team @RequestBody team
     public ResponseEntity<Team> addTeam(@RequestBody Team team) {
         if (team.getSport() != null) {
-            sportRepository.findById(team.getSport().getSportId())
+            Sport sport = sportRepository.findById(team.getSport().getSportId())
                     .orElseThrow(() -> new ResourceNotFoundException("Sport not found with id = " + team.getSport().getSportId()));
+            team.setSport(sport);
         } else {
             throw new NoSuchParameterException("No sport passed");
         }
@@ -83,6 +87,9 @@ public class TeamController {
                 .orElseThrow(() -> new ResourceNotFoundException("Not found tean with id = " + teamId));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found user with id = " + userId));
+        if (user.getTeam().getTeamId() != teamId) {
+            throw new EntityCannotBeProcessedExecption("Can't delete user with id: " + userId + " from team with id: " + teamId + ". User isn't part of this team.");
+        }
         userRepository.removeFromTeam(user.getUserId());
         return new ResponseEntity<>(teamRepository.findById(teamId).get(), HttpStatus.OK);
     }

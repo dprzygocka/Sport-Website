@@ -67,7 +67,6 @@ public class Team {
         this.sport = sport;
     }
 
-    @JsonBackReference(value="userTeam")
     @OneToMany(mappedBy = "team")
     public Collection<User> getUsers() {
         return users;
