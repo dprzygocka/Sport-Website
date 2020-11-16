@@ -35,7 +35,7 @@ public class TeamController {
 
     @GetMapping //list of teams with sport
     public ResponseEntity<List<Team>> getAllTeams() {
-        List<Team> teams = teamRepository.findTeamsWithoutUsers();
+        List<Team> teams = teamRepository.findAll();
         if (teams.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

@@ -1,9 +1,9 @@
-CREATE SCHEMA IF NOT EXISTS `sport_website_test`;
+CREATE SCHEMA IF NOT EXISTS `dbo`;
 
 -- -----------------------------------------------------
 -- Table sports
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`sports`
+CREATE TABLE IF NOT EXISTS `dbo`.`sports`
 (
     `sport_id`   INT         NOT NULL IDENTITY,
     `sport_name` VARCHAR(45) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`sports`
 -- -----------------------------------------------------
 -- Table teams
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`teams`
+CREATE TABLE IF NOT EXISTS `dbo`.`teams`
 (
     `team_id`   INT         NOT NULL IDENTITY,
     `team_name` VARCHAR(45) NOT NULL,
@@ -21,15 +21,15 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`teams`
     PRIMARY KEY (`team_id`),
     CONSTRAINT `sport_id`
         FOREIGN KEY (`sport_id`)
-            REFERENCES `sport_website_test`.`sports` (`sport_id`)
+            REFERENCES `dbo`.`sports` (`sport_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
 );
 
 -- -----------------------------------------------------
--- Table `sport_website_test`.`user_types`
+-- Table `dbo`.`user_types`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_types`
+CREATE TABLE IF NOT EXISTS `dbo`.`user_types`
 (
     `user_type_id` INT         NOT NULL IDENTITY,
     `user_name`    VARCHAR(45) NOT NULL,
@@ -38,28 +38,28 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_types`
 
 
 -- -----------------------------------------------------
--- Table `sport_website_test`.`users`
+-- Table `dbo`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`users`
+CREATE TABLE IF NOT EXISTS `dbo`.`users`
 (
     `user_id`      INT         NOT NULL IDENTITY,
     `user_type_id` INT         NOT NULL,
     `first_name`   VARCHAR(45) NOT NULL,
     `last_name`    VARCHAR(45) NOT NULL,
     `email`        VARCHAR(45) NOT NULL,
-    `team_id`      INT         NOT NULL,
+    `team_id`      INT         NULL,
     `age`          INT         NULL,
     `gender`       VARCHAR(6)  NULL,
     `phone`        VARCHAR(20) NOT NULL,
     PRIMARY KEY (`user_id`),
     CONSTRAINT `team_id`
         FOREIGN KEY (`team_id`)
-            REFERENCES `sport_website_test`.`teams` (`team_id`)
+            REFERENCES `dbo`.`teams` (`team_id`)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     CONSTRAINT `user_type_id`
         FOREIGN KEY (`user_type_id`)
-            REFERENCES `sport_website_test`.`user_types` (`user_type_id`)
+            REFERENCES `dbo`.`user_types` (`user_type_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
 );
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`users`
 -- -----------------------------------------------------
 -- Table `mydb`.`statuses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_statuses`
+CREATE TABLE IF NOT EXISTS `dbo`.`user_statuses`
 (
     `status_id`   INT         NOT NULL IDENTITY,
     `status_name` VARCHAR(45) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_statuses`
 -- -----------------------------------------------------
 -- Table `mydb`.`activity_types`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`activity_types`
+CREATE TABLE IF NOT EXISTS `dbo`.`activity_types`
 (
     `activity_type_id`   INT         NOT NULL IDENTITY,
     `activity_type_name` VARCHAR(45) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`activity_types`
 -- -----------------------------------------------------
 -- Table `mydb`.`locations`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`locations`
+CREATE TABLE IF NOT EXISTS `dbo`.`locations`
 (
     `location_id` INT         NOT NULL IDENTITY,
     `court_name`  VARCHAR(45) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`locations`
 -- -----------------------------------------------------
 -- Table `mydb`.`reservations`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`reservations`
+CREATE TABLE IF NOT EXISTS `dbo`.`reservations`
 (
     `reservation_id` INT      NOT NULL IDENTITY,
     `date_time`      DATETIME NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`reservations`
     PRIMARY KEY (`reservation_id`),
     CONSTRAINT `location_id`
         FOREIGN KEY (`location_id`)
-            REFERENCES `sport_website_test`.`locations` (`location_id`)
+            REFERENCES `dbo`.`locations` (`location_id`)
             ON DELETE SET NULL
             ON UPDATE CASCADE
 );
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`reservations`
 -- -----------------------------------------------------
 -- Table `mydb`.`activities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`activities`
+CREATE TABLE IF NOT EXISTS `dbo`.`activities`
 (
     `activity_id`      INT          NOT NULL IDENTITY,
     `activity_name`    VARCHAR(45)  NOT NULL,
@@ -129,22 +129,22 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`activities`
     PRIMARY KEY (`activity_id`),
     CONSTRAINT `activity_type_id`
         FOREIGN KEY (`activity_type_id`)
-            REFERENCES `sport_website_test`.`activity_types` (`activity_type_id`)
+            REFERENCES `dbo`.`activity_types` (`activity_type_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `creator`
         FOREIGN KEY (`creator_id`)
-            REFERENCES `sport_website_test`.`users` (`user_id`)
+            REFERENCES `dbo`.`users` (`user_id`)
             ON DELETE SET NULL
             ON UPDATE CASCADE,
     CONSTRAINT `reservation_id`
         FOREIGN KEY (`reservation_id`)
-            REFERENCES `sport_website_test`.`reservations` (`reservation_id`)
+            REFERENCES `dbo`.`reservations` (`reservation_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `team_id2`
         FOREIGN KEY (`team_id`)
-            REFERENCES `sport_website_test`.`teams` (`team_id`)
+            REFERENCES `dbo`.`teams` (`team_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
 );
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`activities`
 -- -----------------------------------------------------
 -- Table `mydb`.`activity_statuses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`activity_statuses`
+CREATE TABLE IF NOT EXISTS `dbo`.`activity_statuses`
 (
     `status_id`   INT NOT NULL,
     `user_id`     INT NOT NULL,
@@ -160,17 +160,17 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`activity_statuses`
     PRIMARY KEY (`status_id`, `user_id`, `activity_id`),
     CONSTRAINT `user_id`
         FOREIGN KEY (`user_id`)
-            REFERENCES `sport_website_test`.`users` (`user_id`)
+            REFERENCES `dbo`.`users` (`user_id`)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     CONSTRAINT `status_id`
         FOREIGN KEY (`status_id`)
-            REFERENCES `sport_website_test`.`user_statuses` (`status_id`)
+            REFERENCES `dbo`.`user_statuses` (`status_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `activity_id`
         FOREIGN KEY (`activity_id`)
-            REFERENCES `sport_website_test`.`activities` (`activity_id`)
+            REFERENCES `dbo`.`activities` (`activity_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
 );
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`activity_statuses`
 -- -----------------------------------------------------
 -- Table `mydb`.`responsibilities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`responsibilities`
+CREATE TABLE IF NOT EXISTS `dbo`.`responsibilities`
 (
     `responsibility_id`   INT         NOT NULL IDENTITY,
     `responsibility_name` VARCHAR(45) NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`responsibilities`
     PRIMARY KEY (`responsibility_id`),
     CONSTRAINT `sport_id_2`
         FOREIGN KEY (`sport_id`)
-            REFERENCES `sport_website_test`.`sports` (`sport_id`)
+            REFERENCES `dbo`.`sports` (`sport_id`)
             ON DELETE CASCADE
             ON UPDATE CASCADE
 );
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`responsibilities`
 -- -----------------------------------------------------
 -- Table `mydb`.`user_responsibilities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_responsibilities`
+CREATE TABLE IF NOT EXISTS `dbo`.`user_responsibilities`
 (
     `responsibility_id` INT NOT NULL,
     `user_id`           INT NULL,
@@ -202,17 +202,17 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_responsibilities`
     PRIMARY KEY (`responsibility_id`, `activity_id`),
     CONSTRAINT `responsibility_id`
         FOREIGN KEY (`responsibility_id`)
-            REFERENCES `sport_website_test`.`responsibilities` (`responsibility_id`)
+            REFERENCES `dbo`.`responsibilities` (`responsibility_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `activity_id2`
         FOREIGN KEY (`activity_id`)
-            REFERENCES `sport_website_test`.`activities` (`activity_id`)
+            REFERENCES `dbo`.`activities` (`activity_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `user_id2`
         FOREIGN KEY (`user_id`)
-            REFERENCES `sport_website_test`.`users` (`user_id`)
+            REFERENCES `dbo`.`users` (`user_id`)
             ON DELETE SET NULL
             ON UPDATE CASCADE
 );
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`user_responsibilities`
 -- -----------------------------------------------------
 -- Table `mydb`.`matches`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `sport_website_test`.`matches`
+CREATE TABLE IF NOT EXISTS `dbo`.`matches`
 (
     `matches_id`            INT NOT NULL IDENTITY,
     `score`                 INT NULL,
@@ -230,12 +230,12 @@ CREATE TABLE IF NOT EXISTS `sport_website_test`.`matches`
     PRIMARY KEY (`matches_id`),
     CONSTRAINT `activity_id3`
         FOREIGN KEY (`activity_id`)
-            REFERENCES `sport_website_test`.`activities` (`activity_id`)
+            REFERENCES `dbo`.`activities` (`activity_id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE,
     CONSTRAINT `player_of_the_matches`
         FOREIGN KEY (`player_of_the_matches`)
-            REFERENCES `sport_website_test`.`users` (`user_id`)
+            REFERENCES `dbo`.`users` (`user_id`)
             ON DELETE SET NULL
             ON UPDATE CASCADE
 );

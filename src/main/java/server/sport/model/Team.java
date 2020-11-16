@@ -101,13 +101,11 @@ public class Team {
     public Team() {
     }
 
-    @Override
-    public String toString() {
-        return "Team{" +
-                "teamId=" + teamId +
-                ", teamName='" + teamName + '\'' +
-                ", sport=" + sport +
-                ", users=" + users +
-                '}';
+    public Team(int teamId, String teamName, Sport sport, Collection<User> users, Collection<Activity> activities) {
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.sport = sport;
+        this.users = users;
+        this.activities = activities;
     }
 }
