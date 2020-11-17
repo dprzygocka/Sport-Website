@@ -81,8 +81,12 @@ public class Location {
         this.locationId = locationId;
     }
 
-
-   /* @Override
+    public Location(int locationId, String courtName, Collection<Reservation> reservations) {
+        this.locationId = locationId;
+        this.courtName = courtName;
+        this.reservations = reservations;
+    }
+/* @Override
     public String toString() {
         return "Location{" +
                 "locationId=" + locationId +

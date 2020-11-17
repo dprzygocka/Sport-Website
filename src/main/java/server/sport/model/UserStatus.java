@@ -74,7 +74,12 @@ public class UserStatus {
     public UserStatus() {
     }
 
-    //deal with Collection later
+    public UserStatus(int statusId, String statusName, Collection<ActivityStatus> activityStatus) {
+        this.statusId = statusId;
+        this.statusName = statusName;
+        this.activityStatus = activityStatus;
+    }
+//deal with Collection later
     /*
     @Override
     public String toString() {

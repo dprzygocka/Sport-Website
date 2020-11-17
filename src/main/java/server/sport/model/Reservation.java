@@ -92,7 +92,14 @@ public class Reservation {
     public Reservation() {
     }
 
-    /*@Override
+    public Reservation(int reservationId, Timestamp startAt, Timestamp endAt, Activity activity, Location location) {
+        this.reservationId = reservationId;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.activity = activity;
+        this.location = location;
+    }
+/*@Override
     public String toString() {
         return "Reservation{" +
                 "reservationId=" + reservationId +

@@ -97,7 +97,13 @@ public class Responsibility {
         this.sport = sport;
     }
 
-   /* @Override
+    public Responsibility(int responsibilityId, String responsibilityName, Sport sport, Collection<UserResponsibility> userResponsibilities) {
+        this.responsibilityId = responsibilityId;
+        this.responsibilityName = responsibilityName;
+        this.sport = sport;
+        this.userResponsibilities = userResponsibilities;
+    }
+/* @Override
     public String toString() {
         return "Responsibility{" +
                 "responsibilityId=" + responsibilityId +

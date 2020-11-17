@@ -189,6 +189,21 @@ public class Activity {
         this.userResponsibilities = userResponsibilities;
     }
 
+    public Activity(int activityId, String activityName, Integer capacity, String description, boolean isCancelled, User creator, ActivityType activityType, Reservation reservation, Collection<ActivityStatus> activityStatuses, Match match, Collection<UserResponsibility> userResponsibilities, Team team) {
+        this.activityId = activityId;
+        this.activityName = activityName;
+        this.capacity = capacity;
+        this.description = description;
+        this.isCancelled = isCancelled;
+        this.creator = creator;
+        this.activityType = activityType;
+        this.reservation = reservation;
+        this.activityStatuses = activityStatuses;
+        this.match = match;
+        this.userResponsibilities = userResponsibilities;
+        this.team = team;
+    }
+
     public Activity() {}
 
     //We will look into Collection of activities later

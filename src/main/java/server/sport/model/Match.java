@@ -89,7 +89,13 @@ public class Match {
         this.activity = activity;
     }
 
-    /*@Override
+    public Match(int matchesId, Integer score, User playerOfTheMatch, Activity activity) {
+        this.matchesId = matchesId;
+        this.score = score;
+        this.playerOfTheMatch = playerOfTheMatch;
+        this.activity = activity;
+    }
+/*@Override
     public String toString() {
         return "Match{" +
                 "matchesId=" + matchesId +

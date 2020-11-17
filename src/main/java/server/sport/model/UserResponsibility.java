@@ -86,8 +86,7 @@ public class UserResponsibility {
         this.activity = activity;
     }
 
-    public UserResponsibility(int activityId, Responsibility responsibility, User user, Activity activity) {
-        this.activityId = activityId;
+    public UserResponsibility(Responsibility responsibility, User user, Activity activity) {
         this.responsibility = responsibility;
         this.user = user;
         this.activity = activity;
