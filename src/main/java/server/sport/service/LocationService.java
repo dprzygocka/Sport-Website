@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import server.sport.model.Location;
 import server.sport.repository.LocationRepository;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,19 +26,28 @@ public class LocationService {
     @Autowired
     LocationRepository locationRepository;
 
-    public ResponseEntity<List<Location>> getAllLocations (String dateTime) throws ParseException {
-        List<Location> locations;
-        if (dateTime.isEmpty()){ //what if the date is not going to be past?
+    public ResponseEntity<List<Location>> getAllLocations (Timestamp startAt, Timestamp endAt) throws ParseException {
+        List<Location> locations = new ArrayList<>();
+        if (endAt != null && startAt != null && startAt.after(endAt)){
+            Timestamp tempTimestamp = startAt;
+            startAt = endAt;
+            endAt = tempTimestamp;
+        }
+        if (startAt == null){ //what if the date is not going to be past?
             locations = locationRepository.findAll();
             return new ResponseEntity<>(locations, HttpStatus.OK);
         }
-        Date _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime); //data type is not right, I don;t now why it return: [Wed Nov 15 15:30:14 CET 2017] instead of 2017-11-15 15:30:14.332
-
-        //TODO - make sure this method works with new start_at and end_at attributes
-        System.out.println(_date.toString());
-        locations = locationRepository.findAllByReservationsStartAt(_date);
-
-        //System.out.println(_date.toString());
+        if (endAt == null) {
+            //get everything with no reservation, starting after inputted timestamp or ending before inputted timestamp
+            locations = locationRepository.findDistinctByReservationsStartAtAfterOrReservationsEndAtBeforeOrReservationsIsNull(startAt, startAt);
+        } else if (! (startAt == null && endAt == null)){
+            //get all locations that aren't available (as i couldn't negate the query..)
+            List<Location> unavailableLocations = locationRepository.findDistinctByReservationsStartAtBeforeAndReservationsEndAtAfter(endAt, startAt);
+            //get all locations
+            locations = locationRepository.findAll();
+            //remove unavailable locations
+            locations.removeAll(unavailableLocations);
+        }
 
         if(locations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

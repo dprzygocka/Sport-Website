@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import server.sport.model.Location;
 import server.sport.service.LocationService;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,8 @@ public class LocationController {
 
     //////Getting all locations based on start date and end date ??
     @GetMapping("/all")
-    public ResponseEntity<List<Location>> getAllLocations (@RequestParam(required = false) String dateTime) throws ParseException { //how to handle exception???
-        return locationService.getAllLocations(dateTime);
+    public ResponseEntity<List<Location>> getAllLocations (@RequestParam(required = false) Timestamp startAt, @RequestParam(required = false) Timestamp endAt) throws ParseException { //how to handle exception???
+        return locationService.getAllLocations(startAt, endAt);
     }
 
     @GetMapping
