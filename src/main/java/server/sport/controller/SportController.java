@@ -8,6 +8,7 @@ import server.sport.service.SportService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping ("/api/sports")
 public class SportController {

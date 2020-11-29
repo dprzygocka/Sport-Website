@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Map;
 
 
+@CrossOrigin
 @RequestMapping("/api/activities")
 @RestController
 public class ActivityController {

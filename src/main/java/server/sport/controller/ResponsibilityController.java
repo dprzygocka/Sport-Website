@@ -10,6 +10,7 @@ import server.sport.service.ResponsibilityService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/responsibilities")
 public class ResponsibilityController {

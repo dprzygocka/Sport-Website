@@ -11,6 +11,7 @@ import server.sport.service.UserService;
 
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/profiles")
 public class UserController {

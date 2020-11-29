@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {

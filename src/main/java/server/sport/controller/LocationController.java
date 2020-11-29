@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/locations")
 public class LocationController {
