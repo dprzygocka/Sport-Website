@@ -177,7 +177,7 @@ public class User {
         this.userType = userType;
     }
 
-    @JsonBackReference(value = "teamMembers")
+    //@JsonBackReference(value = "teamMembers")
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", nullable = true)
     public Team getTeam() {

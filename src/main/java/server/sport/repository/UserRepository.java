@@ -25,4 +25,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     Optional<User> deleteByUserId (int userId);
 
+    Optional<User> getUserByEmail(String email);
+
 }

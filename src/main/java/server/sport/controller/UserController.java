@@ -53,9 +53,9 @@ public class UserController {
         return userService.assignUserResponsibility(userId, activityId, responsibility);
     }
 
-    @GetMapping("/user/{user_id}")//
-    public ResponseEntity<User> getUser(@PathVariable("user_id") int userId) {
-        return userService.getUser(userId);
+    @GetMapping("/user/{user_email}")//
+    public ResponseEntity<User> getUser(@PathVariable("user_email") String email) {
+        return userService.getUserByEmail(email);
     }
 
     //There is already a delete user from Team method in the TeamController class

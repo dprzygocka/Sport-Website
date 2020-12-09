@@ -162,7 +162,7 @@ public class UserControllerTest {
         Team team1 = new Team(1, "Best Team", sport, null, null);
         UserType userType = new UserType(1, "player", null);
         User user1 = new User(1, "Jason", "Smith", "js@gmail.com", 25, "male", "458945318", null, null, null, null, userType, team1);
-        assertEquals(user1,userController.getUser(1).getBody());
+        assertEquals(user1,userController.userService.getUserByEmail(user1.getEmail()).getBody());
     }
 
     @Test

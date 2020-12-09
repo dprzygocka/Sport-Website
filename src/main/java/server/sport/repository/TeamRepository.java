@@ -3,7 +3,9 @@ package server.sport.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import server.sport.model.Team;
+import server.sport.model.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +17,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     List<Team> findTeamsWithoutUsers();
 
     Optional<Team> findTeamByTeamName(String teamName);
+
+    Team findTeamByUsersContaining(User user);
 }

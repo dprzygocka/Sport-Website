@@ -16,10 +16,7 @@ import server.sport.exception.ResourceNotFoundException;
 import server.sport.model.*;
 import server.sport.repository.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -162,6 +159,14 @@ public class UserService {
     public ResponseEntity<User> getUser(int userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Did not find User with id = " + userId));
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    public ResponseEntity<User> getUserByEmail(String email){
+        User user = userRepository.getUserByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Did not find User with email = " + email));
+        Team team = teamRepository.findTeamByUsersContaining(user);
+        user.setTeam(team);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

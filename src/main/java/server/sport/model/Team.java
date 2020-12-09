@@ -68,6 +68,7 @@ public class Team {
         this.sport = sport;
     }
 
+    @JsonBackReference(value="users")
     @OneToMany(mappedBy = "team")
     public Collection<User> getUsers() {
         return users;
@@ -108,13 +109,11 @@ public class Team {
         this.users = users;
         this.activities = activities;
     }
-    /*@Override
+    @Override
     public String toString() {
         return "Team{" +
                 "teamId=" + teamId +
                 ", teamName='" + teamName + '\'' +
-                ", sport=" + sport +
-                ", users=" + users +
                 '}';
-    }*/
+    }
 }
