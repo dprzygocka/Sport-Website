@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import server.sport.model.Location;
 import server.sport.model.Responsibility;
 import server.sport.model.Sport;
 import server.sport.repository.ResponsibilityRepository;
@@ -15,13 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class ResponsibilityControllerTest {
@@ -50,7 +44,7 @@ public class ResponsibilityControllerTest {
         responsibilityRepository.saveAll(responsibilities);
         Responsibility responsibilityNew = new Responsibility("Test if creates responsibilities", sports.get(0));
         ResponseEntity<Responsibility> responsibility1 = reponsibilityController.createResponsibility(responsibilityNew);
-        assertThat(responsibility1.getBody().equals(responsibilityNew));
+        assertThat(responsibility1.getBody().getResponsibilityName().equals(responsibilityNew.getResponsibilityName()));
     }
     @Test
     public void testGetListOfResponsibilitiesBySport(){
